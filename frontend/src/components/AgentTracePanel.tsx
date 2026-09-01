@@ -1,83 +1,66 @@
 import React from 'react';
-import { MoreVertical } from 'lucide-react';
+import { CheckCircle2, Circle, Clock } from 'lucide-react';
 import { AgentStepTrace } from '../types';
 
 interface AgentTracePanelProps {
-  agentTraces: AgentStepTrace[];
+  agentTraces?: AgentStepTrace[];
 }
 
-export const AgentTracePanel: React.FC<AgentTracePanelProps> = ({ agentTraces }) => {
-  const defaultAgentSteps = [
-    { name: 'Intent', color: '#38bdf8', desc: 'Intent parsed: Location Chennai, Target Date Tomorrow', status: 'SUCCESS' },
-    { name: 'GeoData', color: '#34d399', desc: 'Retrieved INCOIS PFZ (88.5%) & MOSDAC SST (28.4°C)', status: 'SUCCESS' },
-    { name: 'Hazard', color: '#f87171', desc: 'IMD Weather: Wind 12.5 kts, Wave 1.2m. 0 Red Warnings', status: 'SUCCESS' },
-    { name: 'Reasoning', color: '#fbbf24', desc: 'Evaluated 5 candidates. Top score: 86.97% Suitability', status: 'SUCCESS' },
-    { name: 'Safety', color: '#34d399', desc: 'Deterministic Safety Check PASSED (Risk: LOW)', status: 'SUCCESS' },
-    { name: 'Synthesis', color: '#38bdf8', desc: 'Synthesized grounded response with audio broadcast text', status: 'SUCCESS' }
+export const AgentTracePanel: React.FC<AgentTracePanelProps> = ({ agentTraces = [] }) => {
+  const steps = [
+    { name: 'LANGUAGE & INTENT', tag: 'Target: Chennai • Time: Tomorrow', status: 'SUCCESS' },
+    { name: 'GEO-DATA AGENT', tag: 'INCOIS PFZ retrieved • 19 zones', status: 'SUCCESS' },
+    { name: 'OCEAN DATA AGENT', tag: 'SST: 28.4°C • CHL: 1.2 mg/m³', status: 'SUCCESS' },
+    { name: 'HAZARD AGENT', tag: 'IMD Wave: 1.2m • Wind: 14 km/h', status: 'SUCCESS' },
+    { name: 'REASONING AGENT', tag: '6-factor suitability score computed', status: 'SUCCESS' },
+    { name: 'SAFETY AGENT', tag: 'NO HAZARD VETO • CLEAR', status: 'SUCCESS_GREEN' },
+    { name: 'SYNTHESIS AGENT', tag: 'Generating grounded advisory...', status: 'RUNNING' }
   ];
 
   return (
-    <div className="bg-[#0b172a] border border-[#1b2b45] rounded-xl p-4 flex flex-col justify-between">
-      <div className="flex items-center justify-between mb-3 pb-2 border-b border-[#1b2b45]">
-        <h3 className="text-xs font-bold text-slate-200">Multi-agent execution trace</h3>
-        <MoreVertical className="w-4 h-4 text-slate-500 cursor-pointer hover:text-slate-300" />
-      </div>
+    <div className="bg-[#0e1622] border border-[#1c2838] rounded-xl p-4 space-y-3">
+      <h4 className="text-[11px] font-bold text-slate-300 uppercase tracking-wider">
+        AGENT EXECUTION TRACE
+      </h4>
 
-      <div className="relative space-y-4 pl-3">
-        {/* Vertical Timeline Line */}
-        <div className="absolute left-[17px] top-2 bottom-4 w-0.5 bg-[#1b2b45]"></div>
+      <div className="relative space-y-3.5 pl-3">
+        {/* Vertical Timeline Bar */}
+        <div className="absolute left-[13px] top-2 bottom-3 w-0.5 bg-[#1c2838]"></div>
 
-        {agentTraces.length > 0
-          ? agentTraces.map((trace) => {
-              const nodeColor =
-                trace.status === 'VETO'
-                  ? '#ef4444'
-                  : trace.agent_name.includes('Intent')
-                  ? '#38bdf8'
-                  : trace.agent_name.includes('Geo')
-                  ? '#34d399'
-                  : trace.agent_name.includes('Hazard')
-                  ? '#f87171'
-                  : trace.agent_name.includes('Reason')
-                  ? '#fbbf24'
-                  : trace.agent_name.includes('Safety')
-                  ? '#34d399'
-                  : '#38bdf8';
+        {steps.map((step, idx) => {
+          const isGreen = step.status === 'SUCCESS_GREEN';
+          const isRunning = step.status === 'RUNNING';
 
-              return (
-                <div key={trace.step_id} className="relative flex items-start gap-3 text-xs">
-                  {/* Timeline Dot */}
-                  <div
-                    className="w-3.5 h-3.5 rounded-full border-2 border-[#0b172a] shrink-0 mt-0.5 z-10"
-                    style={{ backgroundColor: nodeColor }}
-                  ></div>
+          return (
+            <div key={idx} className="relative flex items-start gap-3 text-xs z-10">
+              {/* Step Circle Checkmark */}
+              <div className="mt-0.5 bg-[#0e1622] rounded-full">
+                {isRunning ? (
+                  <Circle className="w-4 h-4 text-cyan-400 fill-cyan-400/20 animate-ping" />
+                ) : (
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 fill-emerald-400/10" />
+                )}
+              </div>
 
-                  <div className="flex-1 bg-[#070f1e] border border-[#1b2b45] p-2.5 rounded-lg space-y-0.5">
-                    <div className="flex items-center justify-between">
-                      <span className="font-bold text-slate-200 text-[11px]">{trace.agent_name}</span>
-                      <span className="text-[9px] font-mono text-slate-500">{trace.duration_ms}ms</span>
-                    </div>
-                    <p className="text-[10px] text-slate-400 leading-tight">{trace.summary}</p>
-                  </div>
-                </div>
-              );
-            })
-          : defaultAgentSteps.map((step, idx) => (
-              <div key={idx} className="relative flex items-start gap-3 text-xs">
+              <div className="space-y-1">
+                <span className="font-extrabold text-[11px] text-slate-200 uppercase tracking-wide block">
+                  {step.name}
+                </span>
                 <div
-                  className="w-3.5 h-3.5 rounded-full border-2 border-[#0b172a] shrink-0 mt-0.5 z-10"
-                  style={{ backgroundColor: step.color }}
-                ></div>
-
-                <div className="flex-1 bg-[#070f1e] border border-[#1b2b45] p-2 rounded-lg space-y-0.5">
-                  <div className="flex items-center justify-between">
-                    <span className="font-bold text-slate-200 text-[11px]">{step.name}</span>
-                    <span className="text-[9px] font-mono text-slate-500">Timestamp ago</span>
-                  </div>
-                  <p className="text-[10px] text-slate-400 leading-tight">{step.desc}</p>
+                  className={`inline-block px-2.5 py-1 rounded border font-mono text-[10px] font-bold ${
+                    isGreen
+                      ? 'bg-emerald-950/80 text-emerald-400 border-emerald-800'
+                      : isRunning
+                      ? 'bg-cyan-950/80 text-cyan-300 border-cyan-800'
+                      : 'bg-[#09101b] text-slate-300 border-[#1c2838]'
+                  }`}
+                >
+                  {step.tag}
                 </div>
               </div>
-            ))}
+            </div>
+          );
+        })}
       </div>
     </div>
   );
