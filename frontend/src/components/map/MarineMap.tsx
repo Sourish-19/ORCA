@@ -1,6 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Navigation, AlertTriangle, Layers } from 'lucide-react';
+import maplibregl from 'maplibre-gl';
+import 'maplibre-gl/dist/maplibre-gl.css';
+import workerUrl from 'maplibre-gl/dist/maplibre-gl-csp-worker.js?worker&url';
+import { Navigation, AlertTriangle } from 'lucide-react';
 import { PFZZone, Hazard } from '../../types';
+
+// Set Vite self-contained worker URL for MapLibre GL
+maplibregl.setWorkerUrl(workerUrl);
 
 interface MarineMapProps {
   pfzZones?: PFZZone[];
@@ -16,6 +22,10 @@ export const MarineMap: React.FC<MarineMapProps> = ({
   isVeto = false
 }) => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
+  const mapInstanceRef = useRef<maplibregl.Map | null>(null);
+  const [mapLoaded, setMapLoaded] = useState(false);
+  const [mapError, setMapError] = useState(false);
+
   const [layers, setLayers] = useState({
     baseMap: true,
     pfz: true,
@@ -36,43 +46,146 @@ export const MarineMap: React.FC<MarineMapProps> = ({
   useEffect(() => {
     if (!mapContainerRef.current) return;
 
-    let mapInstance: any = null;
-    let isMounted = true;
+    try {
+      const apiKey = import.meta.env.VITE_MAPTILER_API_KEY;
+      const styleUrl = apiKey
+        ? `https://api.maptiler.com/maps/ocean/style.json?key=${apiKey}`
+        : 'https://demotiles.maplibre.org/style.json';
 
-    async function initMap() {
-      try {
-        const maplibregl = await import('maplibre-gl');
-        if (!isMounted || !mapContainerRef.current) return;
+      const map = new maplibregl.Map({
+        container: mapContainerRef.current,
+        style: styleUrl,
+        center: [80.2707, 13.0827], // Chennai Harbour / Bay of Bengal
+        zoom: 8.5,
+        pitch: 25,
+        attributionControl: false
+      });
 
-        const apiKey = import.meta.env.VITE_MAPTILER_API_KEY;
-        const styleUrl = apiKey
-          ? `https://api.maptiler.com/maps/ocean/style.json?key=${apiKey}`
-          : 'https://demotiles.maplibre.org/style.json';
+      mapInstanceRef.current = map;
 
-        mapInstance = new maplibregl.default.Map({
-          container: mapContainerRef.current,
-          style: styleUrl,
-          center: [80.2707, 13.0827],
-          zoom: 8.5,
-          attributionControl: false
-        });
+      map.addControl(new maplibregl.NavigationControl({ showCompass: true }), 'top-right');
 
-        mapInstance.on('error', () => {});
-      } catch (err) {
-        console.warn('MapLibre GL dynamic init notice:', err);
-      }
-    }
+      map.on('load', () => {
+        setMapLoaded(true);
 
-    initMap();
-
-    return () => {
-      isMounted = false;
-      if (mapInstance && typeof mapInstance.remove === 'function') {
         try {
-          mapInstance.remove();
-        } catch (e) {}
-      }
-    };
+          // Kasimedu Harbour Marker
+          new maplibregl.Marker({ color: '#38bdf8' })
+            .setLngLat([80.295, 13.125])
+            .setPopup(new maplibregl.Popup().setHTML('<strong style="color:#0f172a">Kasimedu Harbour</strong>'))
+            .addTo(map);
+
+          // Primary PFZ Polygon Layer
+          map.addSource('pfz-primary', {
+            type: 'geojson',
+            data: {
+              type: 'Feature',
+              properties: { name: 'Chennai Offshore East' },
+              geometry: {
+                type: 'Polygon',
+                coordinates: [
+                  [
+                    [80.52, 13.18],
+                    [80.75, 13.15],
+                    [80.78, 12.98],
+                    [80.55, 12.95],
+                    [80.52, 13.18]
+                  ]
+                ]
+              }
+            }
+          });
+
+          map.addLayer({
+            id: 'pfz-fill',
+            type: 'fill',
+            source: 'pfz-primary',
+            paint: {
+              'fill-color': '#4edea3',
+              'fill-opacity': 0.3
+            }
+          });
+
+          map.addLayer({
+            id: 'pfz-line',
+            type: 'line',
+            source: 'pfz-primary',
+            paint: {
+              'line-color': '#34d399',
+              'line-width': 2.5
+            }
+          });
+
+          // Route Line
+          map.addSource('route-line', {
+            type: 'geojson',
+            data: {
+              type: 'Feature',
+              properties: {},
+              geometry: {
+                type: 'LineString',
+                coordinates: [
+                  [80.295, 13.125],
+                  [80.62, 13.06]
+                ]
+              }
+            }
+          });
+
+          map.addLayer({
+            id: 'route-line-layer',
+            type: 'line',
+            source: 'route-line',
+            paint: {
+              'line-color': '#4cd7f6',
+              'line-width': 3,
+              'line-dasharray': [2, 2]
+            }
+          });
+
+          if (isVeto) {
+            map.addSource('hazard-zone', {
+              type: 'geojson',
+              data: {
+                type: 'Feature',
+                properties: { warning: 'IMD Severe Cyclone Zone' },
+                geometry: {
+                  type: 'Polygon',
+                  coordinates: [
+                    [
+                      [80.40, 12.85],
+                      [80.85, 12.85],
+                      [80.85, 12.50],
+                      [80.40, 12.50],
+                      [80.40, 12.85]
+                    ]
+                  ]
+                }
+              }
+            });
+
+            map.addLayer({
+              id: 'hazard-fill',
+              type: 'fill',
+              source: 'hazard-zone',
+              paint: {
+                'fill-color': '#ef4444',
+                'fill-opacity': 0.4
+              }
+            });
+          }
+        } catch (e) {
+          console.warn('MapLibre overlay notice:', e);
+        }
+      });
+
+      return () => {
+        map.remove();
+      };
+    } catch (err) {
+      console.warn('MapLibre GL init notice:', err);
+      setMapError(true);
+    }
   }, [isVeto]);
 
   return (
@@ -83,11 +196,11 @@ export const MarineMap: React.FC<MarineMapProps> = ({
         <div className="flex items-center gap-1.5">
           <span className="text-xs font-bold text-slate-200 flex items-center gap-1 font-mono">
             <Navigation className="w-3.5 h-3.5 text-cyan-400" />
-            Marine GIS Map — Bay of Bengal Sector
+            Marine GIS Map — MapLibre GL Vector Engine
           </span>
         </div>
 
-        {/* Toggleable Layer Buttons */}
+        {/* Layer Buttons */}
         <div className="flex flex-wrap items-center gap-1 text-[11px]">
           <button
             onClick={() => toggleLayer('pfz')}
@@ -140,65 +253,60 @@ export const MarineMap: React.FC<MarineMapProps> = ({
         </div>
       </div>
 
-      {/* Main Interactive Vector Map Container */}
+      {/* Main Vector Map Container */}
       <div className="relative flex-1 bg-[#040a16] overflow-hidden min-h-[380px] flex flex-col justify-between p-4">
         
         {/* MapLibre DOM Node */}
         <div ref={mapContainerRef} className="absolute inset-0 w-full h-full" />
 
-        {/* High-Resolution GIS Ocean Base Layer */}
-        <div className="absolute inset-0 opacity-80 pointer-events-none z-0">
-          <svg className="w-full h-full" preserveAspectRatio="none" viewBox="0 0 800 450">
-            <defs>
-              <linearGradient id="mapHeat" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#0284c7" stopOpacity="0.7" />
-                <stop offset="35%" stopColor="#06b6d4" stopOpacity="0.7" />
-                <stop offset="60%" stopColor="#10b981" stopOpacity="0.7" />
-                <stop offset="85%" stopColor="#f59e0b" stopOpacity="0.7" />
-                <stop offset="100%" stopColor="#ef4444" stopOpacity="0.8" />
-              </linearGradient>
-            </defs>
+        {/* Fallback Vector Canvas */}
+        {(!mapLoaded || mapError) && (
+          <div className="absolute inset-0 opacity-80 pointer-events-none z-0">
+            <svg className="w-full h-full" preserveAspectRatio="none" viewBox="0 0 800 450">
+              <defs>
+                <linearGradient id="mapHeat" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#0284c7" stopOpacity="0.7" />
+                  <stop offset="35%" stopColor="#06b6d4" stopOpacity="0.7" />
+                  <stop offset="60%" stopColor="#10b981" stopOpacity="0.7" />
+                  <stop offset="85%" stopColor="#f59e0b" stopOpacity="0.7" />
+                  <stop offset="100%" stopColor="#ef4444" stopOpacity="0.8" />
+                </linearGradient>
+              </defs>
 
-            {layers.sst && <rect x="0" y="0" width="800" height="450" fill="url(#mapHeat)" />}
+              {layers.sst && <rect x="0" y="0" width="800" height="450" fill="url(#mapHeat)" />}
 
-            {/* Coastline */}
-            <path
-              d="M 280,50 Q 320,180 340,280 Q 360,350 420,400 Q 480,350 500,280 Q 560,180 620,80"
-              fill="none"
-              stroke="#0b172a"
-              strokeWidth="24"
-            />
-            <path
-              d="M 280,50 Q 320,180 340,280 Q 360,350 420,400 Q 480,350 500,280 Q 560,180 620,80"
-              fill="none"
-              stroke="#1e293b"
-              strokeWidth="8"
-            />
+              <path
+                d="M 280,50 Q 320,180 340,280 Q 360,350 420,400 Q 480,350 500,280 Q 560,180 620,80"
+                fill="none"
+                stroke="#0b172a"
+                strokeWidth="24"
+              />
+              <path
+                d="M 280,50 Q 320,180 340,280 Q 360,350 420,400 Q 480,350 500,280 Q 560,180 620,80"
+                fill="none"
+                stroke="#1e293b"
+                strokeWidth="8"
+              />
 
-            {/* PFZ Sector Polygons */}
-            {layers.pfz && (
-              <>
+              {layers.pfz && (
                 <path d="M 500,280 L 580,260 L 590,310 L 510,320 Z" fill="#10b981" fillOpacity="0.35" stroke="#34d399" strokeWidth="2" />
-                <path d="M 510,320 L 590,310 L 610,360 L 520,370 Z" fill="#38bdf8" fillOpacity="0.35" stroke="#38bdf8" strokeWidth="2" />
-              </>
-            )}
+              )}
 
-            {/* Route Navigation Line */}
-            {layers.route && (
-              <path d="M 500,280 L 580,260" stroke="#4cd7f6" strokeWidth="2.5" strokeDasharray="6,4" />
-            )}
+              {layers.route && (
+                <path d="M 500,280 L 580,260" stroke="#4cd7f6" strokeWidth="2.5" strokeDasharray="6,4" />
+              )}
 
-            {/* Ports / Harbour Markers */}
-            {layers.ports && (
-              <>
-                <circle cx="500" cy="280" r="7" fill="#38bdf8" stroke="#040a16" strokeWidth="2" />
-                <text x="440" y="275" fill="#dce3f0" fontSize="10" fontWeight="bold">Kasimedu Harbour</text>
-              </>
-            )}
-          </svg>
-        </div>
+              {layers.ports && (
+                <>
+                  <circle cx="500" cy="280" r="7" fill="#38bdf8" stroke="#040a16" strokeWidth="2" />
+                  <text x="440" y="275" fill="#dce3f0" fontSize="10" fontWeight="bold">Kasimedu Harbour</text>
+                </>
+              )}
+            </svg>
+          </div>
+        )}
 
-        {/* Hazard Warning Overlay */}
+        {/* Active Hazard Veto Overlay */}
         {isVeto && layers.hazards && (
           <div className="relative z-20 my-auto self-center bg-red-950/90 border-2 border-red-500 p-3.5 rounded-xl max-w-sm text-center backdrop-blur-md shadow-2xl">
             <AlertTriangle className="w-7 h-7 text-red-500 mx-auto mb-1 animate-bounce" />
