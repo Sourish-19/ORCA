@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { ErrorBoundary } from './components/common/ErrorBoundary';
 import { AppShell } from './components/layout/AppShell';
 import { Dashboard } from './pages/Dashboard';
 import { AgentExecution } from './pages/AgentExecution';
@@ -65,39 +66,45 @@ export function App() {
   };
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route
-          element={
-            <AppShell
-              persona={persona}
-              onPersonaChange={setPersona}
-              dataMode="LIVE"
-              location={currentScenario?.location || 'Chennai • Bay of Bengal'}
-              selectedScenarioTitle={currentScenario?.title}
-              onOpenScenarios={() => window.location.href = '/demo-scenarios'}
-            />
-          }
-        >
-          <Route path="/" element={<Dashboard response={currentResponse} onQuerySubmit={handleRunQuery} isLoading={isLoading} />} />
-          <Route path="/dashboard" element={<Dashboard response={currentResponse} onQuerySubmit={handleRunQuery} isLoading={isLoading} />} />
-          <Route path="/agent-execution" element={<AgentExecution response={currentResponse} />} />
-          <Route path="/marine-map" element={<MarineMapPage response={currentResponse} />} />
-          <Route path="/recommendation" element={<RecommendationPage response={currentResponse} />} />
-          <Route path="/evidence-inspector" element={<EvidenceInspectorPage response={currentResponse} />} />
-          <Route path="/safety-veto" element={<SafetyVetoPage response={currentResponse} />} />
-          <Route path="/alerts" element={<AlertsPage />} />
-          <Route path="/data-health" element={<DataHealthPage />} />
-          <Route path="/fleet-overview" element={<FleetOverviewPage />} />
-          <Route path="/demo-scenarios" element={<DemoScenariosPage onSelectScenario={handleSelectScenario} />} />
-          <Route path="/fisherman" element={<FishermanPage response={currentResponse} onQuerySubmit={handleRunQuery} isLoading={isLoading} />} />
-          <Route path="/fisherman-home" element={<FishermanPage response={currentResponse} onQuerySubmit={handleRunQuery} isLoading={isLoading} />} />
-          <Route path="/mobile-fisherman" element={<MobileFishermanPage response={currentResponse} onQuerySubmit={handleRunQuery} isLoading={isLoading} />} />
-          <Route path="/tamil-voice" element={<TamilVoicePage response={currentResponse} onQuerySubmit={handleRunQuery} isLoading={isLoading} />} />
-          <Route path="*" element={<Navigate to="/dashboard" replace />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <ErrorBoundary>
+      <BrowserRouter>
+        <Routes>
+          <Route
+            element={
+              <AppShell
+                persona={persona}
+                onPersonaChange={setPersona}
+                dataMode="LIVE"
+                location={currentScenario?.location || 'Chennai • Bay of Bengal'}
+                selectedScenarioTitle={currentScenario?.title}
+                onOpenScenarios={() => window.location.href = '/demo-scenarios'}
+              />
+            }
+          >
+            <Route path="/" element={<Dashboard response={currentResponse} onQuerySubmit={handleRunQuery} isLoading={isLoading} />} />
+            <Route path="/dashboard" element={<Dashboard response={currentResponse} onQuerySubmit={handleRunQuery} isLoading={isLoading} />} />
+            <Route path="/agent-execution" element={<AgentExecution response={currentResponse} />} />
+            <Route path="/marine-map" element={<MarineMapPage response={currentResponse} />} />
+            <Route path="/marine_map" element={<MarineMapPage response={currentResponse} />} />
+            <Route path="/map" element={<MarineMapPage response={currentResponse} />} />
+            <Route path="/map-controls" element={<MarineMapPage response={currentResponse} />} />
+            <Route path="/recommendation" element={<RecommendationPage response={currentResponse} />} />
+            <Route path="/evidence-inspector" element={<EvidenceInspectorPage response={currentResponse} />} />
+            <Route path="/safety-veto" element={<SafetyVetoPage response={currentResponse} />} />
+            <Route path="/safety_veto" element={<SafetyVetoPage response={currentResponse} />} />
+            <Route path="/alerts" element={<AlertsPage />} />
+            <Route path="/data-health" element={<DataHealthPage />} />
+            <Route path="/fleet-overview" element={<FleetOverviewPage />} />
+            <Route path="/demo-scenarios" element={<DemoScenariosPage onSelectScenario={handleSelectScenario} />} />
+            <Route path="/fisherman" element={<FishermanPage response={currentResponse} onQuerySubmit={handleRunQuery} isLoading={isLoading} />} />
+            <Route path="/fisherman-home" element={<FishermanPage response={currentResponse} onQuerySubmit={handleRunQuery} isLoading={isLoading} />} />
+            <Route path="/mobile-fisherman" element={<MobileFishermanPage response={currentResponse} onQuerySubmit={handleRunQuery} isLoading={isLoading} />} />
+            <Route path="/tamil-voice" element={<TamilVoicePage response={currentResponse} onQuerySubmit={handleRunQuery} isLoading={isLoading} />} />
+            <Route path="*" element={<Navigate to="/dashboard" replace />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </ErrorBoundary>
   );
 }
 
