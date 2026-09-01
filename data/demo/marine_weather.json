@@ -1,0 +1,58 @@
+[
+  {
+    "timestamp": "2026-08-30T09:00:00Z",
+    "location_name": "Chennai Coastal Waters",
+    "latitude": 13.0827,
+    "longitude": 80.2707,
+    "wind_speed_knots": 12.5,
+    "wind_direction_deg": 140.0,
+    "wave_height_m": 1.2,
+    "wave_period_sec": 7.5,
+    "visibility_km": 10.0,
+    "sea_surface_pressure_hpa": 1012.4,
+    "valid_until": "2026-08-31T18:00:00Z",
+    "source": "IMD Marine Bulletin"
+  },
+  {
+    "timestamp": "2026-08-30T09:00:00Z",
+    "location_name": "Munambam / Kochi Waters",
+    "latitude": 9.9312,
+    "longitude": 76.2673,
+    "wind_speed_knots": 14.0,
+    "wind_direction_deg": 220.0,
+    "wave_height_m": 1.5,
+    "wave_period_sec": 8.0,
+    "visibility_km": 9.5,
+    "sea_surface_pressure_hpa": 1010.8,
+    "valid_until": "2026-08-31T18:00:00Z",
+    "source": "IMD Marine Bulletin"
+  },
+  {
+    "timestamp": "2026-08-30T09:00:00Z",
+    "location_name": "Mangalore Coastal Waters",
+    "latitude": 12.8550,
+    "longitude": 74.8320,
+    "wind_speed_knots": 16.2,
+    "wind_direction_deg": 240.0,
+    "wave_height_m": 1.8,
+    "wave_period_sec": 8.5,
+    "visibility_km": 8.0,
+    "sea_surface_pressure_hpa": 1009.5,
+    "valid_until": "2026-08-31T18:00:00Z",
+    "source": "IMD Marine Bulletin"
+  },
+  {
+    "timestamp": "2026-08-30T09:00:00Z",
+    "location_name": "Visakhapatnam Waters",
+    "latitude": 17.6974,
+    "longitude": 83.3032,
+    "wind_speed_knots": 28.5,
+    "wind_direction_deg": 90.0,
+    "wave_height_m": 3.2,
+    "wave_period_sec": 11.0,
+    "visibility_km": 5.0,
+    "sea_surface_pressure_hpa": 998.0,
+    "valid_until": "2026-08-31T18:00:00Z",
+    "source": "IMD Marine Bulletin"
+  }
+]

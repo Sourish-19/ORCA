@@ -1,0 +1,28 @@
+[
+  {
+    "warning_id": "warn_vzg_001",
+    "warning_type": "CYCLONE",
+    "severity": "RED",
+    "title": "Severe Cyclonic Storm Warning - Vizag Coast",
+    "description": "Squally weather with gale winds reaching 45-55 knots gusting to 65 knots. Sea conditions VERY ROUGH to HIGH. Fishermen are strictly advised NOT to venture into deep sea.",
+    "affected_sector": "North Andhra Pradesh & South Odisha Coast",
+    "bounding_box": [16.5, 82.5, 18.5, 84.5],
+    "valid_from": "2026-08-30T00:00:00Z",
+    "valid_until": "2026-09-01T12:00:00Z",
+    "source": "IMD Cyclone Warning Centre Visakhapatnam",
+    "issued_at": "2026-08-30T05:00:00Z"
+  },
+  {
+    "warning_id": "warn_mng_002",
+    "warning_type": "HIGH_WAVE",
+    "severity": "YELLOW",
+    "title": "High Swell Surge Advisory - Karnataka Coast",
+    "description": "High waves in the range of 2.0-2.5 meters forecast along Karnataka coast from Mangalore to Karwar. Small boat operators exercise caution near shore break.",
+    "affected_sector": "Karnataka Coast",
+    "bounding_box": [12.5, 74.0, 14.5, 75.0],
+    "valid_from": "2026-08-30T06:00:00Z",
+    "valid_until": "2026-08-31T18:00:00Z",
+    "source": "INCOIS High Wave Warning",
+    "issued_at": "2026-08-30T06:00:00Z"
+  }
+]

@@ -1,0 +1,52 @@
+[
+  {
+    "id": "lc_chennai_01",
+    "name": "Royapuram Fishing Harbour (Kasimedu)",
+    "district": "Chennai",
+    "state": "Tamil Nadu",
+    "latitude": 13.1258,
+    "longitude": 80.2974,
+    "facilities": ["Ice Plant", "Diesel Bunk", "Jetty", "Auction Hall"],
+    "max_boat_capacity": 1200
+  },
+  {
+    "id": "lc_chennai_02",
+    "name": "Cuddalore Fishing Harbour",
+    "district": "Cuddalore",
+    "state": "Tamil Nadu",
+    "latitude": 11.7478,
+    "longitude": 79.7744,
+    "facilities": ["Ice Plant", "Boat Repair Yard"],
+    "max_boat_capacity": 600
+  },
+  {
+    "id": "lc_kochi_01",
+    "name": "Munambam Fishing Harbour",
+    "district": "Ernakulam",
+    "state": "Kerala",
+    "latitude": 10.1812,
+    "longitude": 76.1683,
+    "facilities": ["Cold Storage", "Processing Center", "Diesel Bunk"],
+    "max_boat_capacity": 900
+  },
+  {
+    "id": "lc_mangalore_01",
+    "name": "Old Mangalore Port Jetty",
+    "district": "Dakshina Kannada",
+    "state": "Karnataka",
+    "latitude": 12.8550,
+    "longitude": 74.8320,
+    "facilities": ["Ice Plant", "Auction Hall"],
+    "max_boat_capacity": 850
+  },
+  {
+    "id": "lc_vizag_01",
+    "name": "Visakhapatnam Fishing Harbour",
+    "district": "Visakhapatnam",
+    "state": "Andhra Pradesh",
+    "latitude": 17.6974,
+    "longitude": 83.3032,
+    "facilities": ["Deep Sea Trawler Base", "Processing Unit", "Fuel Jetty"],
+    "max_boat_capacity": 1500
+  }
+]
