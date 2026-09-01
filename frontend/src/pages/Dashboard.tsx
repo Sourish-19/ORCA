@@ -3,8 +3,9 @@ import { MarineMap } from '../components/map/MarineMap';
 import { SuitabilityDonut } from '../components/SuitabilityDonut';
 import { AgentTracePanel } from '../components/AgentTracePanel';
 import { KeyOceanDrivers } from '../components/KeyOceanDrivers';
-import { Mic, Send, HelpCircle, Award } from 'lucide-react';
-import { ORCAResponse, DemoScenario } from '../types';
+import { OceanTelemetryChart } from '../components/charts/OceanTelemetryChart';
+import { Mic, Send, HelpCircle } from 'lucide-react';
+import { ORCAResponse } from '../types';
 
 interface DashboardProps {
   response: ORCAResponse | null;
@@ -34,7 +35,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ response, onQuerySubmit, i
   return (
     <div className="space-y-3">
       
-      {/* Preset Demo Scenarios Selector Header matching reference image 1 */}
+      {/* Preset Demo Scenarios Selector Header */}
       <div className="bg-[#0e1622] border border-[#1c2838] p-2.5 rounded-xl flex items-center justify-between gap-3">
         <span className="text-[11px] font-extrabold text-slate-300 uppercase tracking-wider font-mono shrink-0">
           PRESET DEMO SCENARIOS
@@ -76,12 +77,11 @@ export const Dashboard: React.FC<DashboardProps> = ({ response, onQuerySubmit, i
         </div>
       </div>
 
-      {/* Main 3-Column Layout matching reference image 1 */}
+      {/* Main 3-Column Cockpit Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 items-start">
         
-        {/* Column 1 (Left 3-Cols): Query Textarea & Agent Execution Trace */}
+        {/* Column 1 (Left 3-Cols): Query & Agent Execution Trace */}
         <div className="lg:col-span-3 space-y-3">
-          {/* Intelligence Query Card */}
           <div className="bg-[#0e1622] border border-[#1c2838] p-3.5 rounded-xl space-y-3">
             <div className="flex items-center justify-between">
               <span className="text-[10px] font-bold text-slate-300 uppercase tracking-wider">
@@ -121,15 +121,15 @@ export const Dashboard: React.FC<DashboardProps> = ({ response, onQuerySubmit, i
             </form>
           </div>
 
-          {/* Agent Execution Trace Panel */}
           <AgentTracePanel agentTraces={response?.agent_traces || []} />
         </div>
 
-        {/* Column 2 (Center 6-Cols): Interactive Ocean GIS Map */}
-        <div className="lg:col-span-6 h-[640px]">
-          <MarineMap
-            isVeto={isVeto}
-          />
+        {/* Column 2 (Center 6-Cols): Interactive Ocean GIS Map with deck.gl + MapLibre */}
+        <div className="lg:col-span-6 space-y-3">
+          <div className="h-[520px]">
+            <MarineMap isVeto={isVeto} />
+          </div>
+          <OceanTelemetryChart />
         </div>
 
         {/* Column 3 (Right 3-Cols): Recommended Zone, Suitability Ring & Key Ocean Drivers */}
@@ -145,7 +145,6 @@ export const Dashboard: React.FC<DashboardProps> = ({ response, onQuerySubmit, i
             dataMode={response?.data_mode || 'LIVE'}
           />
 
-          {/* Bottom Button: WHY THIS ZONE? */}
           <button
             onClick={() => window.location.href = '/evidence-inspector'}
             className="w-full py-3 bg-[#131d2b] hover:bg-[#1c2838] border border-[#20344d] text-cyan-300 font-extrabold text-xs uppercase tracking-wider rounded-xl flex items-center justify-center gap-2 transition shadow-lg"

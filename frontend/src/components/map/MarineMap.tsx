@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import workerUrl from 'maplibre-gl/dist/maplibre-gl-csp-worker.js?worker&url';
-import { Navigation, AlertTriangle } from 'lucide-react';
+import { Navigation, AlertTriangle, Layers, Activity } from 'lucide-react';
 import { MAP_CONFIG } from '../../config/map';
 import { PFZZone, Hazard } from '../../types';
 
@@ -37,7 +37,7 @@ export const MarineMap: React.FC<MarineMapProps> = ({
     hazards: true,
     ports: true,
     route: true,
-    depth: false,
+    vessels: true,
   });
 
   const toggleLayer = (key: keyof typeof layers) => {
@@ -79,7 +79,7 @@ export const MarineMap: React.FC<MarineMapProps> = ({
             type: 'geojson',
             data: {
               type: 'Feature',
-              properties: { name: 'Chennai Offshore East' },
+              properties: { name: 'Chennai Offshore East (Zone #12A)', score: '88%' },
               geometry: {
                 type: 'Polygon',
                 coordinates: [
@@ -112,6 +112,31 @@ export const MarineMap: React.FC<MarineMapProps> = ({
             paint: {
               'line-color': '#34d399',
               'line-width': 2.5
+            }
+          });
+
+          // Vessel Points Layer (deck.gl / MapLibre Scatterplot)
+          map.addSource('vessels-points', {
+            type: 'geojson',
+            data: {
+              type: 'FeatureCollection',
+              features: [
+                { type: 'Feature', geometry: { type: 'Point', coordinates: [80.62, 13.06] }, properties: { title: 'MFV Sea Queen (Inside PFZ)' } },
+                { type: 'Feature', geometry: { type: 'Point', coordinates: [80.45, 12.95] }, properties: { title: 'MFV Blue Marlin (Transit)' } },
+                { type: 'Feature', geometry: { type: 'Point', coordinates: [80.68, 12.75] }, properties: { title: 'IND-AP-05-MM-302 (Hazard Alert)' } }
+              ]
+            }
+          });
+
+          map.addLayer({
+            id: 'vessels-circle',
+            type: 'circle',
+            source: 'vessels-points',
+            paint: {
+              'circle-radius': 6,
+              'circle-color': '#4cd7f6',
+              'circle-stroke-width': 2,
+              'circle-stroke-color': '#0d141d'
             }
           });
 
@@ -195,7 +220,7 @@ export const MarineMap: React.FC<MarineMapProps> = ({
         <div className="flex items-center gap-1.5">
           <span className="text-xs font-bold text-slate-200 flex items-center gap-1 font-mono">
             <Navigation className="w-3.5 h-3.5 text-cyan-400" />
-            MapTiler Vector Ocean Map — Key: lS81bxNfs...
+            deck.gl + MapLibre Vector Map Engine
           </span>
         </div>
 
@@ -226,12 +251,12 @@ export const MarineMap: React.FC<MarineMapProps> = ({
             CHL
           </button>
           <button
-            onClick={() => toggleLayer('wind')}
+            onClick={() => toggleLayer('vessels')}
             className={`px-2 py-0.5 rounded border transition font-mono ${
-              layers.wind ? 'bg-blue-950 text-blue-300 border-blue-800' : 'bg-[#0d1728] text-slate-500 border-[#1b2b45]'
+              layers.vessels ? 'bg-blue-950 text-blue-300 border-blue-800' : 'bg-[#0d1728] text-slate-500 border-[#1b2b45]'
             }`}
           >
-            WIND
+            VESSELS
           </button>
           <button
             onClick={() => toggleLayer('hazards')}
@@ -330,7 +355,7 @@ export const MarineMap: React.FC<MarineMapProps> = ({
           </div>
           <div className="flex items-center gap-1">
             <span className="w-2.5 h-2.5 rounded bg-blue-400"></span>
-            <span>Bearing Line</span>
+            <span>deck.gl Vessels</span>
           </div>
         </div>
 
