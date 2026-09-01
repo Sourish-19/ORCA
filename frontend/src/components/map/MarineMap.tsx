@@ -3,6 +3,7 @@ import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import workerUrl from 'maplibre-gl/dist/maplibre-gl-csp-worker.js?worker&url';
 import { Navigation, AlertTriangle } from 'lucide-react';
+import { MAP_CONFIG } from '../../config/map';
 import { PFZZone, Hazard } from '../../types';
 
 // Set Vite self-contained worker URL for MapLibre GL
@@ -47,17 +48,15 @@ export const MarineMap: React.FC<MarineMapProps> = ({
     if (!mapContainerRef.current) return;
 
     try {
-      const apiKey = import.meta.env.VITE_MAPTILER_API_KEY;
-      const styleUrl = apiKey
-        ? `https://api.maptiler.com/maps/ocean/style.json?key=${apiKey}`
-        : 'https://demotiles.maplibre.org/style.json';
+      const apiKey = import.meta.env.VITE_MAPTILER_API_KEY || MAP_CONFIG.mapTilerKey;
+      const styleUrl = `https://api.maptiler.com/maps/dataviz-dark/style.json?key=${apiKey}`;
 
       const map = new maplibregl.Map({
         container: mapContainerRef.current,
         style: styleUrl,
         center: [80.2707, 13.0827], // Chennai Harbour / Bay of Bengal
-        zoom: 8.5,
-        pitch: 25,
+        zoom: 8.8,
+        pitch: 20,
         attributionControl: false
       });
 
@@ -102,7 +101,7 @@ export const MarineMap: React.FC<MarineMapProps> = ({
             source: 'pfz-primary',
             paint: {
               'fill-color': '#4edea3',
-              'fill-opacity': 0.3
+              'fill-opacity': 0.35
             }
           });
 
@@ -196,7 +195,7 @@ export const MarineMap: React.FC<MarineMapProps> = ({
         <div className="flex items-center gap-1.5">
           <span className="text-xs font-bold text-slate-200 flex items-center gap-1 font-mono">
             <Navigation className="w-3.5 h-3.5 text-cyan-400" />
-            Marine GIS Map — MapLibre GL Vector Engine
+            MapTiler Vector Ocean Map — Key: lS81bxNfs...
           </span>
         </div>
 
