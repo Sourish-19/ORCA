@@ -1,0 +1,2447 @@
+{
+  "metadata": {
+    "source": "INCOIS (Indian National Centre for Ocean Information Services), Ministry of Earth Sciences, Govt. of India",
+    "official_portal_url": "https://www.incois.gov.in/MarineFisheries/TextDataHome?mfid=1&request_locale=en",
+    "sector_id": "SEC007",
+    "sector_name": "NORTH TAMILNADU",
+    "forecast_date": "1 SEP 2026",
+    "valid_upto": "2 SEP 2026",
+    "update_timestamp": "Tue Sep 01 16:15:33 IST 2026",
+    "total_records_extracted": 90,
+    "chennai_area_records_count": 23,
+    "processing_engine": "ORCA INCOIS PFZ Parser v1.0",
+    "coordinate_system": "WGS84 (EPSG:4326)"
+  },
+  "records": [
+    {
+      "record_id": "PFZ-SEC007-001",
+      "landing_centre": "Coromandel",
+      "direction": "SE",
+      "bearing_deg": 144,
+      "distance_km": {
+        "min": 16.0,
+        "max": 21.0,
+        "formatted": "16-21"
+      },
+      "depth_m": {
+        "min": 21.0,
+        "max": 26.0,
+        "formatted": "21-26"
+      },
+      "coordinates": {
+        "latitude_dd": 13.3194,
+        "longitude_dd": 80.4064,
+        "latitude_dms": "13 19 10 N",
+        "longitude_dms": "80 24 23 E"
+      },
+      "region": {
+        "is_chennai_region": true,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-002",
+      "landing_centre": "Pulicat",
+      "direction": "SE",
+      "bearing_deg": 147,
+      "distance_km": {
+        "min": 15.0,
+        "max": 20.0,
+        "formatted": "15-20"
+      },
+      "depth_m": {
+        "min": 30.0,
+        "max": 35.0,
+        "formatted": "30-35"
+      },
+      "coordinates": {
+        "latitude_dd": 13.2919,
+        "longitude_dd": 80.4161,
+        "latitude_dms": "13 17 31 N",
+        "longitude_dms": "80 24 58 E"
+      },
+      "region": {
+        "is_chennai_region": true,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-003",
+      "landing_centre": "Palagaithottikuppam",
+      "direction": "NE",
+      "bearing_deg": 47,
+      "distance_km": {
+        "min": 14.0,
+        "max": 19.0,
+        "formatted": "14-19"
+      },
+      "depth_m": {
+        "min": 36.0,
+        "max": 41.0,
+        "formatted": "36-41"
+      },
+      "coordinates": {
+        "latitude_dd": 13.2633,
+        "longitude_dd": 80.4186,
+        "latitude_dms": "13 15 48 N",
+        "longitude_dms": "80 25 7 E"
+      },
+      "region": {
+        "is_chennai_region": true,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-004",
+      "landing_centre": "Ennorekuppam",
+      "direction": "NE",
+      "bearing_deg": 87,
+      "distance_km": {
+        "min": 9.0,
+        "max": 14.0,
+        "formatted": "9-14"
+      },
+      "depth_m": {
+        "min": 34.0,
+        "max": 39.0,
+        "formatted": "34-39"
+      },
+      "coordinates": {
+        "latitude_dd": 13.2344,
+        "longitude_dd": 80.4161,
+        "latitude_dms": "13 14 4 N",
+        "longitude_dms": "80 24 58 E"
+      },
+      "region": {
+        "is_chennai_region": true,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-005",
+      "landing_centre": "Thazankuppam",
+      "direction": "SE",
+      "bearing_deg": 100,
+      "distance_km": {
+        "min": 9.0,
+        "max": 14.0,
+        "formatted": "9-14"
+      },
+      "depth_m": {
+        "min": 40.0,
+        "max": 45.0,
+        "formatted": "40-45"
+      },
+      "coordinates": {
+        "latitude_dd": 13.2058,
+        "longitude_dd": 80.4197,
+        "latitude_dms": "13 12 21 N",
+        "longitude_dms": "80 25 11 E"
+      },
+      "region": {
+        "is_chennai_region": true,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-006",
+      "landing_centre": "Ennore Mugathuvarakuppan",
+      "direction": "SE",
+      "bearing_deg": 114,
+      "distance_km": {
+        "min": 11.0,
+        "max": 16.0,
+        "formatted": "11-16"
+      },
+      "depth_m": {
+        "min": 51.0,
+        "max": 56.0,
+        "formatted": "51-56"
+      },
+      "coordinates": {
+        "latitude_dd": 13.1808,
+        "longitude_dd": 80.4347,
+        "latitude_dms": "13 10 51 N",
+        "longitude_dms": "80 26 5 E"
+      },
+      "region": {
+        "is_chennai_region": true,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-007",
+      "landing_centre": "Kathivakkam Periakuppam",
+      "direction": "SE",
+      "bearing_deg": 111,
+      "distance_km": {
+        "min": 13.0,
+        "max": 18.0,
+        "formatted": "13-18"
+      },
+      "depth_m": {
+        "min": 56.0,
+        "max": 61.0,
+        "formatted": "56-61"
+      },
+      "coordinates": {
+        "latitude_dd": 13.1594,
+        "longitude_dd": 80.4542,
+        "latitude_dms": "13 9 34 N",
+        "longitude_dms": "80 27 15 E"
+      },
+      "region": {
+        "is_chennai_region": true,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-008",
+      "landing_centre": "Kathivakkam Chinnakuppam",
+      "direction": "SE",
+      "bearing_deg": 112,
+      "distance_km": {
+        "min": 16.0,
+        "max": 21.0,
+        "formatted": "16-21"
+      },
+      "depth_m": {
+        "min": 65.0,
+        "max": 70.0,
+        "formatted": "65-70"
+      },
+      "coordinates": {
+        "latitude_dd": 13.1442,
+        "longitude_dd": 80.4789,
+        "latitude_dms": "13 8 39 N",
+        "longitude_dms": "80 28 44 E"
+      },
+      "region": {
+        "is_chennai_region": true,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-009",
+      "landing_centre": "Ernavoorkuppam",
+      "direction": "SE",
+      "bearing_deg": 112,
+      "distance_km": {
+        "min": 19.0,
+        "max": 24.0,
+        "formatted": "19-24"
+      },
+      "depth_m": {
+        "min": 79.0,
+        "max": 84.0,
+        "formatted": "79-84"
+      },
+      "coordinates": {
+        "latitude_dd": 13.1292,
+        "longitude_dd": 80.5033,
+        "latitude_dms": "13 7 45 N",
+        "longitude_dms": "80 30 12 E"
+      },
+      "region": {
+        "is_chennai_region": true,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-010",
+      "landing_centre": "Kasikoilkuppam",
+      "direction": "SE",
+      "bearing_deg": 107,
+      "distance_km": {
+        "min": 21.0,
+        "max": 26.0,
+        "formatted": "21-26"
+      },
+      "depth_m": {
+        "min": 97.0,
+        "max": 102.0,
+        "formatted": "97-102"
+      },
+      "coordinates": {
+        "latitude_dd": 13.1044,
+        "longitude_dd": 80.5181,
+        "latitude_dms": "13 6 16 N",
+        "longitude_dms": "80 31 5 E"
+      },
+      "region": {
+        "is_chennai_region": true,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-011",
+      "landing_centre": "Chennai",
+      "direction": "SE",
+      "bearing_deg": 107,
+      "distance_km": {
+        "min": 36.0,
+        "max": 41.0,
+        "formatted": "36-41"
+      },
+      "depth_m": {
+        "min": 214.0,
+        "max": 219.0,
+        "formatted": "214-219"
+      },
+      "coordinates": {
+        "latitude_dd": 13.0175,
+        "longitude_dd": 80.6331,
+        "latitude_dms": "13 1 3 N",
+        "longitude_dms": "80 37 59 E"
+      },
+      "region": {
+        "is_chennai_region": true,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-012",
+      "landing_centre": "Ayothikuppam",
+      "direction": "SE",
+      "bearing_deg": 103,
+      "distance_km": {
+        "min": 36.0,
+        "max": 41.0,
+        "formatted": "36-41"
+      },
+      "depth_m": {
+        "min": 196.0,
+        "max": 201.0,
+        "formatted": "196-201"
+      },
+      "coordinates": {
+        "latitude_dd": 12.9769,
+        "longitude_dd": 80.6247,
+        "latitude_dms": "12 58 37 N",
+        "longitude_dms": "80 37 29 E"
+      },
+      "region": {
+        "is_chennai_region": true,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-013",
+      "landing_centre": "Srinivasapuram",
+      "direction": "SE",
+      "bearing_deg": 104,
+      "distance_km": {
+        "min": 36.0,
+        "max": 41.0,
+        "formatted": "36-41"
+      },
+      "depth_m": {
+        "min": 198.0,
+        "max": 203.0,
+        "formatted": "198-203"
+      },
+      "coordinates": {
+        "latitude_dd": 12.9367,
+        "longitude_dd": 80.6158,
+        "latitude_dms": "12 56 12 N",
+        "longitude_dms": "80 36 57 E"
+      },
+      "region": {
+        "is_chennai_region": true,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-014",
+      "landing_centre": "Palavakkam",
+      "direction": "SE",
+      "bearing_deg": 101,
+      "distance_km": {
+        "min": 35.0,
+        "max": 40.0,
+        "formatted": "35-40"
+      },
+      "depth_m": {
+        "min": 162.0,
+        "max": 167.0,
+        "formatted": "162-167"
+      },
+      "coordinates": {
+        "latitude_dd": 12.8992,
+        "longitude_dd": 80.5994,
+        "latitude_dms": "12 53 57 N",
+        "longitude_dms": "80 35 58 E"
+      },
+      "region": {
+        "is_chennai_region": true,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-015",
+      "landing_centre": "Injampakkam",
+      "direction": "SE",
+      "bearing_deg": 99,
+      "distance_km": {
+        "min": 32.0,
+        "max": 37.0,
+        "formatted": "32-37"
+      },
+      "depth_m": {
+        "min": 113.0,
+        "max": 118.0,
+        "formatted": "113-118"
+      },
+      "coordinates": {
+        "latitude_dd": 12.8733,
+        "longitude_dd": 80.5678,
+        "latitude_dms": "12 52 24 N",
+        "longitude_dms": "80 34 4 E"
+      },
+      "region": {
+        "is_chennai_region": true,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-016",
+      "landing_centre": "Panaiyurkuppam",
+      "direction": "SE",
+      "bearing_deg": 96,
+      "distance_km": {
+        "min": 28.0,
+        "max": 33.0,
+        "formatted": "28-33"
+      },
+      "depth_m": {
+        "min": 83.0,
+        "max": 88.0,
+        "formatted": "83-88"
+      },
+      "coordinates": {
+        "latitude_dd": 12.8592,
+        "longitude_dd": 80.5289,
+        "latitude_dms": "12 51 33 N",
+        "longitude_dms": "80 31 44 E"
+      },
+      "region": {
+        "is_chennai_region": true,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-017",
+      "landing_centre": "Nainarkuppam",
+      "direction": "SE",
+      "bearing_deg": 97,
+      "distance_km": {
+        "min": 24.0,
+        "max": 29.0,
+        "formatted": "24-29"
+      },
+      "depth_m": {
+        "min": 71.0,
+        "max": 76.0,
+        "formatted": "71-76"
+      },
+      "coordinates": {
+        "latitude_dd": 12.8475,
+        "longitude_dd": 80.4894,
+        "latitude_dms": "12 50 51 N",
+        "longitude_dms": "80 29 22 E"
+      },
+      "region": {
+        "is_chennai_region": true,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-018",
+      "landing_centre": "Kanathur Reddy Kuppam",
+      "direction": "SE",
+      "bearing_deg": 96,
+      "distance_km": {
+        "min": 20.0,
+        "max": 25.0,
+        "formatted": "20-25"
+      },
+      "depth_m": {
+        "min": 60.0,
+        "max": 65.0,
+        "formatted": "60-65"
+      },
+      "coordinates": {
+        "latitude_dd": 12.8303,
+        "longitude_dd": 80.4519,
+        "latitude_dms": "12 49 49 N",
+        "longitude_dms": "80 27 7 E"
+      },
+      "region": {
+        "is_chennai_region": true,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-019",
+      "landing_centre": "Covelong (Kovalam)",
+      "direction": "NE",
+      "bearing_deg": 86,
+      "distance_km": {
+        "min": 17.0,
+        "max": 22.0,
+        "formatted": "17-22"
+      },
+      "depth_m": {
+        "min": 56.0,
+        "max": 61.0,
+        "formatted": "56-61"
+      },
+      "coordinates": {
+        "latitude_dd": 12.8019,
+        "longitude_dd": 80.4225,
+        "latitude_dms": "12 48 7 N",
+        "longitude_dms": "80 25 21 E"
+      },
+      "region": {
+        "is_chennai_region": true,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-020",
+      "landing_centre": "Chemacherry",
+      "direction": "SE",
+      "bearing_deg": 94,
+      "distance_km": {
+        "min": 15.0,
+        "max": 20.0,
+        "formatted": "15-20"
+      },
+      "depth_m": {
+        "min": 42.0,
+        "max": 47.0,
+        "formatted": "42-47"
+      },
+      "coordinates": {
+        "latitude_dd": 12.7642,
+        "longitude_dd": 80.4075,
+        "latitude_dms": "12 45 51 N",
+        "longitude_dms": "80 24 27 E"
+      },
+      "region": {
+        "is_chennai_region": true,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-021",
+      "landing_centre": "Venpursham",
+      "direction": "SE",
+      "bearing_deg": 108,
+      "distance_km": {
+        "min": 24.0,
+        "max": 29.0,
+        "formatted": "24-29"
+      },
+      "depth_m": {
+        "min": 52.0,
+        "max": 57.0,
+        "formatted": "52-57"
+      },
+      "coordinates": {
+        "latitude_dd": 12.5233,
+        "longitude_dd": 80.4225,
+        "latitude_dms": "12 31 24 N",
+        "longitude_dms": "80 25 21 E"
+      },
+      "region": {
+        "is_chennai_region": true,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-022",
+      "landing_centre": "Kokilamedu",
+      "direction": "SE",
+      "bearing_deg": 117,
+      "distance_km": {
+        "min": 24.0,
+        "max": 29.0,
+        "formatted": "24-29"
+      },
+      "depth_m": {
+        "min": 50.0,
+        "max": 55.0,
+        "formatted": "50-55"
+      },
+      "coordinates": {
+        "latitude_dd": 12.4842,
+        "longitude_dd": 80.4078,
+        "latitude_dms": "12 29 3 N",
+        "longitude_dms": "80 24 28 E"
+      },
+      "region": {
+        "is_chennai_region": true,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-023",
+      "landing_centre": "Pudupattinam",
+      "direction": "SE",
+      "bearing_deg": 104,
+      "distance_km": {
+        "min": 23.0,
+        "max": 28.0,
+        "formatted": "23-28"
+      },
+      "depth_m": {
+        "min": 49.0,
+        "max": 54.0,
+        "formatted": "49-54"
+      },
+      "coordinates": {
+        "latitude_dd": 12.4478,
+        "longitude_dd": 80.3844,
+        "latitude_dms": "12 26 52 N",
+        "longitude_dms": "80 23 4 E"
+      },
+      "region": {
+        "is_chennai_region": true,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-024",
+      "landing_centre": "Uyyalikuppam",
+      "direction": "SE",
+      "bearing_deg": 109,
+      "distance_km": {
+        "min": 19.0,
+        "max": 24.0,
+        "formatted": "19-24"
+      },
+      "depth_m": {
+        "min": 46.0,
+        "max": 51.0,
+        "formatted": "46-51"
+      },
+      "coordinates": {
+        "latitude_dd": 12.4236,
+        "longitude_dd": 80.3458,
+        "latitude_dms": "12 25 25 N",
+        "longitude_dms": "80 20 45 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-025",
+      "landing_centre": "Padalore Periya Kuppam",
+      "direction": "SE",
+      "bearing_deg": 109,
+      "distance_km": {
+        "min": 18.0,
+        "max": 23.0,
+        "formatted": "18-23"
+      },
+      "depth_m": {
+        "min": 46.0,
+        "max": 51.0,
+        "formatted": "46-51"
+      },
+      "coordinates": {
+        "latitude_dd": 12.3867,
+        "longitude_dd": 80.3194,
+        "latitude_dms": "12 23 12 N",
+        "longitude_dms": "80 19 10 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-026",
+      "landing_centre": "Kadalore Chinna Kuppam",
+      "direction": "SE",
+      "bearing_deg": 123,
+      "distance_km": {
+        "min": 19.0,
+        "max": 24.0,
+        "formatted": "19-24"
+      },
+      "depth_m": {
+        "min": 42.0,
+        "max": 47.0,
+        "formatted": "42-47"
+      },
+      "coordinates": {
+        "latitude_dd": 12.3419,
+        "longitude_dd": 80.3106,
+        "latitude_dms": "12 20 31 N",
+        "longitude_dms": "80 18 38 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-027",
+      "landing_centre": "Kadalore Ali Kuppam",
+      "direction": "SE",
+      "bearing_deg": 127,
+      "distance_km": {
+        "min": 23.0,
+        "max": 28.0,
+        "formatted": "23-28"
+      },
+      "depth_m": {
+        "min": 45.0,
+        "max": 50.0,
+        "formatted": "45-50"
+      },
+      "coordinates": {
+        "latitude_dd": 12.3025,
+        "longitude_dd": 80.3294,
+        "latitude_dms": "12 18 9 N",
+        "longitude_dms": "80 19 46 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-028",
+      "landing_centre": "Pazhayanadukuppam",
+      "direction": "SE",
+      "bearing_deg": 128,
+      "distance_km": {
+        "min": 27.0,
+        "max": 32.0,
+        "formatted": "27-32"
+      },
+      "depth_m": {
+        "min": 40.0,
+        "max": 45.0,
+        "formatted": "40-45"
+      },
+      "coordinates": {
+        "latitude_dd": 12.2597,
+        "longitude_dd": 80.3428,
+        "latitude_dms": "12 15 35 N",
+        "longitude_dms": "80 20 34 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-029",
+      "landing_centre": "Pudhunadukuppam",
+      "direction": "SE",
+      "bearing_deg": 131,
+      "distance_km": {
+        "min": 31.0,
+        "max": 36.0,
+        "formatted": "31-36"
+      },
+      "depth_m": {
+        "min": 636.0,
+        "max": 641.0,
+        "formatted": "636-641"
+      },
+      "coordinates": {
+        "latitude_dd": 12.2175,
+        "longitude_dd": 80.3583,
+        "latitude_dms": "12 13 3 N",
+        "longitude_dms": "80 21 30 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-030",
+      "landing_centre": "Perun Thuravu Kuppam",
+      "direction": "SE",
+      "bearing_deg": 126,
+      "distance_km": {
+        "min": 35.0,
+        "max": 40.0,
+        "formatted": "35-40"
+      },
+      "depth_m": {
+        "min": 1352.0,
+        "max": 1357.0,
+        "formatted": "1352-1357"
+      },
+      "coordinates": {
+        "latitude_dd": 12.1753,
+        "longitude_dd": 80.3728,
+        "latitude_dms": "12 10 31 N",
+        "longitude_dms": "80 22 22 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-031",
+      "landing_centre": "Kaippanikuppam",
+      "direction": "SE",
+      "bearing_deg": 124,
+      "distance_km": {
+        "min": 32.0,
+        "max": 37.0,
+        "formatted": "32-37"
+      },
+      "depth_m": {
+        "min": 1211.0,
+        "max": 1216.0,
+        "formatted": "1211-1216"
+      },
+      "coordinates": {
+        "latitude_dd": 12.0447,
+        "longitude_dd": 80.2464,
+        "latitude_dms": "12 2 41 N",
+        "longitude_dms": "80 14 47 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-032",
+      "landing_centre": "Ekkiyarkuppam",
+      "direction": "SE",
+      "bearing_deg": 122,
+      "distance_km": {
+        "min": 30.0,
+        "max": 35.0,
+        "formatted": "30-35"
+      },
+      "depth_m": {
+        "min": 575.0,
+        "max": 580.0,
+        "formatted": "575-580"
+      },
+      "coordinates": {
+        "latitude_dd": 12.0303,
+        "longitude_dd": 80.2131,
+        "latitude_dms": "12 1 49 N",
+        "longitude_dms": "80 12 47 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-033",
+      "landing_centre": "Mandavai Pudukuppam",
+      "direction": "SE",
+      "bearing_deg": 124,
+      "distance_km": {
+        "min": 29.0,
+        "max": 34.0,
+        "formatted": "29-34"
+      },
+      "depth_m": {
+        "min": 772.0,
+        "max": 777.0,
+        "formatted": "772-777"
+      },
+      "coordinates": {
+        "latitude_dd": 12.0047,
+        "longitude_dd": 80.1883,
+        "latitude_dms": "12 0 17 N",
+        "longitude_dms": "80 11 18 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-034",
+      "landing_centre": "Anumandhaikuppam",
+      "direction": "SE",
+      "bearing_deg": 121,
+      "distance_km": {
+        "min": 30.0,
+        "max": 35.0,
+        "formatted": "30-35"
+      },
+      "depth_m": {
+        "min": 659.0,
+        "max": 664.0,
+        "formatted": "659-664"
+      },
+      "coordinates": {
+        "latitude_dd": 11.9703,
+        "longitude_dd": 80.1767,
+        "latitude_dms": "11 58 13 N",
+        "longitude_dms": "80 10 36 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-035",
+      "landing_centre": "Koonimedu Kuppam",
+      "direction": "SE",
+      "bearing_deg": 120,
+      "distance_km": {
+        "min": 31.0,
+        "max": 36.0,
+        "formatted": "31-36"
+      },
+      "depth_m": {
+        "min": 593.0,
+        "max": 598.0,
+        "formatted": "593-598"
+      },
+      "coordinates": {
+        "latitude_dd": 11.9378,
+        "longitude_dd": 80.1606,
+        "latitude_dms": "11 56 16 N",
+        "longitude_dms": "80 9 38 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-036",
+      "landing_centre": "Ganapathichettikulam",
+      "direction": "SE",
+      "bearing_deg": 116,
+      "distance_km": {
+        "min": 30.0,
+        "max": 35.0,
+        "formatted": "30-35"
+      },
+      "depth_m": {
+        "min": 549.0,
+        "max": 554.0,
+        "formatted": "549-554"
+      },
+      "coordinates": {
+        "latitude_dd": 11.9117,
+        "longitude_dd": 80.1356,
+        "latitude_dms": "11 54 42 N",
+        "longitude_dms": "80 8 8 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-037",
+      "landing_centre": "Thandhirayankuppam",
+      "direction": "SE",
+      "bearing_deg": 108,
+      "distance_km": {
+        "min": 28.0,
+        "max": 33.0,
+        "formatted": "28-33"
+      },
+      "depth_m": {
+        "min": 505.0,
+        "max": 510.0,
+        "formatted": "505-510"
+      },
+      "coordinates": {
+        "latitude_dd": 11.8881,
+        "longitude_dd": 80.1078,
+        "latitude_dms": "11 53 17 N",
+        "longitude_dms": "80 6 28 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-038",
+      "landing_centre": "Solainagar North",
+      "direction": "SE",
+      "bearing_deg": 110,
+      "distance_km": {
+        "min": 26.0,
+        "max": 31.0,
+        "formatted": "26-31"
+      },
+      "depth_m": {
+        "min": 540.0,
+        "max": 545.0,
+        "formatted": "540-545"
+      },
+      "coordinates": {
+        "latitude_dd": 11.8619,
+        "longitude_dd": 80.0825,
+        "latitude_dms": "11 51 43 N",
+        "longitude_dms": "80 4 57 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-039",
+      "landing_centre": "Pondicherry",
+      "direction": "SE",
+      "bearing_deg": 110,
+      "distance_km": {
+        "min": 25.0,
+        "max": 30.0,
+        "formatted": "25-30"
+      },
+      "depth_m": {
+        "min": 611.0,
+        "max": 616.0,
+        "formatted": "611-616"
+      },
+      "coordinates": {
+        "latitude_dd": 11.8289,
+        "longitude_dd": 80.0683,
+        "latitude_dms": "11 49 44 N",
+        "longitude_dms": "80 4 6 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-040",
+      "landing_centre": "Chinna Veerampattinam",
+      "direction": "SE",
+      "bearing_deg": 118,
+      "distance_km": {
+        "min": 15.0,
+        "max": 20.0,
+        "formatted": "15-20"
+      },
+      "depth_m": {
+        "min": 172.0,
+        "max": 177.0,
+        "formatted": "172-177"
+      },
+      "coordinates": {
+        "latitude_dd": 11.8125,
+        "longitude_dd": 79.9569,
+        "latitude_dms": "11 48 45 N",
+        "longitude_dms": "79 57 25 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-041",
+      "landing_centre": "Veerampattinam",
+      "direction": "SE",
+      "bearing_deg": 113,
+      "distance_km": {
+        "min": 23.0,
+        "max": 28.0,
+        "formatted": "23-28"
+      },
+      "depth_m": {
+        "min": 527.0,
+        "max": 532.0,
+        "formatted": "527-532"
+      },
+      "coordinates": {
+        "latitude_dd": 11.8058,
+        "longitude_dd": 80.0433,
+        "latitude_dms": "11 48 21 N",
+        "longitude_dms": "80 2 36 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-042",
+      "landing_centre": "Nallavadu",
+      "direction": "SE",
+      "bearing_deg": 119,
+      "distance_km": {
+        "min": 12.0,
+        "max": 17.0,
+        "formatted": "12-17"
+      },
+      "depth_m": {
+        "min": 75.0,
+        "max": 80.0,
+        "formatted": "75-80"
+      },
+      "coordinates": {
+        "latitude_dd": 11.8031,
+        "longitude_dd": 79.9344,
+        "latitude_dms": "11 48 11 N",
+        "longitude_dms": "79 56 4 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-043",
+      "landing_centre": "Panithittu",
+      "direction": "SE",
+      "bearing_deg": 102,
+      "distance_km": {
+        "min": 11.0,
+        "max": 16.0,
+        "formatted": "11-16"
+      },
+      "depth_m": {
+        "min": 22.0,
+        "max": 27.0,
+        "formatted": "22-27"
+      },
+      "coordinates": {
+        "latitude_dd": 11.7894,
+        "longitude_dd": 79.9144,
+        "latitude_dms": "11 47 22 N",
+        "longitude_dms": "79 54 52 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-044",
+      "landing_centre": "Narambai",
+      "direction": "SE",
+      "bearing_deg": 115,
+      "distance_km": {
+        "min": 9.0,
+        "max": 14.0,
+        "formatted": "9-14"
+      },
+      "depth_m": {
+        "min": 24.0,
+        "max": 29.0,
+        "formatted": "24-29"
+      },
+      "coordinates": {
+        "latitude_dd": 11.7714,
+        "longitude_dd": 79.8978,
+        "latitude_dms": "11 46 17 N",
+        "longitude_dms": "79 53 52 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-045",
+      "landing_centre": "Moorthipudukuppam",
+      "direction": "SE",
+      "bearing_deg": 113,
+      "distance_km": {
+        "min": 8.0,
+        "max": 13.0,
+        "formatted": "8-13"
+      },
+      "depth_m": {
+        "min": 24.0,
+        "max": 29.0,
+        "formatted": "24-29"
+      },
+      "coordinates": {
+        "latitude_dd": 11.7503,
+        "longitude_dd": 79.885,
+        "latitude_dms": "11 45 1 N",
+        "longitude_dms": "79 53 6 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-046",
+      "landing_centre": "Thazhanguda",
+      "direction": "SE",
+      "bearing_deg": 116,
+      "distance_km": {
+        "min": 8.0,
+        "max": 13.0,
+        "formatted": "8-13"
+      },
+      "depth_m": {
+        "min": 23.0,
+        "max": 28.0,
+        "formatted": "23-28"
+      },
+      "coordinates": {
+        "latitude_dd": 11.7275,
+        "longitude_dd": 79.8764,
+        "latitude_dms": "11 43 39 N",
+        "longitude_dms": "79 52 35 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-047",
+      "landing_centre": "Devanampattinam",
+      "direction": "SE",
+      "bearing_deg": 116,
+      "distance_km": {
+        "min": 8.0,
+        "max": 13.0,
+        "formatted": "8-13"
+      },
+      "depth_m": {
+        "min": 22.0,
+        "max": 27.0,
+        "formatted": "22-27"
+      },
+      "coordinates": {
+        "latitude_dd": 11.7031,
+        "longitude_dd": 79.8733,
+        "latitude_dms": "11 42 11 N",
+        "longitude_dms": "79 52 24 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-048",
+      "landing_centre": "Sonaankuppam",
+      "direction": "SE",
+      "bearing_deg": 114,
+      "distance_km": {
+        "min": 9.0,
+        "max": 14.0,
+        "formatted": "9-14"
+      },
+      "depth_m": {
+        "min": 23.0,
+        "max": 28.0,
+        "formatted": "23-28"
+      },
+      "coordinates": {
+        "latitude_dd": 11.6786,
+        "longitude_dd": 79.8758,
+        "latitude_dms": "11 40 43 N",
+        "longitude_dms": "79 52 33 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-049",
+      "landing_centre": "Sothikuppam",
+      "direction": "SE",
+      "bearing_deg": 106,
+      "distance_km": {
+        "min": 10.0,
+        "max": 15.0,
+        "formatted": "10-15"
+      },
+      "depth_m": {
+        "min": 23.0,
+        "max": 28.0,
+        "formatted": "23-28"
+      },
+      "coordinates": {
+        "latitude_dd": 11.6564,
+        "longitude_dd": 79.8853,
+        "latitude_dms": "11 39 23 N",
+        "longitude_dms": "79 53 7 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-050",
+      "landing_centre": "Rajappettai",
+      "direction": "SE",
+      "bearing_deg": 113,
+      "distance_km": {
+        "min": 12.0,
+        "max": 17.0,
+        "formatted": "12-17"
+      },
+      "depth_m": {
+        "min": 26.0,
+        "max": 31.0,
+        "formatted": "26-31"
+      },
+      "coordinates": {
+        "latitude_dd": 11.6328,
+        "longitude_dd": 79.8914,
+        "latitude_dms": "11 37 58 N",
+        "longitude_dms": "79 53 29 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-051",
+      "landing_centre": "Portonovo",
+      "direction": "SE",
+      "bearing_deg": 91,
+      "distance_km": {
+        "min": 16.0,
+        "max": 21.0,
+        "formatted": "16-21"
+      },
+      "depth_m": {
+        "min": 93.0,
+        "max": 98.0,
+        "formatted": "93-98"
+      },
+      "coordinates": {
+        "latitude_dd": 11.5019,
+        "longitude_dd": 79.9422,
+        "latitude_dms": "11 30 7 N",
+        "longitude_dms": "79 56 32 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-052",
+      "landing_centre": "Parangipettai",
+      "direction": "SE",
+      "bearing_deg": 98,
+      "distance_km": {
+        "min": 17.0,
+        "max": 22.0,
+        "formatted": "17-22"
+      },
+      "depth_m": {
+        "min": 118.0,
+        "max": 123.0,
+        "formatted": "118-123"
+      },
+      "coordinates": {
+        "latitude_dd": 11.4767,
+        "longitude_dd": 79.9492,
+        "latitude_dms": "11 28 36 N",
+        "longitude_dms": "79 56 57 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-053",
+      "landing_centre": "Mudasalodai",
+      "direction": "SE",
+      "bearing_deg": 102,
+      "distance_km": {
+        "min": 19.0,
+        "max": 24.0,
+        "formatted": "19-24"
+      },
+      "depth_m": {
+        "min": 163.0,
+        "max": 168.0,
+        "formatted": "163-168"
+      },
+      "coordinates": {
+        "latitude_dd": 11.4556,
+        "longitude_dd": 79.9653,
+        "latitude_dms": "11 27 20 N",
+        "longitude_dms": "79 57 55 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-054",
+      "landing_centre": "M.G.R. Thittu",
+      "direction": "SE",
+      "bearing_deg": 102,
+      "distance_km": {
+        "min": 18.0,
+        "max": 23.0,
+        "formatted": "18-23"
+      },
+      "depth_m": {
+        "min": 156.0,
+        "max": 161.0,
+        "formatted": "156-161"
+      },
+      "coordinates": {
+        "latitude_dd": 11.4314,
+        "longitude_dd": 79.9736,
+        "latitude_dms": "11 25 53 N",
+        "longitude_dms": "79 58 25 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-055",
+      "landing_centre": "Killai",
+      "direction": "SE",
+      "bearing_deg": 101,
+      "distance_km": {
+        "min": 16.0,
+        "max": 21.0,
+        "formatted": "16-21"
+      },
+      "depth_m": {
+        "min": 151.0,
+        "max": 156.0,
+        "formatted": "151-156"
+      },
+      "coordinates": {
+        "latitude_dd": 11.405,
+        "longitude_dd": 79.9706,
+        "latitude_dms": "11 24 18 N",
+        "longitude_dms": "79 58 14 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-056",
+      "landing_centre": "Kottaimedu",
+      "direction": "NE",
+      "bearing_deg": 66,
+      "distance_km": {
+        "min": 13.0,
+        "max": 18.0,
+        "formatted": "13-18"
+      },
+      "depth_m": {
+        "min": 97.0,
+        "max": 102.0,
+        "formatted": "97-102"
+      },
+      "coordinates": {
+        "latitude_dd": 11.3794,
+        "longitude_dd": 79.9642,
+        "latitude_dms": "11 22 46 N",
+        "longitude_dms": "79 57 51 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-057",
+      "landing_centre": "Pazhayar",
+      "direction": "E",
+      "bearing_deg": 90,
+      "distance_km": {
+        "min": 11.0,
+        "max": 16.0,
+        "formatted": "11-16"
+      },
+      "depth_m": {
+        "min": 53.0,
+        "max": 58.0,
+        "formatted": "53-58"
+      },
+      "coordinates": {
+        "latitude_dd": 11.3544,
+        "longitude_dd": 79.955,
+        "latitude_dms": "11 21 16 N",
+        "longitude_dms": "79 57 18 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-058",
+      "landing_centre": "Madavamedu",
+      "direction": "SE",
+      "bearing_deg": 92,
+      "distance_km": {
+        "min": 10.0,
+        "max": 15.0,
+        "formatted": "10-15"
+      },
+      "depth_m": {
+        "min": 37.0,
+        "max": 42.0,
+        "formatted": "37-42"
+      },
+      "coordinates": {
+        "latitude_dd": 11.3292,
+        "longitude_dd": 79.9478,
+        "latitude_dms": "11 19 45 N",
+        "longitude_dms": "79 56 52 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-059",
+      "landing_centre": "Koozhayar",
+      "direction": "NE",
+      "bearing_deg": 84,
+      "distance_km": {
+        "min": 10.0,
+        "max": 15.0,
+        "formatted": "10-15"
+      },
+      "depth_m": {
+        "min": 37.0,
+        "max": 42.0,
+        "formatted": "37-42"
+      },
+      "coordinates": {
+        "latitude_dd": 11.3031,
+        "longitude_dd": 79.9447,
+        "latitude_dms": "11 18 11 N",
+        "longitude_dms": "79 56 41 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-060",
+      "landing_centre": "Mudasalodai Village",
+      "direction": "SE",
+      "bearing_deg": 91,
+      "distance_km": {
+        "min": 9.0,
+        "max": 14.0,
+        "formatted": "9-14"
+      },
+      "depth_m": {
+        "min": 29.0,
+        "max": 34.0,
+        "formatted": "29-34"
+      },
+      "coordinates": {
+        "latitude_dd": 11.2764,
+        "longitude_dd": 79.9442,
+        "latitude_dms": "11 16 35 N",
+        "longitude_dms": "79 56 39 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-061",
+      "landing_centre": "Madathukuppam",
+      "direction": "SE",
+      "bearing_deg": 92,
+      "distance_km": {
+        "min": 11.0,
+        "max": 16.0,
+        "formatted": "11-16"
+      },
+      "depth_m": {
+        "min": 40.0,
+        "max": 45.0,
+        "formatted": "40-45"
+      },
+      "coordinates": {
+        "latitude_dd": 11.1775,
+        "longitude_dd": 79.9767,
+        "latitude_dms": "11 10 39 N",
+        "longitude_dms": "79 58 36 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-062",
+      "landing_centre": "Pudukuppam",
+      "direction": "SE",
+      "bearing_deg": 93,
+      "distance_km": {
+        "min": 14.0,
+        "max": 19.0,
+        "formatted": "14-19"
+      },
+      "depth_m": {
+        "min": 52.0,
+        "max": 57.0,
+        "formatted": "52-57"
+      },
+      "coordinates": {
+        "latitude_dd": 11.1603,
+        "longitude_dd": 80.0003,
+        "latitude_dms": "11 9 37 N",
+        "longitude_dms": "80 0 1 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-063",
+      "landing_centre": "Poombuhar",
+      "direction": "SE",
+      "bearing_deg": 91,
+      "distance_km": {
+        "min": 16.0,
+        "max": 21.0,
+        "formatted": "16-21"
+      },
+      "depth_m": {
+        "min": 44.0,
+        "max": 49.0,
+        "formatted": "44-49"
+      },
+      "coordinates": {
+        "latitude_dd": 11.1392,
+        "longitude_dd": 80.0217,
+        "latitude_dms": "11 8 21 N",
+        "longitude_dms": "80 1 18 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-064",
+      "landing_centre": "Chinnangudi",
+      "direction": "NE",
+      "bearing_deg": 86,
+      "distance_km": {
+        "min": 17.0,
+        "max": 22.0,
+        "formatted": "17-22"
+      },
+      "depth_m": {
+        "min": 39.0,
+        "max": 44.0,
+        "formatted": "39-44"
+      },
+      "coordinates": {
+        "latitude_dd": 11.1108,
+        "longitude_dd": 80.0311,
+        "latitude_dms": "11 6 39 N",
+        "longitude_dms": "80 1 52 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-065",
+      "landing_centre": "Thalampettai",
+      "direction": "SE",
+      "bearing_deg": 91,
+      "distance_km": {
+        "min": 17.0,
+        "max": 22.0,
+        "formatted": "17-22"
+      },
+      "depth_m": {
+        "min": 51.0,
+        "max": 56.0,
+        "formatted": "51-56"
+      },
+      "coordinates": {
+        "latitude_dd": 11.0808,
+        "longitude_dd": 80.0317,
+        "latitude_dms": "11 4 51 N",
+        "longitude_dms": "80 1 54 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-066",
+      "landing_centre": "Pudhupettai",
+      "direction": "SE",
+      "bearing_deg": 94,
+      "distance_km": {
+        "min": 19.0,
+        "max": 24.0,
+        "formatted": "19-24"
+      },
+      "depth_m": {
+        "min": 55.0,
+        "max": 60.0,
+        "formatted": "55-60"
+      },
+      "coordinates": {
+        "latitude_dd": 11.0564,
+        "longitude_dd": 80.0483,
+        "latitude_dms": "11 3 23 N",
+        "longitude_dms": "80 2 54 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-067",
+      "landing_centre": "Bommayanpettai (Vellakoil",
+      "direction": "SE",
+      "bearing_deg": 94,
+      "distance_km": {
+        "min": 21.0,
+        "max": 26.0,
+        "formatted": "21-26"
+      },
+      "depth_m": {
+        "min": 58.0,
+        "max": 63.0,
+        "formatted": "58-63"
+      },
+      "coordinates": {
+        "latitude_dd": 11.0378,
+        "longitude_dd": 80.0722,
+        "latitude_dms": "11 2 16 N",
+        "longitude_dms": "80 4 20 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-068",
+      "landing_centre": "Kuttiyandiyur",
+      "direction": "SE",
+      "bearing_deg": 95,
+      "distance_km": {
+        "min": 24.0,
+        "max": 29.0,
+        "formatted": "24-29"
+      },
+      "depth_m": {
+        "min": 63.0,
+        "max": 68.0,
+        "formatted": "63-68"
+      },
+      "coordinates": {
+        "latitude_dd": 11.0236,
+        "longitude_dd": 80.0989,
+        "latitude_dms": "11 1 25 N",
+        "longitude_dms": "80 5 56 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-069",
+      "landing_centre": "Tharangampadi",
+      "direction": "SE",
+      "bearing_deg": 95,
+      "distance_km": {
+        "min": 27.0,
+        "max": 32.0,
+        "formatted": "27-32"
+      },
+      "depth_m": {
+        "min": 66.0,
+        "max": 71.0,
+        "formatted": "66-71"
+      },
+      "coordinates": {
+        "latitude_dd": 11.0072,
+        "longitude_dd": 80.1242,
+        "latitude_dms": "11 0 26 N",
+        "longitude_dms": "80 7 27 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-070",
+      "landing_centre": "Chandrappadi",
+      "direction": "SE",
+      "bearing_deg": 93,
+      "distance_km": {
+        "min": 29.0,
+        "max": 34.0,
+        "formatted": "29-34"
+      },
+      "depth_m": {
+        "min": 69.0,
+        "max": 74.0,
+        "formatted": "69-74"
+      },
+      "coordinates": {
+        "latitude_dd": 10.9836,
+        "longitude_dd": 80.1428,
+        "latitude_dms": "10 59 1 N",
+        "longitude_dms": "80 8 34 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-071",
+      "landing_centre": "Karikal",
+      "direction": "SE",
+      "bearing_deg": 157,
+      "distance_km": {
+        "min": 26.0,
+        "max": 31.0,
+        "formatted": "26-31"
+      },
+      "depth_m": {
+        "min": 14.0,
+        "max": 19.0,
+        "formatted": "14-19"
+      },
+      "coordinates": {
+        "latitude_dd": 10.6742,
+        "longitude_dd": 79.9556,
+        "latitude_dms": "10 40 27 N",
+        "longitude_dms": "79 57 20 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-072",
+      "landing_centre": "Nagore",
+      "direction": "SE",
+      "bearing_deg": 148,
+      "distance_km": {
+        "min": 20.0,
+        "max": 25.0,
+        "formatted": "20-25"
+      },
+      "depth_m": {
+        "min": 12.0,
+        "max": 17.0,
+        "formatted": "12-17"
+      },
+      "coordinates": {
+        "latitude_dd": 10.655,
+        "longitude_dd": 79.9578,
+        "latitude_dms": "10 39 18 N",
+        "longitude_dms": "79 57 28 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-073",
+      "landing_centre": "Samanthanpettai",
+      "direction": "SE",
+      "bearing_deg": 145,
+      "distance_km": {
+        "min": 20.0,
+        "max": 25.0,
+        "formatted": "20-25"
+      },
+      "depth_m": {
+        "min": 9.0,
+        "max": 14.0,
+        "formatted": "9-14"
+      },
+      "coordinates": {
+        "latitude_dd": 10.6369,
+        "longitude_dd": 79.9644,
+        "latitude_dms": "10 38 13 N",
+        "longitude_dms": "79 57 52 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-074",
+      "landing_centre": "Nambiyar Nagar",
+      "direction": "SE",
+      "bearing_deg": 143,
+      "distance_km": {
+        "min": 20.0,
+        "max": 25.0,
+        "formatted": "20-25"
+      },
+      "depth_m": {
+        "min": 13.0,
+        "max": 18.0,
+        "formatted": "13-18"
+      },
+      "coordinates": {
+        "latitude_dd": 10.6197,
+        "longitude_dd": 79.9733,
+        "latitude_dms": "10 37 11 N",
+        "longitude_dms": "79 58 24 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-075",
+      "landing_centre": "Nagapattinam Harbour",
+      "direction": "SE",
+      "bearing_deg": 141,
+      "distance_km": {
+        "min": 21.0,
+        "max": 26.0,
+        "formatted": "21-26"
+      },
+      "depth_m": {
+        "min": 23.0,
+        "max": 28.0,
+        "formatted": "23-28"
+      },
+      "coordinates": {
+        "latitude_dd": 10.6039,
+        "longitude_dd": 79.9839,
+        "latitude_dms": "10 36 14 N",
+        "longitude_dms": "79 59 2 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-076",
+      "landing_centre": "Akkaraipettai",
+      "direction": "SE",
+      "bearing_deg": 138,
+      "distance_km": {
+        "min": 22.0,
+        "max": 27.0,
+        "formatted": "22-27"
+      },
+      "depth_m": {
+        "min": 24.0,
+        "max": 29.0,
+        "formatted": "24-29"
+      },
+      "coordinates": {
+        "latitude_dd": 10.5908,
+        "longitude_dd": 79.9981,
+        "latitude_dms": "10 35 27 N",
+        "longitude_dms": "79 59 53 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-077",
+      "landing_centre": "Velanganni",
+      "direction": "SE",
+      "bearing_deg": 121,
+      "distance_km": {
+        "min": 19.0,
+        "max": 24.0,
+        "formatted": "19-24"
+      },
+      "depth_m": {
+        "min": 23.0,
+        "max": 28.0,
+        "formatted": "23-28"
+      },
+      "coordinates": {
+        "latitude_dd": 10.5833,
+        "longitude_dd": 80.0158,
+        "latitude_dms": "10 35 0 N",
+        "longitude_dms": "80 0 57 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-078",
+      "landing_centre": "Seruthur",
+      "direction": "SE",
+      "bearing_deg": 119,
+      "distance_km": {
+        "min": 20.0,
+        "max": 25.0,
+        "formatted": "20-25"
+      },
+      "depth_m": {
+        "min": 20.0,
+        "max": 25.0,
+        "formatted": "20-25"
+      },
+      "coordinates": {
+        "latitude_dd": 10.5711,
+        "longitude_dd": 80.0308,
+        "latitude_dms": "10 34 16 N",
+        "longitude_dms": "80 1 51 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-079",
+      "landing_centre": "Kameshwaram",
+      "direction": "SE",
+      "bearing_deg": 109,
+      "distance_km": {
+        "min": 19.0,
+        "max": 24.0,
+        "formatted": "19-24"
+      },
+      "depth_m": {
+        "min": 19.0,
+        "max": 24.0,
+        "formatted": "19-24"
+      },
+      "coordinates": {
+        "latitude_dd": 10.5544,
+        "longitude_dd": 80.0403,
+        "latitude_dms": "10 33 16 N",
+        "longitude_dms": "80 2 25 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-080",
+      "landing_centre": "Vilunthamavadi",
+      "direction": "SE",
+      "bearing_deg": 108,
+      "distance_km": {
+        "min": 19.0,
+        "max": 24.0,
+        "formatted": "19-24"
+      },
+      "depth_m": {
+        "min": 16.0,
+        "max": 21.0,
+        "formatted": "16-21"
+      },
+      "coordinates": {
+        "latitude_dd": 10.5356,
+        "longitude_dd": 80.0428,
+        "latitude_dms": "10 32 8 N",
+        "longitude_dms": "80 2 34 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-081",
+      "landing_centre": "Vettaikaranrippu",
+      "direction": "SE",
+      "bearing_deg": 131,
+      "distance_km": {
+        "min": 22.0,
+        "max": 27.0,
+        "formatted": "22-27"
+      },
+      "depth_m": {
+        "min": 13.0,
+        "max": 18.0,
+        "formatted": "13-18"
+      },
+      "coordinates": {
+        "latitude_dd": 10.4278,
+        "longitude_dd": 80.0222,
+        "latitude_dms": "10 25 40 N",
+        "longitude_dms": "80 1 20 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-082",
+      "landing_centre": "Vanavanmadevi",
+      "direction": "SE",
+      "bearing_deg": 130,
+      "distance_km": {
+        "min": 20.0,
+        "max": 25.0,
+        "formatted": "20-25"
+      },
+      "depth_m": {
+        "min": 13.0,
+        "max": 18.0,
+        "formatted": "13-18"
+      },
+      "coordinates": {
+        "latitude_dd": 10.4069,
+        "longitude_dd": 80.0194,
+        "latitude_dms": "10 24 25 N",
+        "longitude_dms": "80 1 10 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-083",
+      "landing_centre": "Vellapallam",
+      "direction": "SE",
+      "bearing_deg": 128,
+      "distance_km": {
+        "min": 20.0,
+        "max": 25.0,
+        "formatted": "20-25"
+      },
+      "depth_m": {
+        "min": 12.0,
+        "max": 17.0,
+        "formatted": "12-17"
+      },
+      "coordinates": {
+        "latitude_dd": 10.3856,
+        "longitude_dd": 80.0217,
+        "latitude_dms": "10 23 8 N",
+        "longitude_dms": "80 1 18 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-084",
+      "landing_centre": "Kallinodu",
+      "direction": "SE",
+      "bearing_deg": 129,
+      "distance_km": {
+        "min": 20.0,
+        "max": 25.0,
+        "formatted": "20-25"
+      },
+      "depth_m": {
+        "min": 11.0,
+        "max": 16.0,
+        "formatted": "11-16"
+      },
+      "coordinates": {
+        "latitude_dd": 10.3647,
+        "longitude_dd": 80.0253,
+        "latitude_dms": "10 21 53 N",
+        "longitude_dms": "80 1 31 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-085",
+      "landing_centre": "Point Calimer",
+      "direction": "NE",
+      "bearing_deg": 71,
+      "distance_km": {
+        "min": 22.0,
+        "max": 27.0,
+        "formatted": "22-27"
+      },
+      "depth_m": {
+        "min": 13.0,
+        "max": 18.0,
+        "formatted": "13-18"
+      },
+      "coordinates": {
+        "latitude_dd": 10.3456,
+        "longitude_dd": 80.0339,
+        "latitude_dms": "10 20 44 N",
+        "longitude_dms": "80 2 2 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-086",
+      "landing_centre": "Pushpavanam",
+      "direction": "SE",
+      "bearing_deg": 124,
+      "distance_km": {
+        "min": 22.0,
+        "max": 27.0,
+        "formatted": "22-27"
+      },
+      "depth_m": {
+        "min": 11.0,
+        "max": 16.0,
+        "formatted": "11-16"
+      },
+      "coordinates": {
+        "latitude_dd": 10.3328,
+        "longitude_dd": 80.0508,
+        "latitude_dms": "10 19 58 N",
+        "longitude_dms": "80 3 3 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-087",
+      "landing_centre": "Topputturai",
+      "direction": "SE",
+      "bearing_deg": 114,
+      "distance_km": {
+        "min": 22.0,
+        "max": 27.0,
+        "formatted": "22-27"
+      },
+      "depth_m": {
+        "min": 10.0,
+        "max": 15.0,
+        "formatted": "10-15"
+      },
+      "coordinates": {
+        "latitude_dd": 10.32,
+        "longitude_dd": 80.0678,
+        "latitude_dms": "10 19 12 N",
+        "longitude_dms": "80 4 4 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-088",
+      "landing_centre": "Arkkattuthurai",
+      "direction": "SE",
+      "bearing_deg": 114,
+      "distance_km": {
+        "min": 22.0,
+        "max": 27.0,
+        "formatted": "22-27"
+      },
+      "depth_m": {
+        "min": 10.0,
+        "max": 15.0,
+        "formatted": "10-15"
+      },
+      "coordinates": {
+        "latitude_dd": 10.3003,
+        "longitude_dd": 80.0747,
+        "latitude_dms": "10 18 1 N",
+        "longitude_dms": "80 4 29 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-089",
+      "landing_centre": "Vedaranniyam",
+      "direction": "SE",
+      "bearing_deg": 116,
+      "distance_km": {
+        "min": 23.0,
+        "max": 28.0,
+        "formatted": "23-28"
+      },
+      "depth_m": {
+        "min": 13.0,
+        "max": 18.0,
+        "formatted": "13-18"
+      },
+      "coordinates": {
+        "latitude_dd": 10.2792,
+        "longitude_dd": 80.0772,
+        "latitude_dms": "10 16 45 N",
+        "longitude_dms": "80 4 38 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    },
+    {
+      "record_id": "PFZ-SEC007-090",
+      "landing_centre": "Kodiyakarai",
+      "direction": "SE",
+      "bearing_deg": 94,
+      "distance_km": {
+        "min": 24.0,
+        "max": 29.0,
+        "formatted": "24-29"
+      },
+      "depth_m": {
+        "min": 13.0,
+        "max": 18.0,
+        "formatted": "13-18"
+      },
+      "coordinates": {
+        "latitude_dd": 10.2592,
+        "longitude_dd": 80.0839,
+        "latitude_dms": "10 15 33 N",
+        "longitude_dms": "80 5 2 E"
+      },
+      "region": {
+        "is_chennai_region": false,
+        "state": "Tamil Nadu",
+        "water_body": "Bay of Bengal"
+      }
+    }
+  ]
+}

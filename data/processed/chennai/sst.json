@@ -1,0 +1,456 @@
+{
+  "metadata": {
+    "source": "Copernicus Marine",
+    "product_id": "SST_GLO_PHY_L4_NRT_010_005",
+    "dataset_id": "cmems_obs-sst_glo_phy-temp_nrt_P1D-m",
+    "variable": "analysed_sst",
+    "standard_name": "sea_surface_temperature",
+    "units_original": "K",
+    "units_processed": "degC",
+    "synthetic": false,
+    "observation_date": "2026-08-31",
+    "data_freshness_note": "Latest available SST observation is one day older than the INCOIS PFZ advisory.",
+    "pfz_advisory_date": "2026-09-01 -> 2026-09-02",
+    "grid_dimensions": {
+      "latitude_points_count": 10,
+      "longitude_points_count": 6,
+      "total_grid_points": 60,
+      "ocean_valid_points": 53,
+      "land_masked_points": 7
+    },
+    "geographic_bounds": {
+      "min_latitude": 12.125,
+      "max_latitude": 14.375,
+      "min_longitude": 80.125,
+      "max_longitude": 81.375,
+      "resolution_deg": 0.25
+    },
+    "statistics_celsius": {
+      "min": 28.75,
+      "max": 29.53,
+      "mean": 29.32
+    }
+  },
+  "grid_observations": [
+    {
+      "latitude": 12.125,
+      "longitude": 80.125,
+      "sst_kelvin": 301.9,
+      "sst_celsius": 28.75,
+      "is_land_masked": false
+    },
+    {
+      "latitude": 12.125,
+      "longitude": 80.375,
+      "sst_kelvin": 302.27,
+      "sst_celsius": 29.12,
+      "is_land_masked": false
+    },
+    {
+      "latitude": 12.125,
+      "longitude": 80.625,
+      "sst_kelvin": 302.55,
+      "sst_celsius": 29.4,
+      "is_land_masked": false
+    },
+    {
+      "latitude": 12.125,
+      "longitude": 80.875,
+      "sst_kelvin": 302.59,
+      "sst_celsius": 29.44,
+      "is_land_masked": false
+    },
+    {
+      "latitude": 12.125,
+      "longitude": 81.125,
+      "sst_kelvin": 302.55,
+      "sst_celsius": 29.4,
+      "is_land_masked": false
+    },
+    {
+      "latitude": 12.125,
+      "longitude": 81.375,
+      "sst_kelvin": 302.53,
+      "sst_celsius": 29.38,
+      "is_land_masked": false
+    },
+    {
+      "latitude": 12.375,
+      "longitude": 80.125,
+      "sst_kelvin": 301.92,
+      "sst_celsius": 28.77,
+      "is_land_masked": false
+    },
+    {
+      "latitude": 12.375,
+      "longitude": 80.375,
+      "sst_kelvin": 302.21,
+      "sst_celsius": 29.06,
+      "is_land_masked": false
+    },
+    {
+      "latitude": 12.375,
+      "longitude": 80.625,
+      "sst_kelvin": 302.42,
+      "sst_celsius": 29.27,
+      "is_land_masked": false
+    },
+    {
+      "latitude": 12.375,
+      "longitude": 80.875,
+      "sst_kelvin": 302.54,
+      "sst_celsius": 29.39,
+      "is_land_masked": false
+    },
+    {
+      "latitude": 12.375,
+      "longitude": 81.125,
+      "sst_kelvin": 302.58,
+      "sst_celsius": 29.43,
+      "is_land_masked": false
+    },
+    {
+      "latitude": 12.375,
+      "longitude": 81.375,
+      "sst_kelvin": 302.58,
+      "sst_celsius": 29.43,
+      "is_land_masked": false
+    },
+    {
+      "latitude": 12.625,
+      "longitude": 80.125,
+      "sst_kelvin": null,
+      "sst_celsius": null,
+      "is_land_masked": true
+    },
+    {
+      "latitude": 12.625,
+      "longitude": 80.375,
+      "sst_kelvin": 302.22,
+      "sst_celsius": 29.07,
+      "is_land_masked": false
+    },
+    {
+      "latitude": 12.625,
+      "longitude": 80.625,
+      "sst_kelvin": 302.4,
+      "sst_celsius": 29.25,
+      "is_land_masked": false
+    },
+    {
+      "latitude": 12.625,
+      "longitude": 80.875,
+      "sst_kelvin": 302.55,
+      "sst_celsius": 29.4,
+      "is_land_masked": false
+    },
+    {
+      "latitude": 12.625,
+      "longitude": 81.125,
+      "sst_kelvin": 302.55,
+      "sst_celsius": 29.4,
+      "is_land_masked": false
+    },
+    {
+      "latitude": 12.625,
+      "longitude": 81.375,
+      "sst_kelvin": 302.61,
+      "sst_celsius": 29.46,
+      "is_land_masked": false
+    },
+    {
+      "latitude": 12.875,
+      "longitude": 80.125,
+      "sst_kelvin": null,
+      "sst_celsius": null,
+      "is_land_masked": true
+    },
+    {
+      "latitude": 12.875,
+      "longitude": 80.375,
+      "sst_kelvin": 302.06,
+      "sst_celsius": 28.91,
+      "is_land_masked": false
+    },
+    {
+      "latitude": 12.875,
+      "longitude": 80.625,
+      "sst_kelvin": 302.32,
+      "sst_celsius": 29.17,
+      "is_land_masked": false
+    },
+    {
+      "latitude": 12.875,
+      "longitude": 80.875,
+      "sst_kelvin": 302.5,
+      "sst_celsius": 29.35,
+      "is_land_masked": false
+    },
+    {
+      "latitude": 12.875,
+      "longitude": 81.125,
+      "sst_kelvin": 302.57,
+      "sst_celsius": 29.42,
+      "is_land_masked": false
+    },
+    {
+      "latitude": 12.875,
+      "longitude": 81.375,
+      "sst_kelvin": 302.65,
+      "sst_celsius": 29.5,
+      "is_land_masked": false
+    },
+    {
+      "latitude": 13.125,
+      "longitude": 80.125,
+      "sst_kelvin": null,
+      "sst_celsius": null,
+      "is_land_masked": true
+    },
+    {
+      "latitude": 13.125,
+      "longitude": 80.375,
+      "sst_kelvin": 302.09,
+      "sst_celsius": 28.94,
+      "is_land_masked": false
+    },
+    {
+      "latitude": 13.125,
+      "longitude": 80.625,
+      "sst_kelvin": 302.31,
+      "sst_celsius": 29.16,
+      "is_land_masked": false
+    },
+    {
+      "latitude": 13.125,
+      "longitude": 80.875,
+      "sst_kelvin": 302.55,
+      "sst_celsius": 29.4,
+      "is_land_masked": false
+    },
+    {
+      "latitude": 13.125,
+      "longitude": 81.125,
+      "sst_kelvin": 302.59,
+      "sst_celsius": 29.44,
+      "is_land_masked": false
+    },
+    {
+      "latitude": 13.125,
+      "longitude": 81.375,
+      "sst_kelvin": 302.57,
+      "sst_celsius": 29.42,
+      "is_land_masked": false
+    },
+    {
+      "latitude": 13.375,
+      "longitude": 80.125,
+      "sst_kelvin": null,
+      "sst_celsius": null,
+      "is_land_masked": true
+    },
+    {
+      "latitude": 13.375,
+      "longitude": 80.375,
+      "sst_kelvin": 302.23,
+      "sst_celsius": 29.08,
+      "is_land_masked": false
+    },
+    {
+      "latitude": 13.375,
+      "longitude": 80.625,
+      "sst_kelvin": 302.42,
+      "sst_celsius": 29.27,
+      "is_land_masked": false
+    },
+    {
+      "latitude": 13.375,
+      "longitude": 80.875,
+      "sst_kelvin": 302.57,
+      "sst_celsius": 29.42,
+      "is_land_masked": false
+    },
+    {
+      "latitude": 13.375,
+      "longitude": 81.125,
+      "sst_kelvin": 302.62,
+      "sst_celsius": 29.47,
+      "is_land_masked": false
+    },
+    {
+      "latitude": 13.375,
+      "longitude": 81.375,
+      "sst_kelvin": 302.63,
+      "sst_celsius": 29.48,
+      "is_land_masked": false
+    },
+    {
+      "latitude": 13.625,
+      "longitude": 80.125,
+      "sst_kelvin": null,
+      "sst_celsius": null,
+      "is_land_masked": true
+    },
+    {
+      "latitude": 13.625,
+      "longitude": 80.375,
+      "sst_kelvin": 302.39,
+      "sst_celsius": 29.24,
+      "is_land_masked": false
+    },
+    {
+      "latitude": 13.625,
+      "longitude": 80.625,
+      "sst_kelvin": 302.49,
+      "sst_celsius": 29.34,
+      "is_land_masked": false
+    },
+    {
+      "latitude": 13.625,
+      "longitude": 80.875,
+      "sst_kelvin": 302.63,
+      "sst_celsius": 29.48,
+      "is_land_masked": false
+    },
+    {
+      "latitude": 13.625,
+      "longitude": 81.125,
+      "sst_kelvin": 302.61,
+      "sst_celsius": 29.46,
+      "is_land_masked": false
+    },
+    {
+      "latitude": 13.625,
+      "longitude": 81.375,
+      "sst_kelvin": 302.52,
+      "sst_celsius": 29.37,
+      "is_land_masked": false
+    },
+    {
+      "latitude": 13.875,
+      "longitude": 80.125,
+      "sst_kelvin": null,
+      "sst_celsius": null,
+      "is_land_masked": true
+    },
+    {
+      "latitude": 13.875,
+      "longitude": 80.375,
+      "sst_kelvin": 302.45,
+      "sst_celsius": 29.3,
+      "is_land_masked": false
+    },
+    {
+      "latitude": 13.875,
+      "longitude": 80.625,
+      "sst_kelvin": 302.65,
+      "sst_celsius": 29.5,
+      "is_land_masked": false
+    },
+    {
+      "latitude": 13.875,
+      "longitude": 80.875,
+      "sst_kelvin": 302.68,
+      "sst_celsius": 29.53,
+      "is_land_masked": false
+    },
+    {
+      "latitude": 13.875,
+      "longitude": 81.125,
+      "sst_kelvin": 302.6,
+      "sst_celsius": 29.45,
+      "is_land_masked": false
+    },
+    {
+      "latitude": 13.875,
+      "longitude": 81.375,
+      "sst_kelvin": 302.58,
+      "sst_celsius": 29.43,
+      "is_land_masked": false
+    },
+    {
+      "latitude": 14.125,
+      "longitude": 80.125,
+      "sst_kelvin": 302.32,
+      "sst_celsius": 29.17,
+      "is_land_masked": false
+    },
+    {
+      "latitude": 14.125,
+      "longitude": 80.375,
+      "sst_kelvin": 302.44,
+      "sst_celsius": 29.29,
+      "is_land_masked": false
+    },
+    {
+      "latitude": 14.125,
+      "longitude": 80.625,
+      "sst_kelvin": 302.58,
+      "sst_celsius": 29.43,
+      "is_land_masked": false
+    },
+    {
+      "latitude": 14.125,
+      "longitude": 80.875,
+      "sst_kelvin": 302.61,
+      "sst_celsius": 29.46,
+      "is_land_masked": false
+    },
+    {
+      "latitude": 14.125,
+      "longitude": 81.125,
+      "sst_kelvin": 302.47,
+      "sst_celsius": 29.32,
+      "is_land_masked": false
+    },
+    {
+      "latitude": 14.125,
+      "longitude": 81.375,
+      "sst_kelvin": 302.57,
+      "sst_celsius": 29.42,
+      "is_land_masked": false
+    },
+    {
+      "latitude": 14.375,
+      "longitude": 80.125,
+      "sst_kelvin": null,
+      "sst_celsius": null,
+      "is_land_masked": true
+    },
+    {
+      "latitude": 14.375,
+      "longitude": 80.375,
+      "sst_kelvin": 302.25,
+      "sst_celsius": 29.1,
+      "is_land_masked": false
+    },
+    {
+      "latitude": 14.375,
+      "longitude": 80.625,
+      "sst_kelvin": 302.53,
+      "sst_celsius": 29.38,
+      "is_land_masked": false
+    },
+    {
+      "latitude": 14.375,
+      "longitude": 80.875,
+      "sst_kelvin": 302.59,
+      "sst_celsius": 29.44,
+      "is_land_masked": false
+    },
+    {
+      "latitude": 14.375,
+      "longitude": 81.125,
+      "sst_kelvin": 302.57,
+      "sst_celsius": 29.42,
+      "is_land_masked": false
+    },
+    {
+      "latitude": 14.375,
+      "longitude": 81.375,
+      "sst_kelvin": 302.65,
+      "sst_celsius": 29.5,
+      "is_land_masked": false
+    }
+  ]
+}
