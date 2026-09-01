@@ -7,132 +7,130 @@ import {
   Anchor,
   Activity,
   Map as MapIcon,
-  Clock,
   HelpCircle,
   FileText,
   ShieldAlert,
-  PlaySquare,
-  Volume2
+  PlaySquare
 } from 'lucide-react';
 
 export const ORCASidebar: React.FC = () => {
   return (
-    <aside className="fixed left-0 top-14 bottom-0 w-60 bg-[#09101b] border-r border-[#1c2838] flex flex-col justify-between p-3 z-40">
+    <aside className="fixed left-0 top-16 bottom-0 w-60 bg-surface-container-low border-r border-outline-variant flex flex-col justify-between p-4 z-40">
       
       <div className="space-y-4">
-        {/* Top Header Box matching image 1 */}
-        <div className="bg-[#050c18] border border-[#1c2838] p-2.5 rounded-lg flex items-center gap-2.5">
-          <div className="p-2 bg-cyan-950 text-cyan-400 border border-cyan-800 rounded-md">
+        {/* Top Header Box matching Stitch */}
+        <div className="bg-surface-container-lowest border border-outline-variant p-3 rounded flex items-center gap-3">
+          <div className="p-2 bg-surface-container-high text-primary border border-outline-variant rounded">
             <Cpu className="w-4 h-4" />
           </div>
           <div>
-            <h3 className="text-xs font-extrabold text-slate-100 uppercase tracking-wide">ORCA Core</h3>
-            <p className="text-[9px] text-slate-400 font-mono font-semibold">MULTI-AGENT REASONING</p>
+            <h3 className="text-xs font-extrabold text-on-surface uppercase tracking-wider">ORCA Core</h3>
+            <p className="text-[10px] text-on-surface-variant font-mono font-semibold">MULTI-AGENT REASONING</p>
           </div>
         </div>
 
         {/* Bright Cyan Action Button */}
         <button
           onClick={() => window.location.href = '/'}
-          className="w-full py-2.5 bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-extrabold text-xs uppercase tracking-wider rounded-md flex items-center justify-center gap-2 transition shadow-md shadow-cyan-400/20"
+          className="w-full py-2.5 bg-primary hover:bg-primary-fixed-dim text-on-primary-fixed font-black text-xs uppercase tracking-wider rounded flex items-center justify-center gap-2 transition shadow-md shadow-primary/20"
         >
           <Plus className="w-4 h-4 stroke-[3]" />
           <span>NEW MISSION</span>
         </button>
 
         {/* Main Nav Items List */}
-        <nav className="space-y-1 text-xs">
+        <nav className="space-y-1 text-xs font-sans">
           <NavLink
             to="/"
             className={({ isActive }) =>
-              `flex items-center gap-3 px-3 py-2.5 rounded-md font-bold transition ${
+              `flex items-center gap-3 px-3 py-2.5 rounded font-bold transition ${
                 isActive
-                  ? 'bg-blue-600 text-white shadow-md shadow-blue-600/30'
-                  : 'text-slate-400 hover:text-slate-200 hover:bg-[#0f1b2b]'
+                  ? 'bg-secondary-container text-white shadow-md'
+                  : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container'
               }`
             }
           >
-            <Zap className="w-4 h-4 text-cyan-400" />
+            <Zap className="w-4 h-4 text-primary" />
             <span>INTELLIGENCE</span>
           </NavLink>
 
           <NavLink
             to="/fleet-overview"
             className={({ isActive }) =>
-              `flex items-center gap-3 px-3 py-2.5 rounded-md font-bold transition ${
+              `flex items-center gap-3 px-3 py-2.5 rounded font-bold transition ${
                 isActive
-                  ? 'bg-blue-600 text-white shadow-md shadow-blue-600/30'
-                  : 'text-slate-400 hover:text-slate-200 hover:bg-[#0f1b2b]'
+                  ? 'bg-secondary-container text-white shadow-md'
+                  : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container'
               }`
             }
           >
-            <Anchor className="w-4 h-4 text-cyan-400" />
+            <Anchor className="w-4 h-4 text-primary" />
             <span>VESSELS</span>
           </NavLink>
 
           <NavLink
             to="/agent-execution"
             className={({ isActive }) =>
-              `flex items-center gap-3 px-3 py-2.5 rounded-md font-bold transition ${
+              `flex items-center gap-3 px-3 py-2.5 rounded font-bold transition ${
                 isActive
-                  ? 'bg-blue-600 text-white shadow-md shadow-blue-600/30'
-                  : 'text-slate-400 hover:text-slate-200 hover:bg-[#0f1b2b]'
+                  ? 'bg-secondary-container text-white shadow-md'
+                  : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container'
               }`
             }
           >
-            <Cpu className="w-4 h-4 text-cyan-400" />
+            <Cpu className="w-4 h-4 text-primary" />
             <span>AGENT TRACE</span>
           </NavLink>
 
           <NavLink
             to="/marine-map"
             className={({ isActive }) =>
-              `flex items-center gap-3 px-3 py-2.5 rounded-md font-bold transition ${
+              `flex items-center gap-3 px-3 py-2.5 rounded font-bold transition ${
                 isActive
-                  ? 'bg-blue-600 text-white shadow-md shadow-blue-600/30'
-                  : 'text-slate-400 hover:text-slate-200 hover:bg-[#0f1b2b]'
+                  ? 'bg-secondary-container text-white shadow-md'
+                  : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container'
               }`
             }
           >
-            <MapIcon className="w-4 h-4 text-cyan-400" />
+            <MapIcon className="w-4 h-4 text-primary" />
             <span>MAP CONTROLS</span>
           </NavLink>
 
           <NavLink
             to="/data-health"
             className={({ isActive }) =>
-              `flex items-center gap-3 px-3 py-2.5 rounded-md font-bold transition ${
+              `flex items-center gap-3 px-3 py-2.5 rounded font-bold transition ${
                 isActive
-                  ? 'bg-blue-600 text-white shadow-md shadow-blue-600/30'
-                  : 'text-slate-400 hover:text-slate-200 hover:bg-[#0f1b2b]'
+                  ? 'bg-secondary-container text-white shadow-md'
+                  : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container'
               }`
             }
           >
-            <Activity className="w-4 h-4 text-cyan-400" />
+            <Activity className="w-4 h-4 text-primary" />
             <span>SYSTEM HEALTH</span>
           </NavLink>
 
           <NavLink
             to="/safety-veto"
             className={({ isActive }) =>
-              `flex items-center gap-3 px-3 py-2.5 rounded-md font-bold transition ${
+              `flex items-center gap-3 px-3 py-2.5 rounded font-bold transition ${
                 isActive
-                  ? 'bg-red-600 text-white shadow-md shadow-red-600/30'
-                  : 'text-slate-400 hover:text-slate-200 hover:bg-[#0f1b2b]'
+                  ? 'bg-error-container text-on-error-container shadow-md'
+                  : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container'
               }`
             }
           >
-            <ShieldAlert className="w-4 h-4 text-red-400" />
+            <ShieldAlert className="w-4 h-4 text-error" />
             <span>SAFETY VETO</span>
           </NavLink>
         </nav>
       </div>
 
       {/* Bottom Nav Links */}
-      <div className="space-y-1 text-xs border-t border-[#1c2838] pt-3">
+      <div className="space-y-1 text-xs border-t border-outline-variant pt-3">
         <NavLink
           to="/demo-scenarios"
-          className="flex items-center gap-3 px-3 py-2 text-slate-400 hover:text-cyan-400 font-bold transition"
+          className="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-primary font-bold transition"
         >
           <PlaySquare className="w-4 h-4" />
           <span>DEMO SCENARIOS</span>
@@ -140,7 +138,7 @@ export const ORCASidebar: React.FC = () => {
 
         <NavLink
           to="/alerts"
-          className="flex items-center gap-3 px-3 py-2 text-slate-400 hover:text-cyan-400 font-bold transition"
+          className="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-primary font-bold transition"
         >
           <HelpCircle className="w-4 h-4" />
           <span>SUPPORT</span>
@@ -148,7 +146,7 @@ export const ORCASidebar: React.FC = () => {
 
         <NavLink
           to="/evidence-inspector"
-          className="flex items-center gap-3 px-3 py-2 text-slate-400 hover:text-cyan-400 font-bold transition"
+          className="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-primary font-bold transition"
         >
           <FileText className="w-4 h-4" />
           <span>LOGS</span>
