@@ -1,0 +1,35 @@
+[
+  {
+    "id": "alert_01",
+    "title": "Severe Cyclonic Storm Warning — North Andhra Coast",
+    "severity": "CRITICAL",
+    "category": "CYCLONE",
+    "source": "IMD Cyclone Warning Centre Visakhapatnam",
+    "issuedAt": "2026-09-01T05:00:00Z",
+    "description": "Squally winds 45-55 knots gusting to 65 knots. Sea condition VERY ROUGH to HIGH. Fishermen strictly advised NOT to venture into deep sea.",
+    "affectedArea": "Visakhapatnam & Kakinada Offshore (16.5°N - 18.5°N)",
+    "actionRequired": "COMPLETE FISHING Refusal — Keep All Vessels Docked"
+  },
+  {
+    "id": "alert_02",
+    "title": "High Swell Surge Advisory — Karnataka Coast",
+    "severity": "MODERATE",
+    "category": "HIGH_WAVE",
+    "source": "INCOIS High Wave Warning System",
+    "issuedAt": "2026-09-01T06:30:00Z",
+    "description": "High swell waves in the range of 2.0 - 2.4 meters expected along Karnataka coast from Mangalore to Karwar.",
+    "affectedArea": "Mangalore & Malpe Coastal Belt",
+    "actionRequired": "Small boat operators exercise caution near shore break"
+  },
+  {
+    "id": "alert_03",
+    "title": "Fresh Potential Fishing Zone (PFZ) Advisory Released",
+    "severity": "INFO",
+    "category": "PFZ_UPDATE",
+    "source": "INCOIS Hyderabad",
+    "issuedAt": "2026-09-01T08:00:00Z",
+    "description": "New PFZ bulletin generated based on Oceansat-3 thermal & ocean colour sensors. Valid for 48 hours.",
+    "affectedArea": "Tamil Nadu & South Andhra Coastal Sectors",
+    "actionRequired": "Review recommended coordinates before departure"
+  }
+]

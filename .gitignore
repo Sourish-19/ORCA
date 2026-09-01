@@ -18,6 +18,9 @@ venv/
 env/
 .env
 
+# Stitch Raw Screens
+stitch_orca_marine_intelligence_dashboard/
+
 # OS / IDE
 .DS_Store
 Thumbs.db

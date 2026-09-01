@@ -1,3 +1,6 @@
+export type DataMode = 'LIVE' | 'CACHED' | 'DEMO';
+export type PersonaMode = 'analyst' | 'fisherman';
+
 export interface PFZCandidateZone {
   zone_id: string;
   sector_name: string;
@@ -14,29 +17,58 @@ export interface PFZCandidateZone {
   fetched_at: string;
 }
 
-export interface LandingCentre {
+export interface PFZZone {
   id: string;
-  name: string;
-  district: string;
-  state: string;
+  source: string;
+  sectorName: string;
+  centerLat: number;
+  centerLon: number;
+  depthM: number;
+  bearingDeg: number;
+  distanceKm: number;
+  nearestHarbour: string;
+  validFrom: string;
+  validUntil: string;
+  strengthScore: number;
+  fetchedAt: string;
+}
+
+export interface OceanObservation {
+  timestamp: string;
   latitude: number;
   longitude: number;
-  facilities: string[];
-  max_boat_capacity?: number;
+  sstCelsius: number;
+  chlorophyllMgM3: number;
+  source: string;
+  quality: string;
 }
 
 export interface MarineWeather {
   timestamp: string;
-  location_name: string;
+  location_name?: string;
   latitude: number;
   longitude: number;
-  wind_speed_knots: number;
-  wind_direction_deg: number;
-  wave_height_m: number;
-  wave_period_sec: number;
-  visibility_km: number;
-  sea_surface_pressure_hpa: number;
-  valid_until: string;
+  wind_speed_knots?: number;
+  windDirectionDeg?: number;
+  wind_direction_deg?: number;
+  wave_height_m?: number;
+  wave_period_sec?: number;
+  visibility_km?: number;
+  pressureHpa?: number;
+  valid_until?: string;
+  source: string;
+}
+
+export interface Hazard {
+  id: string;
+  warningType: string;
+  severity: 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL';
+  title: string;
+  description: string;
+  affectedSector: string;
+  boundingBox: [number, number, number, number];
+  issuedAt: string;
+  validUntil: string;
   source: string;
 }
 
@@ -54,16 +86,6 @@ export interface HazardWarning {
   issued_at: string;
 }
 
-export interface SafetyEvaluation {
-  is_safe: boolean;
-  veto_triggered: boolean;
-  risk_level: 'LOW' | 'MODERATE' | 'HIGH' | 'SEVERE';
-  veto_reasons: string[];
-  warnings_found: HazardWarning[];
-  freshness_acceptable: boolean;
-  safety_summary: string;
-}
-
 export interface SuitabilityBreakdown {
   zone_id: string;
   total_score: number;
@@ -76,6 +98,16 @@ export interface SuitabilityBreakdown {
   formula_explanation: string;
 }
 
+export interface SafetyEvaluation {
+  is_safe: boolean;
+  veto_triggered: boolean;
+  risk_level: 'LOW' | 'MODERATE' | 'HIGH' | 'SEVERE';
+  veto_reasons: string[];
+  warnings_found: HazardWarning[];
+  freshness_acceptable: boolean;
+  safety_summary: string;
+}
+
 export interface EvidenceRecord {
   id: string;
   agent_name: string;
@@ -84,8 +116,14 @@ export interface EvidenceRecord {
   claim: string;
   timestamp: string;
   freshness_hours: number;
-  data_mode: string;
+  data_mode: DataMode;
   confidence_score: number;
+  agentName?: string;
+  sourceName?: string;
+  recordType?: string;
+  freshnessHours?: number;
+  dataMode?: DataMode;
+  confidenceScore?: number;
 }
 
 export interface AgentStepTrace {
@@ -109,12 +147,23 @@ export interface StructuredIntent {
   radius_km: number;
 }
 
+export interface LandingCentre {
+  id: string;
+  name: string;
+  district: string;
+  state: string;
+  latitude: number;
+  longitude: number;
+  facilities: string[];
+  max_boat_capacity?: number;
+}
+
 export interface ORCAResponse {
   request_id: string;
   timestamp: string;
   query: string;
   intent: StructuredIntent;
-  data_mode: string;
+  data_mode: DataMode;
   overall_confidence: number;
   safety: SafetyEvaluation;
   top_recommendation?: PFZCandidateZone;
@@ -128,10 +177,37 @@ export interface ORCAResponse {
   agent_traces: AgentStepTrace[];
 }
 
+export interface DataSourceHealth {
+  id: string;
+  name: string;
+  role: string;
+  status: 'LIVE' | 'CACHED' | 'OFFLINE';
+  lastUpdated: string;
+  dataAgeMinutes: number;
+  recordCount: number;
+  latencyMs: number;
+  connectorStatus: string;
+}
+
+export interface AlertItem {
+  id: string;
+  title: string;
+  severity: 'CRITICAL' | 'MODERATE' | 'INFO';
+  category: string;
+  source: string;
+  issuedAt: string;
+  description: string;
+  affectedArea: string;
+  actionRequired: string;
+}
+
 export interface DemoScenario {
   id: string;
   title: string;
+  description?: string;
   query: string;
   location: string;
-  expected_outcome: string;
+  expectedOutcome?: string;
+  expected_outcome?: string;
+  presetSafety?: 'SAFE' | 'WARNING' | 'VETO';
 }

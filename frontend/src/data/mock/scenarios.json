@@ -1,0 +1,29 @@
+[
+  {
+    "id": "scenario_01",
+    "title": "Chennai Clear Fishing",
+    "description": "Clear oceanography conditions near Chennai Offshore East. High biological productivity signal with safe wind/wave status.",
+    "query": "Where should I fish tomorrow near Chennai?",
+    "location": "Chennai • Bay of Bengal",
+    "expectedOutcome": "Safe recommendation for Chennai Offshore East (Score: 88/100, Distance: 38 km, Bearing: 107° SE).",
+    "presetSafety": "SAFE"
+  },
+  {
+    "id": "scenario_02",
+    "title": "Cyclone Safety Veto",
+    "description": "IMD Severe Cyclonic Storm Warning active near Visakhapatnam. Safety Specialist Agent issues deterministic veto despite high biological score.",
+    "query": "Can I take my boat out tomorrow near Vizag?",
+    "location": "Visakhapatnam • Bay of Bengal",
+    "expectedOutcome": "🚨 SAFETY VETO ACTIVE — DO NOT VENTURE TO SEA (Gale winds 45-55 kts, Wave height 3.2m).",
+    "presetSafety": "VETO"
+  },
+  {
+    "id": "scenario_03",
+    "title": "Tamil Voice Query",
+    "description": "Multilingual Tamil voice input via Bhashini Engine. Tamil speech transcript parsed into normalized intent and audio broadcast response.",
+    "query": "நாளைக்கு சென்னைக்கு அருகில் எங்கு மீன் பிடிக்கலாம்?",
+    "location": "Chennai • Bay of Bengal",
+    "expectedOutcome": "Tamil Intent detected: FISHING_RECOMMENDATION. Tamil text response and audio broadcast player ready.",
+    "presetSafety": "SAFE"
+  }
+]
