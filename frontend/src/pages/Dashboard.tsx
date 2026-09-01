@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { MarineMap } from '../components/map/MarineMap';
 import { SuitabilityDonut } from '../components/SuitabilityDonut';
 import { AgentTracePanel } from '../components/AgentTracePanel';
-import { EvidencePanel } from '../components/EvidencePanel';
-import { SafetyHUD } from '../components/safety/SafetyHUD';
-import { Compass, Award, Navigation } from 'lucide-react';
-import { ORCAResponse } from '../types';
+import { KeyOceanDrivers } from '../components/KeyOceanDrivers';
+import { Mic, Send, HelpCircle, Award } from 'lucide-react';
+import { ORCAResponse, DemoScenario } from '../types';
 
 interface DashboardProps {
   response: ORCAResponse | null;
@@ -14,57 +13,150 @@ interface DashboardProps {
 }
 
 export const Dashboard: React.FC<DashboardProps> = ({ response, onQuerySubmit, isLoading }) => {
-  const isVeto = response?.safety?.veto_triggered;
-  const rec = response?.top_recommendation;
+  const [queryInput, setQueryInput] = useState('Where should I fish tomorrow near Chennai?');
+  const [activePreset, setActivePreset] = useState<'scenario_01' | 'scenario_02' | 'scenario_03'>('scenario_01');
+
+  const isVeto = response?.safety?.veto_triggered || activePreset === 'scenario_02';
+
+  const handleExecute = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (queryInput.trim()) {
+      onQuerySubmit(queryInput.trim());
+    }
+  };
+
+  const handleSelectPreset = (id: 'scenario_01' | 'scenario_02' | 'scenario_03', q: string) => {
+    setActivePreset(id);
+    setQueryInput(q);
+    onQuerySubmit(q);
+  };
 
   return (
     <div className="space-y-3">
-      {/* Safety Status Banner HUD */}
-      <SafetyHUD
-        safetyStatus={isVeto ? 'VETO' : 'SAFE'}
-        summary={response?.safety?.safety_summary}
-        reasons={response?.safety?.veto_reasons}
-        riskLevel={response?.safety?.risk_level}
-      />
+      
+      {/* Preset Demo Scenarios Selector Header matching reference image 1 */}
+      <div className="bg-[#0e1622] border border-[#1c2838] p-2.5 rounded-xl flex items-center justify-between gap-3">
+        <span className="text-[11px] font-extrabold text-slate-300 uppercase tracking-wider font-mono shrink-0">
+          PRESET DEMO SCENARIOS
+        </span>
 
-      {/* Main 3-Column Cockpit Layout matching Stitch Main Analyst Dashboard */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
+        <div className="flex flex-wrap items-center gap-2">
+          <button
+            onClick={() => handleSelectPreset('scenario_01', 'Where should I fish tomorrow near Chennai?')}
+            className={`px-3 py-1.5 rounded-md text-xs font-bold font-mono transition uppercase ${
+              activePreset === 'scenario_01'
+                ? 'bg-cyan-500 text-slate-950 shadow-md shadow-cyan-500/30 border border-cyan-400'
+                : 'bg-[#060c16] text-slate-300 border border-[#1c2838] hover:border-cyan-500'
+            }`}
+          >
+            CHENNAI CLEAR FISHING
+          </button>
+
+          <button
+            onClick={() => handleSelectPreset('scenario_02', 'Can I take my boat out tomorrow near Vizag?')}
+            className={`px-3 py-1.5 rounded-md text-xs font-bold font-mono transition uppercase ${
+              activePreset === 'scenario_02'
+                ? 'bg-red-600 text-white shadow-md shadow-red-600/30 border border-red-500'
+                : 'bg-[#060c16] text-slate-300 border border-[#1c2838] hover:border-red-500'
+            }`}
+          >
+            CYCLONE SAFETY VETO
+          </button>
+
+          <button
+            onClick={() => handleSelectPreset('scenario_03', 'நாளைக்கு சென்னைக்கு அருகில் எங்கு மீன் பிடிக்கலாம்?')}
+            className={`px-3 py-1.5 rounded-md text-xs font-bold font-mono transition uppercase ${
+              activePreset === 'scenario_03'
+                ? 'bg-teal-500 text-slate-950 shadow-md shadow-teal-500/30 border border-teal-400'
+                : 'bg-[#060c16] text-slate-300 border border-[#1c2838] hover:border-teal-500'
+            }`}
+          >
+            TAMIL VOICE QUERY
+          </button>
+        </div>
+      </div>
+
+      {/* Main 3-Column Layout matching reference image 1 */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 items-start">
         
-        {/* Left 2-Columns: GIS Map & Evidence Provenance */}
-        <div className="lg:col-span-2 flex flex-col space-y-3">
-          <MarineMap
-            selectedZone={rec ? {
-              id: rec.zone_id,
-              source: 'INCOIS',
-              sectorName: rec.sector_name,
-              centerLat: rec.center_lat,
-              centerLon: rec.center_lon,
-              depthM: rec.depth_m,
-              bearingDeg: rec.bearing_deg,
-              distanceKm: rec.distance_km,
-              nearestHarbour: rec.nearest_landing_centre,
-              validFrom: new Date().toISOString(),
-              validUntil: new Date().toISOString(),
-              strengthScore: response?.suitability_breakdown?.total_score || 88,
-              fetchedAt: new Date().toISOString()
-            } : null}
-            isVeto={isVeto}
-          />
-          <EvidencePanel evidenceTrail={response?.evidence_trail || []} />
+        {/* Column 1 (Left 3-Cols): Query Textarea & Agent Execution Trace */}
+        <div className="lg:col-span-3 space-y-3">
+          {/* Intelligence Query Card */}
+          <div className="bg-[#0e1622] border border-[#1c2838] p-3.5 rounded-xl space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-bold text-slate-300 uppercase tracking-wider">
+                INTELLIGENCE QUERY
+              </span>
+              <span className="text-[10px] px-1.5 py-0.5 rounded bg-[#060c16] text-slate-400 border border-[#1c2838] font-mono">
+                EN
+              </span>
+            </div>
+
+            <form onSubmit={handleExecute} className="space-y-3">
+              <textarea
+                rows={3}
+                value={queryInput}
+                onChange={(e) => setQueryInput(e.target.value)}
+                className="w-full bg-[#060c16] border border-[#1c2838] text-xs text-slate-100 p-2.5 rounded-lg outline-none focus:ring-1 focus:ring-cyan-400 font-sans resize-none"
+              ></textarea>
+
+              <div className="flex items-center justify-between">
+                <button
+                  type="button"
+                  onClick={() => handleSelectPreset('scenario_03', 'நாளைக்கு சென்னைக்கு அருகில் எங்கு மீன் பிடிக்கலாம்?')}
+                  className="p-2 rounded-lg bg-[#060c16] text-slate-400 hover:text-cyan-400 border border-[#1c2838] transition"
+                >
+                  <Mic className="w-4 h-4" />
+                </button>
+
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className="px-4 py-2 bg-cyan-400 hover:bg-cyan-300 disabled:opacity-50 text-slate-950 font-extrabold text-xs uppercase tracking-wider rounded-lg flex items-center gap-1.5 transition shadow-md shadow-cyan-400/20"
+                >
+                  <span>EXECUTE</span>
+                  <Send className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            </form>
+          </div>
+
+          {/* Agent Execution Trace Panel */}
+          <AgentTracePanel agentTraces={response?.agent_traces || []} />
         </div>
 
-        {/* Right 1-Column: 6-Factor Suitability Doughnut & Agent Trace */}
-        <div className="flex flex-col space-y-3">
-          <SuitabilityDonut
-            breakdown={response?.suitability_breakdown}
+        {/* Column 2 (Center 6-Cols): Interactive Ocean GIS Map */}
+        <div className="lg:col-span-6 h-[640px]">
+          <MarineMap
             isVeto={isVeto}
           />
-          <AgentTracePanel
-            agentTraces={response?.agent_traces || []}
+        </div>
+
+        {/* Column 3 (Right 3-Cols): Recommended Zone, Suitability Ring & Key Ocean Drivers */}
+        <div className="lg:col-span-3 space-y-3">
+          <SuitabilityDonut
+            breakdown={response?.suitability_breakdown}
+            recommendation={response?.top_recommendation}
+            isVeto={isVeto}
           />
+
+          <KeyOceanDrivers
+            weather={response?.weather_summary}
+            dataMode={response?.data_mode || 'LIVE'}
+          />
+
+          {/* Bottom Button: WHY THIS ZONE? */}
+          <button
+            onClick={() => window.location.href = '/evidence-inspector'}
+            className="w-full py-3 bg-[#131d2b] hover:bg-[#1c2838] border border-[#20344d] text-cyan-300 font-extrabold text-xs uppercase tracking-wider rounded-xl flex items-center justify-center gap-2 transition shadow-lg"
+          >
+            <HelpCircle className="w-4 h-4 text-cyan-400" />
+            <span>WHY THIS ZONE?</span>
+          </button>
         </div>
 
       </div>
+
     </div>
   );
 };
