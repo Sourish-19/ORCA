@@ -1,0 +1,68 @@
+[
+  {
+    "id": "incois",
+    "name": "INCOIS",
+    "role": "PFZ & Fisheries Advisory",
+    "status": "LIVE",
+    "lastUpdated": "6 mins ago",
+    "dataAgeMinutes": 6,
+    "recordCount": 142,
+    "latencyMs": 185,
+    "connectorStatus": "HEALTHY — 100% SUCCESS"
+  },
+  {
+    "id": "mosdac",
+    "name": "MOSDAC / ISRO",
+    "role": "Satellite Ocean Colour & SST",
+    "status": "LIVE",
+    "lastUpdated": "14 mins ago",
+    "dataAgeMinutes": 14,
+    "recordCount": 580,
+    "latencyMs": 320,
+    "connectorStatus": "HEALTHY — 99.8% SUCCESS"
+  },
+  {
+    "id": "imd",
+    "name": "IMD",
+    "role": "Marine Weather & Warnings",
+    "status": "LIVE",
+    "lastUpdated": "2 mins ago",
+    "dataAgeMinutes": 2,
+    "recordCount": 89,
+    "latencyMs": 140,
+    "connectorStatus": "HEALTHY — ACTIVE SYNC"
+  },
+  {
+    "id": "bhuvan",
+    "name": "Bhuvan / ISRO",
+    "role": "Indian Coastal & GIS Base Layers",
+    "status": "LIVE",
+    "lastUpdated": "1 hour ago",
+    "dataAgeMinutes": 60,
+    "recordCount": 1250,
+    "latencyMs": 210,
+    "connectorStatus": "HEALTHY"
+  },
+  {
+    "id": "noaa",
+    "name": "NOAA ERDDAP",
+    "role": "Supplementary Ocean Grids",
+    "status": "CACHED",
+    "lastUpdated": "35 mins ago",
+    "dataAgeMinutes": 35,
+    "recordCount": 420,
+    "latencyMs": 450,
+    "connectorStatus": "FAILOVER CACHE ACTIVE"
+  },
+  {
+    "id": "copernicus",
+    "name": "Copernicus Marine",
+    "role": "Global Marine Forecasts & Waves",
+    "status": "LIVE",
+    "lastUpdated": "22 mins ago",
+    "dataAgeMinutes": 22,
+    "recordCount": 310,
+    "latencyMs": 390,
+    "connectorStatus": "HEALTHY — SUBSET ACTIVE"
+  }
+]
