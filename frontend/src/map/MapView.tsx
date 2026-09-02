@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import workerUrl from 'maplibre-gl/dist/maplibre-gl-csp-worker.js?worker&url';
-import { Navigation, AlertTriangle, Info } from 'lucide-react';
+import { Navigation, AlertTriangle, AlertOctagon } from 'lucide-react';
 import { MAP_CONFIG } from '../config/map';
 
 import {
@@ -36,7 +36,7 @@ export const MapView: React.FC<MapViewProps> = ({
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<maplibregl.Map | null>(null);
 
-  const [mapStatus, setMapStatus] = useState<'loading' | 'loaded' | 'error'>('loading');
+  const [mapStatus, setMapStatus] = useState<'loading' | 'ready' | 'error'>('loading');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const [layerVisibility, setLayerVisibility] = useState({
@@ -82,14 +82,18 @@ export const MapView: React.FC<MapViewProps> = ({
     if (!mapContainerRef.current) return;
 
     const apiKey = import.meta.env.VITE_MAPTILER_API_KEY;
-    
-    // Determine style URL with MapTiler primary and demotiles fallback
-    let styleUrl = 'https://demotiles.maplibre.org/style.json';
-    if (apiKey) {
-      styleUrl = `https://api.maptiler.com/maps/ocean/style.json?key=${apiKey}`;
-    } else {
-      console.warn('ORCA Map Notice: VITE_MAPTILER_API_KEY environment variable is not set. Using MapLibre vector demotiles fallback.');
+
+    console.log('ORCA Map Diagnostic: MAPTILER KEY PRESENT:', !!apiKey);
+    console.log('ORCA Map Diagnostic: MAPTILER KEY LENGTH:', apiKey ? apiKey.length : 0);
+
+    if (!apiKey) {
+      setMapStatus('error');
+      setErrorMessage('VITE_MAPTILER_API_KEY is not defined in frontend/.env. Please configure your MapTiler key and restart the dev server.');
+      return;
     }
+
+    // Official MapTiler style URL
+    const styleUrl = `https://api.maptiler.com/maps/streets-v2/style.json?key=${apiKey}`;
 
     const map = new maplibregl.Map({
       container: mapContainerRef.current,
@@ -105,7 +109,7 @@ export const MapView: React.FC<MapViewProps> = ({
     // Navigation Controls (Zoom +, Zoom -, Compass)
     map.addControl(new maplibregl.NavigationControl({ showCompass: true }), 'top-right');
 
-    // ResizeObserver for MapLibre container
+    // ResizeObserver to handle dashboard card resizing
     const resizeObserver = new ResizeObserver(() => {
       if (mapInstanceRef.current) {
         mapInstanceRef.current.resize();
@@ -115,19 +119,22 @@ export const MapView: React.FC<MapViewProps> = ({
       resizeObserver.observe(mapContainerRef.current);
     }
 
-    // Map Event Logging & Debugging
+    // Diagnostics & Event Error Logging
     map.on('error', (event) => {
       console.error('ORCA MapLibre runtime event error:', event.error || event);
-      // Fall back to demotiles if MapTiler returns 403 or invalid style
-      if (styleUrl.includes('maptiler') && mapStatus === 'loading') {
-        console.warn('Switching to demotiles fallback style');
-        map.setStyle('https://demotiles.maplibre.org/style.json');
+      if (event.error && (event.error as any).status === 403) {
+        setMapStatus('error');
+        setErrorMessage('MapTiler HTTP 403 Forbidden. Please verify that your MapTiler API Key allows origin "http://localhost:3000".');
       }
     });
 
+    map.on('style.load', () => {
+      console.log('ORCA MapLibre: STYLE LOAD SUCCESS');
+    });
+
     map.on('load', () => {
-      setMapStatus('loaded');
-      console.log('ORCA MapLibre GIS Map loaded successfully around Chennai [80.2707, 13.0827]');
+      setMapStatus('ready');
+      console.log('ORCA MapLibre: BASEMAP TILE LOAD SUCCESS around Chennai [80.2707, 13.0827]');
 
       try {
         // 1. Landing Centres Source & Layer (Kasimedu Harbour, etc.)
@@ -416,7 +423,7 @@ export const MapView: React.FC<MapViewProps> = ({
   }, [isVeto, center, zoom]);
 
   return (
-    <div className="bg-[#0b172a] border border-[#1b2b45] rounded-xl overflow-hidden shadow-2xl flex flex-col h-full min-h-[460px] w-full relative">
+    <div className="bg-[#0b172a] border border-[#1b2b45] rounded-xl overflow-hidden shadow-2xl flex flex-col h-full min-h-[480px] w-full relative">
       
       {/* Top Map Layer Toolbar */}
       <div className="bg-[#070f1e] px-3 py-2 border-b border-[#1b2b45] flex flex-wrap items-center justify-between gap-2 z-10">
@@ -489,13 +496,30 @@ export const MapView: React.FC<MapViewProps> = ({
       </div>
 
       {/* Main MapLibre GL Rendering Viewport */}
-      <div className="relative flex-1 bg-[#040a16] overflow-hidden min-h-[380px] w-full h-full">
+      <div className="relative flex-1 bg-[#040a16] overflow-hidden min-h-[420px] w-full h-full">
         
+        {/* Error Overlay Display */}
+        {mapStatus === 'error' && (
+          <div className="absolute inset-0 z-30 bg-[#070e1a]/95 backdrop-blur-md p-6 flex flex-col items-center justify-center text-center space-y-3">
+            <AlertOctagon className="w-12 h-12 text-red-500 animate-pulse" />
+            <h3 className="text-sm font-extrabold text-red-300 uppercase tracking-wider font-mono">
+              MAPTILER BASEMAP CONFIGURATION ERROR
+            </h3>
+            <p className="text-xs text-slate-300 max-w-md font-mono leading-relaxed">
+              {errorMessage || 'MapTiler style loading failed. Please verify your VITE_MAPTILER_API_KEY in frontend/.env.'}
+            </p>
+          </div>
+        )}
+
         {/* Real MapLibre GL DOM Container */}
-        <div ref={mapContainerRef} className="absolute inset-0 w-full h-full" style={{ width: '100%', height: '100%', minHeight: '380px' }} />
+        <div
+          ref={mapContainerRef}
+          className="absolute inset-0 w-full h-full"
+          style={{ width: '100%', height: '100%', minHeight: '420px', position: 'relative' }}
+        />
 
         {/* Active Hazard Veto Banner */}
-        {isVeto && layerVisibility.hazards && (
+        {isVeto && layerVisibility.hazards && mapStatus === 'ready' && (
           <div className="absolute top-4 left-1/2 -translate-x-1/2 z-20 bg-red-950/90 border-2 border-red-500 p-3.5 rounded-xl max-w-sm text-center backdrop-blur-md shadow-2xl">
             <AlertTriangle className="w-7 h-7 text-red-500 mx-auto mb-1 animate-bounce" />
             <h4 className="font-bold text-xs text-red-300 uppercase tracking-wider font-mono">
@@ -508,24 +532,26 @@ export const MapView: React.FC<MapViewProps> = ({
         )}
 
         {/* Map Legend Footer */}
-        <div className="absolute bottom-3 right-3 z-20 bg-[#070f1e]/90 border border-[#1b2b45] px-3 py-1.5 rounded-md text-[10px] text-slate-300 flex items-center gap-3 backdrop-blur-xs font-mono">
-          <div className="flex items-center gap-1">
-            <span className="w-2.5 h-2.5 rounded bg-emerald-400"></span>
-            <span>PFZ Zone #12A</span>
+        {mapStatus === 'ready' && (
+          <div className="absolute bottom-3 right-3 z-20 bg-[#070f1e]/90 border border-[#1b2b45] px-3 py-1.5 rounded-md text-[10px] text-slate-300 flex items-center gap-3 backdrop-blur-xs font-mono">
+            <div className="flex items-center gap-1">
+              <span className="w-2.5 h-2.5 rounded bg-emerald-400"></span>
+              <span>PFZ Zone #12A</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <span className="w-2.5 h-2.5 rounded bg-cyan-400"></span>
+              <span>Kasimedu Harbour</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <span className="w-2.5 h-2.5 rounded bg-sky-400"></span>
+              <span>Vessels</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <span className="w-2.5 h-2.5 rounded bg-amber-400"></span>
+              <span>SST Grid</span>
+            </div>
           </div>
-          <div className="flex items-center gap-1">
-            <span className="w-2.5 h-2.5 rounded bg-cyan-400"></span>
-            <span>Kasimedu Harbour</span>
-          </div>
-          <div className="flex items-center gap-1">
-            <span className="w-2.5 h-2.5 rounded bg-sky-400"></span>
-            <span>Vessels</span>
-          </div>
-          <div className="flex items-center gap-1">
-            <span className="w-2.5 h-2.5 rounded bg-amber-400"></span>
-            <span>SST Grid</span>
-          </div>
-        </div>
+        )}
 
       </div>
     </div>
