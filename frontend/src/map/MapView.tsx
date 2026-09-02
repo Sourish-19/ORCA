@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import workerUrl from 'maplibre-gl/dist/maplibre-gl-csp-worker.js?worker&url';
 import { Navigation, AlertTriangle, AlertOctagon } from 'lucide-react';
 import { MAP_CONFIG } from '../config/map';
 
@@ -14,9 +13,6 @@ import {
   getVesselsGeoJSON,
   getRouteGeoJSON
 } from './geoConverters';
-
-// Set Vite self-contained web worker for MapLibre GL
-maplibregl.setWorkerUrl(workerUrl);
 
 export interface MapViewProps {
   isVeto?: boolean;
@@ -88,11 +84,10 @@ export const MapView: React.FC<MapViewProps> = ({
 
     if (!apiKey) {
       setMapStatus('error');
-      setErrorMessage('VITE_MAPTILER_API_KEY is not defined in frontend/.env. Please configure your MapTiler key and restart the dev server.');
+      setErrorMessage('VITE_MAPTILER_API_KEY is missing in frontend/.env. Please configure VITE_MAPTILER_API_KEY and restart the Vite dev server.');
       return;
     }
 
-    // Official MapTiler style URL
     const styleUrl = `https://api.maptiler.com/maps/streets-v2/style.json?key=${apiKey}`;
 
     const map = new maplibregl.Map({
@@ -106,10 +101,10 @@ export const MapView: React.FC<MapViewProps> = ({
 
     mapInstanceRef.current = map;
 
-    // Navigation Controls (Zoom +, Zoom -, Compass)
+    // Navigation Controls
     map.addControl(new maplibregl.NavigationControl({ showCompass: true }), 'top-right');
 
-    // ResizeObserver to handle dashboard card resizing
+    // Container ResizeObserver
     const resizeObserver = new ResizeObserver(() => {
       if (mapInstanceRef.current) {
         mapInstanceRef.current.resize();
@@ -119,12 +114,12 @@ export const MapView: React.FC<MapViewProps> = ({
       resizeObserver.observe(mapContainerRef.current);
     }
 
-    // Diagnostics & Event Error Logging
+    // Diagnostics & Event Error Handlers
     map.on('error', (event) => {
-      console.error('ORCA MapLibre runtime event error:', event.error || event);
+      console.error('ORCA MapLibre error:', event.error || event);
       if (event.error && (event.error as any).status === 403) {
         setMapStatus('error');
-        setErrorMessage('MapTiler HTTP 403 Forbidden. Please verify that your MapTiler API Key allows origin "http://localhost:3000".');
+        setErrorMessage('MapTiler HTTP 403 Forbidden: Origin restriction or key invalid for style.json');
       }
     });
 
@@ -132,12 +127,19 @@ export const MapView: React.FC<MapViewProps> = ({
       console.log('ORCA MapLibre: STYLE LOAD SUCCESS');
     });
 
+    map.on('sourcedata', (e) => {
+      if (e.isSourceLoaded) {
+        console.log('ORCA MapLibre: SOURCEDATA LOADED:', e.sourceId);
+      }
+    });
+
     map.on('load', () => {
       setMapStatus('ready');
-      console.log('ORCA MapLibre: BASEMAP TILE LOAD SUCCESS around Chennai [80.2707, 13.0827]');
+      console.log('ORCA MapLibre: BASEMAP RENDERED SUCCESSFULLY AT CHENNAI [80.2707, 13.0827]');
+      map.resize();
 
       try {
-        // 1. Landing Centres Source & Layer (Kasimedu Harbour, etc.)
+        // 1. Landing Centres (Kasimedu Harbour)
         map.addSource('orca-landing-centres-src', {
           type: 'geojson',
           data: getLandingCentresGeoJSON() as any
@@ -155,7 +157,7 @@ export const MapView: React.FC<MapViewProps> = ({
           }
         });
 
-        // 2. INCOIS PFZ Advisories Source & Layers
+        // 2. INCOIS PFZ Advisories
         const pfzData = getPFZAdvisoriesGeoJSON();
 
         map.addSource('orca-pfz-polygons-src', {
@@ -200,7 +202,7 @@ export const MapView: React.FC<MapViewProps> = ({
           }
         });
 
-        // 3. MOSDAC Ocean Observations (SST & Chlorophyll)
+        // 3. MOSDAC Ocean Observations
         const oceanData = getOceanGridsGeoJSON();
 
         map.addSource('orca-sst-src', {
@@ -255,7 +257,7 @@ export const MapView: React.FC<MapViewProps> = ({
           }
         });
 
-        // 4. IMD Marine Weather (Wind & Waves)
+        // 4. IMD Marine Weather
         const weatherData = getMarineWeatherGeoJSON();
 
         map.addSource('orca-weather-src', {
@@ -324,7 +326,7 @@ export const MapView: React.FC<MapViewProps> = ({
           }
         });
 
-        // 7. Navigation Route Line (Kasimedu -> PFZ)
+        // 7. Navigation Route
         const routeData = getRouteGeoJSON();
 
         map.addSource('orca-route-src', {
@@ -343,7 +345,7 @@ export const MapView: React.FC<MapViewProps> = ({
           }
         });
 
-        // Layer Popups
+        // Interactive Layer Popups
         map.on('click', 'orca-landing-centres-circle', (e) => {
           if (!e.features || !e.features[0]) return;
           const props = e.features[0].properties;
@@ -423,10 +425,10 @@ export const MapView: React.FC<MapViewProps> = ({
   }, [isVeto, center, zoom]);
 
   return (
-    <div className="bg-[#0b172a] border border-[#1b2b45] rounded-xl overflow-hidden shadow-2xl flex flex-col h-full min-h-[480px] w-full relative">
+    <div className="bg-[#0b172a] border border-[#1b2b45] rounded-xl overflow-hidden shadow-2xl flex flex-col h-full min-h-[500px] w-full relative">
       
       {/* Top Map Layer Toolbar */}
-      <div className="bg-[#070f1e] px-3 py-2 border-b border-[#1b2b45] flex flex-wrap items-center justify-between gap-2 z-10">
+      <div className="bg-[#070f1e] px-3 py-2 border-b border-[#1b2b45] flex flex-wrap items-center justify-between gap-2 z-10 shrink-0">
         <div className="flex items-center gap-1.5">
           <span className="text-xs font-bold text-slate-200 flex items-center gap-1 font-mono">
             <Navigation className="w-3.5 h-3.5 text-cyan-400" />
@@ -496,7 +498,7 @@ export const MapView: React.FC<MapViewProps> = ({
       </div>
 
       {/* Main MapLibre GL Rendering Viewport */}
-      <div className="relative flex-1 bg-[#040a16] overflow-hidden min-h-[420px] w-full h-full">
+      <div className="relative flex-1 bg-[#040a16] overflow-hidden min-h-[440px] w-full h-full">
         
         {/* Error Overlay Display */}
         {mapStatus === 'error' && (
@@ -514,8 +516,8 @@ export const MapView: React.FC<MapViewProps> = ({
         {/* Real MapLibre GL DOM Container */}
         <div
           ref={mapContainerRef}
-          className="absolute inset-0 w-full h-full"
-          style={{ width: '100%', height: '100%', minHeight: '420px', position: 'relative' }}
+          className="w-full h-full min-h-[440px]"
+          style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}
         />
 
         {/* Active Hazard Veto Banner */}
