@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import * as maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { Navigation, AlertTriangle, AlertOctagon } from 'lucide-react';
+import { Navigation, AlertTriangle } from 'lucide-react';
 import { MAP_CONFIG } from '../config/map';
 
 import {
@@ -30,10 +30,9 @@ export const MapView: React.FC<MapViewProps> = ({
   zoom = MAP_CONFIG.defaultZoom
 }) => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
-  const mapInstanceRef = useRef<maplibregl.Map | null>(null);
+  const mapInstanceRef = useRef<any>(null);
 
   const [mapStatus, setMapStatus] = useState<'loading' | 'ready' | 'error'>('loading');
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const [layerVisibility, setLayerVisibility] = useState({
     pfz: true,
@@ -79,30 +78,60 @@ export const MapView: React.FC<MapViewProps> = ({
 
     const apiKey = import.meta.env.VITE_MAPTILER_API_KEY;
 
-    console.log('ORCA Map Diagnostic: MAPTILER KEY PRESENT:', !!apiKey);
-    console.log('ORCA Map Diagnostic: MAPTILER KEY LENGTH:', apiKey ? apiKey.length : 0);
+    // Standard CARTO / OpenStreetMap raster tile style object
+    const fallbackStyle: any = {
+      version: 8,
+      sources: {
+        'osm-tiles': {
+          type: 'raster',
+          tiles: ['https://basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png'],
+          tileSize: 256,
+          attribution: '&copy; OpenStreetMap &copy; CARTO'
+        }
+      },
+      layers: [
+        {
+          id: 'osm-tiles-layer',
+          type: 'raster',
+          source: 'osm-tiles',
+          minzoom: 0,
+          maxzoom: 19
+        }
+      ]
+    };
 
-    if (!apiKey) {
-      setMapStatus('error');
-      setErrorMessage('VITE_MAPTILER_API_KEY is missing in frontend/.env. Please configure VITE_MAPTILER_API_KEY and restart the Vite dev server.');
-      return;
+    const styleUrl = apiKey
+      ? `https://api.maptiler.com/maps/streets-v2/style.json?key=${apiKey}`
+      : fallbackStyle;
+
+    let map: any;
+    try {
+      map = new maplibregl.Map({
+        container: mapContainerRef.current,
+        style: styleUrl,
+        center: center,
+        zoom: zoom,
+        pitch: 20,
+        attributionControl: false
+      });
+    } catch (err) {
+      console.warn('MapLibre primary init fallback:', err);
+      map = new maplibregl.Map({
+        container: mapContainerRef.current,
+        style: fallbackStyle,
+        center: center,
+        zoom: zoom,
+        pitch: 0,
+        attributionControl: false
+      });
     }
-
-    const styleUrl = `https://api.maptiler.com/maps/streets-v2/style.json?key=${apiKey}`;
-
-    const map = new maplibregl.Map({
-      container: mapContainerRef.current,
-      style: styleUrl,
-      center: center,
-      zoom: zoom,
-      pitch: 20,
-      attributionControl: false
-    });
 
     mapInstanceRef.current = map;
 
     // Navigation Controls
-    map.addControl(new maplibregl.NavigationControl({ showCompass: true }), 'top-right');
+    if (maplibregl.NavigationControl) {
+      map.addControl(new maplibregl.NavigationControl({ showCompass: true }), 'top-right');
+    }
 
     // Container ResizeObserver
     const resizeObserver = new ResizeObserver(() => {
@@ -116,20 +145,12 @@ export const MapView: React.FC<MapViewProps> = ({
 
     // Diagnostics & Event Error Handlers
     map.on('error', (event: any) => {
-      console.error('ORCA MapLibre error:', event.error || event);
+      console.warn('ORCA MapLibre runtime event notice:', event.error || event);
       if (event.error && (event.error as any).status === 403) {
-        setMapStatus('error');
-        setErrorMessage('MapTiler HTTP 403 Forbidden: Origin restriction or key invalid for style.json');
-      }
-    });
-
-    map.on('style.load', () => {
-      console.log('ORCA MapLibre: STYLE LOAD SUCCESS');
-    });
-
-    map.on('sourcedata', (e: any) => {
-      if (e.isSourceLoaded) {
-        console.log('ORCA MapLibre: SOURCEDATA LOADED:', e.sourceId);
+        console.warn('MapTiler 403: Switching to CARTO open basemap tiles');
+        try {
+          map.setStyle(fallbackStyle);
+        } catch (e) {}
       }
     });
 
@@ -150,10 +171,10 @@ export const MapView: React.FC<MapViewProps> = ({
           type: 'circle',
           source: 'orca-landing-centres-src',
           paint: {
-            'circle-radius': 7,
-            'circle-color': '#38bdf8',
+            'circle-radius': 8,
+            'circle-color': '#0284c7',
             'circle-stroke-width': 2,
-            'circle-stroke-color': '#070f1e'
+            'circle-stroke-color': '#ffffff'
           }
         });
 
@@ -175,8 +196,8 @@ export const MapView: React.FC<MapViewProps> = ({
           type: 'fill',
           source: 'orca-pfz-polygons-src',
           paint: {
-            'fill-color': '#4edea3',
-            'fill-opacity': 0.35
+            'fill-color': '#10b981',
+            'fill-opacity': 0.4
           }
         });
 
@@ -185,7 +206,7 @@ export const MapView: React.FC<MapViewProps> = ({
           type: 'line',
           source: 'orca-pfz-polygons-src',
           paint: {
-            'line-color': '#34d399',
+            'line-color': '#059669',
             'line-width': 2.5
           }
         });
@@ -196,9 +217,9 @@ export const MapView: React.FC<MapViewProps> = ({
           source: 'orca-pfz-points-src',
           paint: {
             'circle-radius': 5,
-            'circle-color': '#4edea3',
+            'circle-color': '#10b981',
             'circle-stroke-width': 1.5,
-            'circle-stroke-color': '#060c16'
+            'circle-stroke-color': '#ffffff'
           }
         });
 
@@ -225,7 +246,7 @@ export const MapView: React.FC<MapViewProps> = ({
           type: 'line',
           source: 'orca-sst-src',
           paint: {
-            'line-color': '#fbbf24',
+            'line-color': '#d97706',
             'line-width': 1.5,
             'line-dasharray': [2, 2]
           }
@@ -241,7 +262,7 @@ export const MapView: React.FC<MapViewProps> = ({
           type: 'fill',
           source: 'orca-chl-src',
           paint: {
-            'fill-color': '#10b981',
+            'fill-color': '#059669',
             'fill-opacity': 0.25
           }
         });
@@ -251,7 +272,7 @@ export const MapView: React.FC<MapViewProps> = ({
           type: 'line',
           source: 'orca-chl-src',
           paint: {
-            'line-color': '#34d399',
+            'line-color': '#047857',
             'line-width': 1.5,
             'line-dasharray': [3, 2]
           }
@@ -270,10 +291,10 @@ export const MapView: React.FC<MapViewProps> = ({
           type: 'circle',
           source: 'orca-weather-src',
           paint: {
-            'circle-radius': 4,
-            'circle-color': '#60a5fa',
+            'circle-radius': 5,
+            'circle-color': '#2563eb',
             'circle-stroke-width': 1,
-            'circle-stroke-color': '#1e3a8a'
+            'circle-stroke-color': '#ffffff'
           }
         });
 
@@ -290,7 +311,7 @@ export const MapView: React.FC<MapViewProps> = ({
           type: 'fill',
           source: 'orca-hazard-src',
           paint: {
-            'fill-color': '#ef4444',
+            'fill-color': '#dc2626',
             'fill-opacity': isVeto ? 0.45 : 0.25
           }
         });
@@ -300,7 +321,7 @@ export const MapView: React.FC<MapViewProps> = ({
           type: 'line',
           source: 'orca-hazard-src',
           paint: {
-            'line-color': '#ffb4ab',
+            'line-color': '#991b1b',
             'line-width': 2.5,
             'line-dasharray': [4, 4]
           }
@@ -320,9 +341,9 @@ export const MapView: React.FC<MapViewProps> = ({
           source: 'orca-vessels-src',
           paint: {
             'circle-radius': 6,
-            'circle-color': '#4cd7f6',
+            'circle-color': '#0284c7',
             'circle-stroke-width': 2,
-            'circle-stroke-color': '#0b1420'
+            'circle-stroke-color': '#ffffff'
           }
         });
 
@@ -339,7 +360,7 @@ export const MapView: React.FC<MapViewProps> = ({
           type: 'line',
           source: 'orca-route-src',
           paint: {
-            'line-color': '#4cd7f6',
+            'line-color': '#0284c7',
             'line-width': 3.5,
             'line-dasharray': [2, 2]
           }
@@ -347,7 +368,7 @@ export const MapView: React.FC<MapViewProps> = ({
 
         // Interactive Layer Popups
         map.on('click', 'orca-landing-centres-circle', (e: any) => {
-          if (!e.features || !e.features[0]) return;
+          if (!e.features || !e.features[0] || !maplibregl.Popup) return;
           const props = e.features[0].properties;
           new maplibregl.Popup({ closeButton: true })
             .setLngLat((e.features[0].geometry as any).coordinates)
@@ -365,7 +386,7 @@ export const MapView: React.FC<MapViewProps> = ({
         });
 
         map.on('click', 'orca-pfz-fill', (e: any) => {
-          if (!e.features || !e.features[0]) return;
+          if (!e.features || !e.features[0] || !maplibregl.Popup) return;
           const props = e.features[0].properties;
           if (onSelectZone) onSelectZone(props);
           new maplibregl.Popup({ closeButton: true })
@@ -386,7 +407,7 @@ export const MapView: React.FC<MapViewProps> = ({
         });
 
         map.on('click', 'orca-vessels-circle', (e: any) => {
-          if (!e.features || !e.features[0]) return;
+          if (!e.features || !e.features[0] || !maplibregl.Popup) return;
           const props = e.features[0].properties;
           new maplibregl.Popup({ closeButton: true })
             .setLngLat((e.features[0].geometry as any).coordinates)
@@ -420,7 +441,7 @@ export const MapView: React.FC<MapViewProps> = ({
 
     return () => {
       resizeObserver.disconnect();
-      map.remove();
+      if (map) map.remove();
     };
   }, [isVeto, center, zoom]);
 
@@ -500,19 +521,6 @@ export const MapView: React.FC<MapViewProps> = ({
       {/* Main MapLibre GL Rendering Viewport */}
       <div className="relative flex-1 bg-[#040a16] overflow-hidden min-h-[440px] w-full h-full">
         
-        {/* Error Overlay Display */}
-        {mapStatus === 'error' && (
-          <div className="absolute inset-0 z-30 bg-[#070e1a]/95 backdrop-blur-md p-6 flex flex-col items-center justify-center text-center space-y-3">
-            <AlertOctagon className="w-12 h-12 text-red-500 animate-pulse" />
-            <h3 className="text-sm font-extrabold text-red-300 uppercase tracking-wider font-mono">
-              MAPTILER BASEMAP CONFIGURATION ERROR
-            </h3>
-            <p className="text-xs text-slate-300 max-w-md font-mono leading-relaxed">
-              {errorMessage || 'MapTiler style loading failed. Please verify your VITE_MAPTILER_API_KEY in frontend/.env.'}
-            </p>
-          </div>
-        )}
-
         {/* Real MapLibre GL DOM Container */}
         <div
           ref={mapContainerRef}
