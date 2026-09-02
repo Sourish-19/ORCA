@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Mic, Volume2, ShieldCheck, AlertTriangle, MapPin, Compass, Navigation, Send, Languages, Anchor, Clock, Play, Home, Activity } from 'lucide-react';
-import Dock from '@/components/ui/dock';
+import Dock from '../components/ui/dock';
 import { ORCAResponse } from '../types';
 
 interface FishermanPageProps {
