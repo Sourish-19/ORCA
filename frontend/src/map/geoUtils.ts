@@ -79,7 +79,7 @@ export function createPointBufferPolygon(
   try {
     const pt = turf.point([centerLon, centerLat]);
     const buffered = turf.buffer(pt, radiusKm, { units: 'kilometers' });
-    return buffered.geometry.coordinates as [number, number][][];
+    return (buffered?.geometry?.coordinates as [number, number][][]) || [];
   } catch (err) {
     const dLat = radiusKm / 111;
     const dLon = radiusKm / (111 * Math.cos((centerLat * Math.PI) / 180));
@@ -108,7 +108,7 @@ export function bboxToPolygon(
   try {
     const [minLat, minLon, maxLat, maxLon] = bbox;
     const poly = turf.bboxPolygon([minLon, minLat, maxLon, maxLat]);
-    return poly.geometry.coordinates as [number, number][][];
+    return (poly?.geometry?.coordinates as [number, number][][]) || [];
   } catch (err) {
     const [minLat, minLon, maxLat, maxLon] = bbox;
     return [

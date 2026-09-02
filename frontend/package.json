@@ -11,14 +11,20 @@
   "dependencies": {
     "@deck.gl/core": "^9.3.11",
     "@deck.gl/layers": "^9.3.11",
+    "@radix-ui/react-slot": "^1.1.2",
+    "@radix-ui/react-tooltip": "^1.1.8",
     "@turf/turf": "^7.4.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "echarts": "^6.1.0",
     "echarts-for-react": "^3.0.6",
+    "framer-motion": "^12.4.10",
     "lucide-react": "^0.263.1",
     "maplibre-gl": "^6.6.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^7.18.3"
+    "react-router-dom": "^7.18.3",
+    "tailwind-merge": "^3.0.2"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Mic, Volume2, ShieldCheck, AlertTriangle, MapPin, Compass, Navigation, Send, Languages, Anchor, Clock, Play } from 'lucide-react';
+import { Mic, Volume2, ShieldCheck, AlertTriangle, MapPin, Compass, Navigation, Send, Languages, Anchor, Clock, Play, Home, Activity } from 'lucide-react';
+import Dock from '@/components/ui/dock';
 import { ORCAResponse } from '../types';
 
 interface FishermanPageProps {
@@ -40,10 +41,38 @@ export const FishermanPage: React.FC<FishermanPageProps> = ({ response, onQueryS
     }
   };
 
+  const fishermanDockItems = [
+    {
+      icon: Home,
+      label: "Advisory Home",
+      onClick: () => window.scrollTo({ top: 0, behavior: 'smooth' })
+    },
+    {
+      icon: Mic,
+      label: "Tamil Voice Query",
+      onClick: handleVoiceQuery
+    },
+    {
+      icon: Compass,
+      label: "Interactive GIS Map",
+      onClick: () => window.location.href = '/marine-map'
+    },
+    {
+      icon: AlertTriangle,
+      label: "Safety Veto Alerts",
+      onClick: () => window.location.href = '/safety-veto'
+    },
+    {
+      icon: Activity,
+      label: "Analyst Cockpit",
+      onClick: () => window.location.href = '/dashboard'
+    }
+  ];
+
   return (
-    <div className="max-w-md mx-auto space-y-4 py-2 pb-20 selection:bg-cyan-500 font-sans">
+    <div className="max-w-md mx-auto space-y-4 py-2 pb-24 selection:bg-cyan-500 font-sans relative">
       
-      {/* Top Header Bar matching image 5 */}
+      {/* Top Header Bar */}
       <div className="flex items-center justify-between px-2">
         <div className="flex items-center gap-2">
           <Anchor className="w-6 h-6 text-cyan-400" />
@@ -70,7 +99,7 @@ export const FishermanPage: React.FC<FishermanPageProps> = ({ response, onQueryS
         </div>
       </div>
 
-      {/* Main Voice Query Card matching image 5 */}
+      {/* Main Voice Query Card */}
       <div className="bg-[#0b1420] border border-[#1c2838] p-6 rounded-2xl text-center space-y-4 shadow-xl">
         <h2 className="text-xl font-bold text-slate-100">
           {lang === 'ta' ? 'எங்கு மீன் பிடிக்கலாம்?' : 'Where should I fish?'}
@@ -100,7 +129,7 @@ export const FishermanPage: React.FC<FishermanPageProps> = ({ response, onQueryS
         </button>
       </div>
 
-      {/* Advisory Section Header matching image 5 */}
+      {/* Advisory Section Header */}
       <div className="space-y-3">
         <div className="flex items-center justify-between px-1">
           <div>
@@ -130,7 +159,7 @@ export const FishermanPage: React.FC<FishermanPageProps> = ({ response, onQueryS
           </div>
         </div>
 
-        {/* Main Advisory Recommendation Card matching image 5 */}
+        {/* Main Advisory Recommendation Card */}
         <div
           className={`p-4 rounded-2xl border-2 space-y-4 shadow-2xl transition ${
             isVeto
@@ -212,35 +241,9 @@ export const FishermanPage: React.FC<FishermanPageProps> = ({ response, onQueryS
         </div>
       </div>
 
-      {/* Fixed Bottom Mobile Navigation Bar matching image 5 */}
-      <div className="fixed bottom-0 left-0 right-0 bg-[#070e1a] border-t border-[#1c2838] p-2.5 flex items-center justify-around z-50 max-w-md mx-auto">
-        <button
-          onClick={handleVoiceQuery}
-          className="w-12 h-12 rounded-full bg-cyan-400 text-slate-950 flex items-center justify-center shadow-lg shadow-cyan-400/30"
-        >
-          <Mic className="w-6 h-6" />
-        </button>
-
-        <button
-          onClick={() => window.location.href = '/alerts'}
-          className="p-2.5 text-slate-400 hover:text-cyan-400 transition"
-        >
-          <AlertTriangle className="w-6 h-6" />
-        </button>
-
-        <button
-          onClick={() => window.location.href = '/marine-map'}
-          className="p-2.5 text-slate-400 hover:text-cyan-400 transition"
-        >
-          <Compass className="w-6 h-6" />
-        </button>
-
-        <button
-          onClick={() => window.location.href = '/agent-execution'}
-          className="p-2.5 text-slate-400 hover:text-cyan-400 transition"
-        >
-          <Clock className="w-6 h-6" />
-        </button>
+      {/* Fixed Bottom Animated Dock Navigation Bar for Fisherman Mode */}
+      <div className="fixed bottom-2 left-0 right-0 z-50 px-4 max-w-md mx-auto pointer-events-auto">
+        <Dock items={fishermanDockItems} />
       </div>
 
     </div>

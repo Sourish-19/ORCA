@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import maplibregl from 'maplibre-gl';
+import * as maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { Navigation, AlertTriangle, AlertOctagon } from 'lucide-react';
 import { MAP_CONFIG } from '../config/map';
@@ -115,7 +115,7 @@ export const MapView: React.FC<MapViewProps> = ({
     }
 
     // Diagnostics & Event Error Handlers
-    map.on('error', (event) => {
+    map.on('error', (event: any) => {
       console.error('ORCA MapLibre error:', event.error || event);
       if (event.error && (event.error as any).status === 403) {
         setMapStatus('error');
@@ -127,7 +127,7 @@ export const MapView: React.FC<MapViewProps> = ({
       console.log('ORCA MapLibre: STYLE LOAD SUCCESS');
     });
 
-    map.on('sourcedata', (e) => {
+    map.on('sourcedata', (e: any) => {
       if (e.isSourceLoaded) {
         console.log('ORCA MapLibre: SOURCEDATA LOADED:', e.sourceId);
       }
@@ -346,7 +346,7 @@ export const MapView: React.FC<MapViewProps> = ({
         });
 
         // Interactive Layer Popups
-        map.on('click', 'orca-landing-centres-circle', (e) => {
+        map.on('click', 'orca-landing-centres-circle', (e: any) => {
           if (!e.features || !e.features[0]) return;
           const props = e.features[0].properties;
           new maplibregl.Popup({ closeButton: true })
@@ -364,7 +364,7 @@ export const MapView: React.FC<MapViewProps> = ({
             .addTo(map);
         });
 
-        map.on('click', 'orca-pfz-fill', (e) => {
+        map.on('click', 'orca-pfz-fill', (e: any) => {
           if (!e.features || !e.features[0]) return;
           const props = e.features[0].properties;
           if (onSelectZone) onSelectZone(props);
@@ -385,7 +385,7 @@ export const MapView: React.FC<MapViewProps> = ({
             .addTo(map);
         });
 
-        map.on('click', 'orca-vessels-circle', (e) => {
+        map.on('click', 'orca-vessels-circle', (e: any) => {
           if (!e.features || !e.features[0]) return;
           const props = e.features[0].properties;
           new maplibregl.Popup({ closeButton: true })
