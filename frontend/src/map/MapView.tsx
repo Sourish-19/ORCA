@@ -22,6 +22,32 @@ export interface MapViewProps {
   zoom?: number;
 }
 
+// Independent Local Fallback Style Object (CARTO Voyager / OpenStreetMap Raster)
+const CARTO_RASTER_FALLBACK_STYLE: any = {
+  version: 8,
+  sources: {
+    'carto-voyager': {
+      type: 'raster',
+      tiles: [
+        'https://a.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png',
+        'https://b.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png',
+        'https://c.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png'
+      ],
+      tileSize: 256,
+      attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
+    }
+  },
+  layers: [
+    {
+      id: 'carto-voyager-layer',
+      type: 'raster',
+      source: 'carto-voyager',
+      minzoom: 0,
+      maxzoom: 19
+    }
+  ]
+};
+
 export const MapView: React.FC<MapViewProps> = ({
   isVeto = false,
   selectedZoneId,
@@ -31,6 +57,7 @@ export const MapView: React.FC<MapViewProps> = ({
 }) => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<any>(null);
+  const fallbackAttemptedRef = useRef<boolean>(false);
 
   const [mapStatus, setMapStatus] = useState<'loading' | 'ready' | 'error'>('loading');
 
@@ -67,105 +94,25 @@ export const MapView: React.FC<MapViewProps> = ({
 
     const targetLayers = layerMap[layerKey] || [];
     targetLayers.forEach((id) => {
-      if (map.getLayer(id)) {
-        map.setLayoutProperty(id, 'visibility', visibilityVal);
-      }
+      try {
+        if (map.getLayer(id)) {
+          map.setLayoutProperty(id, 'visibility', visibilityVal);
+        }
+      } catch (e) {}
     });
   };
 
-  useEffect(() => {
-    if (!mapContainerRef.current) return;
+  // Safely attaches all ORCA data layers independently with complete failure isolation
+  const attachOrcaDataLayers = (map: any) => {
+    if (!map || !map.isStyleLoaded()) return;
 
-    const apiKey = import.meta.env.VITE_MAPTILER_API_KEY;
-
-    // Standard CARTO / OpenStreetMap raster tile style object
-    const fallbackStyle: any = {
-      version: 8,
-      sources: {
-        'osm-tiles': {
-          type: 'raster',
-          tiles: ['https://basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png'],
-          tileSize: 256,
-          attribution: '&copy; OpenStreetMap &copy; CARTO'
-        }
-      },
-      layers: [
-        {
-          id: 'osm-tiles-layer',
-          type: 'raster',
-          source: 'osm-tiles',
-          minzoom: 0,
-          maxzoom: 19
-        }
-      ]
-    };
-
-    const styleUrl = apiKey
-      ? `https://api.maptiler.com/maps/streets-v2/style.json?key=${apiKey}`
-      : fallbackStyle;
-
-    let map: any;
+    // 1. Landing Centres (Kasimedu Harbour)
     try {
-      map = new maplibregl.Map({
-        container: mapContainerRef.current,
-        style: styleUrl,
-        center: center,
-        zoom: zoom,
-        pitch: 20,
-        attributionControl: false
-      });
-    } catch (err) {
-      console.warn('MapLibre primary init fallback:', err);
-      map = new maplibregl.Map({
-        container: mapContainerRef.current,
-        style: fallbackStyle,
-        center: center,
-        zoom: zoom,
-        pitch: 0,
-        attributionControl: false
-      });
-    }
-
-    mapInstanceRef.current = map;
-
-    // Navigation Controls
-    if (maplibregl.NavigationControl) {
-      map.addControl(new maplibregl.NavigationControl({ showCompass: true }), 'top-right');
-    }
-
-    // Container ResizeObserver
-    const resizeObserver = new ResizeObserver(() => {
-      if (mapInstanceRef.current) {
-        mapInstanceRef.current.resize();
-      }
-    });
-    if (mapContainerRef.current) {
-      resizeObserver.observe(mapContainerRef.current);
-    }
-
-    // Diagnostics & Event Error Handlers
-    map.on('error', (event: any) => {
-      console.warn('ORCA MapLibre runtime event notice:', event.error || event);
-      if (event.error && (event.error as any).status === 403) {
-        console.warn('MapTiler 403: Switching to CARTO open basemap tiles');
-        try {
-          map.setStyle(fallbackStyle);
-        } catch (e) {}
-      }
-    });
-
-    map.on('load', () => {
-      setMapStatus('ready');
-      console.log('ORCA MapLibre: BASEMAP RENDERED SUCCESSFULLY AT CHENNAI [80.2707, 13.0827]');
-      map.resize();
-
-      try {
-        // 1. Landing Centres (Kasimedu Harbour)
+      if (!map.getSource('orca-landing-centres-src')) {
         map.addSource('orca-landing-centres-src', {
           type: 'geojson',
           data: getLandingCentresGeoJSON() as any
         });
-
         map.addLayer({
           id: 'orca-landing-centres-circle',
           type: 'circle',
@@ -177,20 +124,23 @@ export const MapView: React.FC<MapViewProps> = ({
             'circle-stroke-color': '#ffffff'
           }
         });
+      }
+    } catch (err) {
+      console.error('[ORCA MAP] Landing centres layer error:', err);
+    }
 
-        // 2. INCOIS PFZ Advisories
-        const pfzData = getPFZAdvisoriesGeoJSON();
-
+    // 2. INCOIS PFZ Advisories
+    try {
+      const pfzData = getPFZAdvisoriesGeoJSON();
+      if (!map.getSource('orca-pfz-polygons-src')) {
         map.addSource('orca-pfz-polygons-src', {
           type: 'geojson',
           data: pfzData.polygons as any
         });
-
         map.addSource('orca-pfz-points-src', {
           type: 'geojson',
           data: pfzData.points as any
         });
-
         map.addLayer({
           id: 'orca-pfz-fill',
           type: 'fill',
@@ -200,7 +150,6 @@ export const MapView: React.FC<MapViewProps> = ({
             'fill-opacity': 0.4
           }
         });
-
         map.addLayer({
           id: 'orca-pfz-line',
           type: 'line',
@@ -210,7 +159,6 @@ export const MapView: React.FC<MapViewProps> = ({
             'line-width': 2.5
           }
         });
-
         map.addLayer({
           id: 'orca-pfz-points',
           type: 'circle',
@@ -222,15 +170,19 @@ export const MapView: React.FC<MapViewProps> = ({
             'circle-stroke-color': '#ffffff'
           }
         });
+      }
+    } catch (err) {
+      console.error('[ORCA MAP] PFZ layer error:', err);
+    }
 
-        // 3. MOSDAC Ocean Observations
-        const oceanData = getOceanGridsGeoJSON();
-
+    // 3. MOSDAC Ocean Observations (SST & Chlorophyll)
+    try {
+      const oceanData = getOceanGridsGeoJSON();
+      if (!map.getSource('orca-sst-src')) {
         map.addSource('orca-sst-src', {
           type: 'geojson',
           data: oceanData.sst as any
         });
-
         map.addLayer({
           id: 'orca-sst-fill',
           type: 'fill',
@@ -240,7 +192,6 @@ export const MapView: React.FC<MapViewProps> = ({
             'fill-opacity': 0.25
           }
         });
-
         map.addLayer({
           id: 'orca-sst-line',
           type: 'line',
@@ -251,12 +202,13 @@ export const MapView: React.FC<MapViewProps> = ({
             'line-dasharray': [2, 2]
           }
         });
+      }
 
+      if (!map.getSource('orca-chl-src')) {
         map.addSource('orca-chl-src', {
           type: 'geojson',
           data: oceanData.chl as any
         });
-
         map.addLayer({
           id: 'orca-chl-fill',
           type: 'fill',
@@ -266,7 +218,6 @@ export const MapView: React.FC<MapViewProps> = ({
             'fill-opacity': 0.25
           }
         });
-
         map.addLayer({
           id: 'orca-chl-line',
           type: 'line',
@@ -277,15 +228,19 @@ export const MapView: React.FC<MapViewProps> = ({
             'line-dasharray': [3, 2]
           }
         });
+      }
+    } catch (err) {
+      console.error('[ORCA MAP] MOSDAC Ocean layer error:', err);
+    }
 
-        // 4. IMD Marine Weather
-        const weatherData = getMarineWeatherGeoJSON();
-
+    // 4. IMD Marine Weather
+    try {
+      const weatherData = getMarineWeatherGeoJSON();
+      if (!map.getSource('orca-weather-src')) {
         map.addSource('orca-weather-src', {
           type: 'geojson',
           data: weatherData as any
         });
-
         map.addLayer({
           id: 'orca-wind-points',
           type: 'circle',
@@ -297,15 +252,19 @@ export const MapView: React.FC<MapViewProps> = ({
             'circle-stroke-color': '#ffffff'
           }
         });
+      }
+    } catch (err) {
+      console.error('[ORCA MAP] Weather layer error:', err);
+    }
 
-        // 5. IMD Hazard Warnings
-        const hazardData = getHazardWarningsGeoJSON();
-
+    // 5. IMD Hazard Warnings
+    try {
+      const hazardData = getHazardWarningsGeoJSON();
+      if (!map.getSource('orca-hazard-src')) {
         map.addSource('orca-hazard-src', {
           type: 'geojson',
           data: hazardData as any
         });
-
         map.addLayer({
           id: 'orca-hazard-fill',
           type: 'fill',
@@ -315,7 +274,6 @@ export const MapView: React.FC<MapViewProps> = ({
             'fill-opacity': isVeto ? 0.45 : 0.25
           }
         });
-
         map.addLayer({
           id: 'orca-hazard-line',
           type: 'line',
@@ -326,15 +284,19 @@ export const MapView: React.FC<MapViewProps> = ({
             'line-dasharray': [4, 4]
           }
         });
+      }
+    } catch (err) {
+      console.error('[ORCA MAP] Hazard layer error:', err);
+    }
 
-        // 6. Active Vessels
-        const vesselData = getVesselsGeoJSON();
-
+    // 6. Active Vessels
+    try {
+      const vesselData = getVesselsGeoJSON();
+      if (!map.getSource('orca-vessels-src')) {
         map.addSource('orca-vessels-src', {
           type: 'geojson',
           data: vesselData as any
         });
-
         map.addLayer({
           id: 'orca-vessels-circle',
           type: 'circle',
@@ -346,15 +308,19 @@ export const MapView: React.FC<MapViewProps> = ({
             'circle-stroke-color': '#ffffff'
           }
         });
+      }
+    } catch (err) {
+      console.error('[ORCA MAP] Vessels layer error:', err);
+    }
 
-        // 7. Navigation Route
-        const routeData = getRouteGeoJSON();
-
+    // 7. Navigation Route
+    try {
+      const routeData = getRouteGeoJSON();
+      if (!map.getSource('orca-route-src')) {
         map.addSource('orca-route-src', {
           type: 'geojson',
           data: routeData as any
         });
-
         map.addLayer({
           id: 'orca-route-line',
           type: 'line',
@@ -365,88 +331,205 @@ export const MapView: React.FC<MapViewProps> = ({
             'line-dasharray': [2, 2]
           }
         });
+      }
+    } catch (err) {
+      console.error('[ORCA MAP] Route layer error:', err);
+    }
 
-        // Interactive Layer Popups
-        map.on('click', 'orca-landing-centres-circle', (e: any) => {
-          if (!e.features || !e.features[0] || !maplibregl.Popup) return;
-          const props = e.features[0].properties;
-          new maplibregl.Popup({ closeButton: true })
-            .setLngLat((e.features[0].geometry as any).coordinates)
-            .setHTML(`
-              <div style="font-family:sans-serif; padding:4px; color:#0f172a">
-                <strong style="color:#0284c7; font-size:12px">${props.name}</strong>
-                <div style="font-size:11px; margin-top:4px">
-                  <div>State: <b>${props.state}</b></div>
-                  <div>Facilities: ${props.facilities}</div>
-                  <div>Max Capacity: ${props.capacity} boats</div>
-                </div>
+    // Interactive Layer Popups
+    try {
+      map.on('click', 'orca-landing-centres-circle', (e: any) => {
+        if (!e.features || !e.features[0] || !maplibregl.Popup) return;
+        const props = e.features[0].properties;
+        new maplibregl.Popup({ closeButton: true })
+          .setLngLat((e.features[0].geometry as any).coordinates)
+          .setHTML(`
+            <div style="font-family:sans-serif; padding:4px; color:#0f172a">
+              <strong style="color:#0284c7; font-size:12px">${props.name}</strong>
+              <div style="font-size:11px; margin-top:4px">
+                <div>State: <b>${props.state}</b></div>
+                <div>Facilities: ${props.facilities}</div>
+                <div>Max Capacity: ${props.capacity} boats</div>
               </div>
-            `)
-            .addTo(map);
-        });
+            </div>
+          `)
+          .addTo(map);
+      });
 
-        map.on('click', 'orca-pfz-fill', (e: any) => {
-          if (!e.features || !e.features[0] || !maplibregl.Popup) return;
-          const props = e.features[0].properties;
-          if (onSelectZone) onSelectZone(props);
-          new maplibregl.Popup({ closeButton: true })
-            .setLngLat(e.lngLat)
-            .setHTML(`
-              <div style="font-family:sans-serif; padding:4px; color:#0f172a">
-                <strong style="color:#059669; font-size:12px">INCOIS PFZ: ${props.sector_name}</strong>
-                <div style="font-size:11px; margin-top:4px">
-                  <div>Score: <b style="color:#059669">${props.score}%</b></div>
-                  <div>Bearing: <b>${props.bearing_deg}° SE</b></div>
-                  <div>Distance: <b>${props.distance_km} km</b></div>
-                  <div>Depth: <b>${props.depth_m} m</b></div>
-                  <div>Harbour: ${props.nearest_landing_centre}</div>
-                </div>
+      map.on('click', 'orca-pfz-fill', (e: any) => {
+        if (!e.features || !e.features[0] || !maplibregl.Popup) return;
+        const props = e.features[0].properties;
+        if (onSelectZone) onSelectZone(props);
+        new maplibregl.Popup({ closeButton: true })
+          .setLngLat(e.lngLat)
+          .setHTML(`
+            <div style="font-family:sans-serif; padding:4px; color:#0f172a">
+              <strong style="color:#059669; font-size:12px">INCOIS PFZ: ${props.sector_name}</strong>
+              <div style="font-size:11px; margin-top:4px">
+                <div>Score: <b style="color:#059669">${props.score}%</b></div>
+                <div>Bearing: <b>${props.bearing_deg}° SE</b></div>
+                <div>Distance: <b>${props.distance_km} km</b></div>
+                <div>Depth: <b>${props.depth_m} m</b></div>
+                <div>Harbour: ${props.nearest_landing_centre}</div>
               </div>
-            `)
-            .addTo(map);
-        });
+            </div>
+          `)
+          .addTo(map);
+      });
 
-        map.on('click', 'orca-vessels-circle', (e: any) => {
-          if (!e.features || !e.features[0] || !maplibregl.Popup) return;
-          const props = e.features[0].properties;
-          new maplibregl.Popup({ closeButton: true })
-            .setLngLat((e.features[0].geometry as any).coordinates)
-            .setHTML(`
-              <div style="font-family:sans-serif; padding:4px; color:#0f172a">
-                <strong style="color:#0284c7; font-size:12px">${props.name} (${props.vessel_id})</strong>
-                <div style="font-size:11px; margin-top:4px">
-                  <div>Type: ${props.type}</div>
-                  <div>Speed: <b>${props.speed_knots} knots</b></div>
-                  <div>Heading: <b>${props.heading_deg}°</b></div>
-                  <div style="color:${props.status.includes('ALERT') ? '#dc2626' : '#059669'}"><b>${props.status}</b></div>
-                </div>
+      map.on('click', 'orca-vessels-circle', (e: any) => {
+        if (!e.features || !e.features[0] || !maplibregl.Popup) return;
+        const props = e.features[0].properties;
+        new maplibregl.Popup({ closeButton: true })
+          .setLngLat((e.features[0].geometry as any).coordinates)
+          .setHTML(`
+            <div style="font-family:sans-serif; padding:4px; color:#0f172a">
+              <strong style="color:#0284c7; font-size:12px">${props.name} (${props.vessel_id})</strong>
+              <div style="font-size:11px; margin-top:4px">
+                <div>Type: ${props.type}</div>
+                <div>Speed: <b>${props.speed_knots} knots</b></div>
+                <div>Heading: <b>${props.heading_deg}°</b></div>
+                <div style="color:${props.status.includes('ALERT') ? '#dc2626' : '#059669'}"><b>${props.status}</b></div>
               </div>
-            `)
-            .addTo(map);
-        });
+            </div>
+          `)
+          .addTo(map);
+      });
 
-        // Pointer Cursor styling
-        ['orca-landing-centres-circle', 'orca-pfz-fill', 'orca-vessels-circle'].forEach((id) => {
-          map.on('mouseenter', id, () => {
-            map.getCanvas().style.cursor = 'pointer';
-          });
-          map.on('mouseleave', id, () => {
-            map.getCanvas().style.cursor = '';
-          });
+      ['orca-landing-centres-circle', 'orca-pfz-fill', 'orca-vessels-circle'].forEach((id) => {
+        map.on('mouseenter', id, () => {
+          map.getCanvas().style.cursor = 'pointer';
         });
-      } catch (err) {
-        console.error('ORCA MapLibre layer addition notice:', err);
+        map.on('mouseleave', id, () => {
+          map.getCanvas().style.cursor = '';
+        });
+      });
+    } catch (err) {
+      console.error('[ORCA MAP] Popup handler setup error:', err);
+    }
+  };
+
+  useEffect(() => {
+    if (!mapContainerRef.current) return;
+
+    const apiKey = import.meta.env.VITE_MAPTILER_API_KEY;
+    const forceFallback = import.meta.env.VITE_FORCE_FALLBACK_MAP === 'true';
+
+    // Helper to start the clean independent raster fallback map
+    const startFallbackMap = () => {
+      if (fallbackAttemptedRef.current) return;
+      fallbackAttemptedRef.current = true;
+
+      console.log('[ORCA MAP] Switching to fallback basemap');
+      if (mapInstanceRef.current) {
+        try {
+          mapInstanceRef.current.remove();
+        } catch (e) {}
+        mapInstanceRef.current = null;
+      }
+
+      if (!mapContainerRef.current) return;
+
+      const fallbackMap = new maplibregl.Map({
+        container: mapContainerRef.current,
+        style: CARTO_RASTER_FALLBACK_STYLE,
+        center: center,
+        zoom: zoom,
+        pitch: 0,
+        attributionControl: false
+      });
+
+      mapInstanceRef.current = fallbackMap;
+      if (maplibregl.NavigationControl) {
+        fallbackMap.addControl(new maplibregl.NavigationControl({ showCompass: true }), 'top-right');
+      }
+
+      fallbackMap.on('load', () => {
+        console.log('[ORCA MAP] Fallback basemap loaded');
+        setMapStatus('ready');
+        fallbackMap.resize();
+        attachOrcaDataLayers(fallbackMap);
+      });
+    };
+
+    // Container ResizeObserver
+    const resizeObserver = new ResizeObserver(() => {
+      if (mapInstanceRef.current) {
+        mapInstanceRef.current.resize();
+      }
+    });
+    if (mapContainerRef.current) {
+      resizeObserver.observe(mapContainerRef.current);
+    }
+
+    if (forceFallback || !apiKey) {
+      console.log('[ORCA MAP] Using fallback basemap (Force mode or missing key)');
+      startFallbackMap();
+      return () => {
+        resizeObserver.disconnect();
+        if (mapInstanceRef.current) mapInstanceRef.current.remove();
+      };
+    }
+
+    console.log('[ORCA MAP] Initializing MapTiler');
+    const mapTilerUrl = `https://api.maptiler.com/maps/streets-v2/style.json?key=${apiKey}`;
+
+    let styleLoaded = false;
+    let map: any;
+
+    try {
+      map = new maplibregl.Map({
+        container: mapContainerRef.current,
+        style: mapTilerUrl,
+        center: center,
+        zoom: zoom,
+        pitch: 20,
+        attributionControl: false
+      });
+    } catch (err) {
+      console.error('[ORCA MAP] MapTiler instantiation error:', err);
+      startFallbackMap();
+      return () => {
+        resizeObserver.disconnect();
+      };
+    }
+
+    mapInstanceRef.current = map;
+    if (maplibregl.NavigationControl) {
+      map.addControl(new maplibregl.NavigationControl({ showCompass: true }), 'top-right');
+    }
+
+    map.on('style.load', () => {
+      styleLoaded = true;
+      console.log('[ORCA MAP] MapTiler style loaded');
+    });
+
+    map.on('load', () => {
+      console.log('[ORCA MAP] MapTiler basemap rendered cleanly at Chennai [80.2974, 13.0827]');
+      setMapStatus('ready');
+      map.resize();
+      attachOrcaDataLayers(map);
+    });
+
+    map.on('error', (event: any) => {
+      console.error('[ORCA MAP] MapTiler error:', event.error || event);
+      if (!styleLoaded && !fallbackAttemptedRef.current) {
+        startFallbackMap();
       }
     });
 
     return () => {
       resizeObserver.disconnect();
-      if (map) map.remove();
+      if (mapInstanceRef.current) {
+        try {
+          mapInstanceRef.current.remove();
+        } catch (e) {}
+      }
     };
   }, [isVeto, center, zoom]);
 
   return (
-    <div className="bg-[#0b172a] border border-[#1b2b45] rounded-xl overflow-hidden shadow-2xl flex flex-col h-full min-h-[500px] w-full relative">
+    <div className="bg-[#0b172a] border border-[#1b2b45] rounded-xl overflow-hidden shadow-2xl flex flex-col h-full min-h-[480px] w-full relative">
       
       {/* Top Map Layer Toolbar */}
       <div className="bg-[#070f1e] px-3 py-2 border-b border-[#1b2b45] flex flex-wrap items-center justify-between gap-2 z-10 shrink-0">
