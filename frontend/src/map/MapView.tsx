@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import workerUrl from 'maplibre-gl/dist/maplibre-gl-csp-worker.js?worker&url';
-import { Navigation, AlertTriangle } from 'lucide-react';
+import { Navigation, AlertTriangle, Info } from 'lucide-react';
 import { MAP_CONFIG } from '../config/map';
 
 import {
@@ -15,7 +15,7 @@ import {
   getRouteGeoJSON
 } from './geoConverters';
 
-// Configure Vite web worker URL for MapLibre GL
+// Set Vite self-contained web worker for MapLibre GL
 maplibregl.setWorkerUrl(workerUrl);
 
 export interface MapViewProps {
@@ -30,11 +30,14 @@ export const MapView: React.FC<MapViewProps> = ({
   isVeto = false,
   selectedZoneId,
   onSelectZone,
-  center = [80.2707, 13.0827], // Default Chennai / Bay of Bengal
-  zoom = 9.2
+  center = MAP_CONFIG.defaultCenter,
+  zoom = MAP_CONFIG.defaultZoom
 }) => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<maplibregl.Map | null>(null);
+
+  const [mapStatus, setMapStatus] = useState<'loading' | 'loaded' | 'error'>('loading');
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const [layerVisibility, setLayerVisibility] = useState({
     pfz: true,
@@ -57,14 +60,14 @@ export const MapView: React.FC<MapViewProps> = ({
     const visibilityVal = nextState ? 'visible' : 'none';
 
     const layerMap: Record<string, string[]> = {
-      pfz: ['pfz-fill', 'pfz-line', 'pfz-points'],
-      sst: ['sst-fill', 'sst-line'],
-      chl: ['chl-fill', 'chl-line'],
-      wind: ['wind-points'],
-      hazards: ['hazard-fill', 'hazard-line'],
-      route: ['route-line'],
-      vessels: ['vessels-circle'],
-      ports: ['landing-centres-circle']
+      pfz: ['orca-pfz-fill', 'orca-pfz-line', 'orca-pfz-points'],
+      sst: ['orca-sst-fill', 'orca-sst-line'],
+      chl: ['orca-chl-fill', 'orca-chl-line'],
+      wind: ['orca-wind-points'],
+      hazards: ['orca-hazard-fill', 'orca-hazard-line'],
+      route: ['orca-route-line'],
+      vessels: ['orca-vessels-circle'],
+      ports: ['orca-landing-centres-circle']
     };
 
     const targetLayers = layerMap[layerKey] || [];
@@ -78,8 +81,15 @@ export const MapView: React.FC<MapViewProps> = ({
   useEffect(() => {
     if (!mapContainerRef.current) return;
 
-    const apiKey = import.meta.env.VITE_MAPTILER_API_KEY || MAP_CONFIG.mapTilerKey;
-    const styleUrl = `https://api.maptiler.com/maps/dataviz-dark/style.json?key=${apiKey}`;
+    const apiKey = import.meta.env.VITE_MAPTILER_API_KEY;
+    
+    // Determine style URL with MapTiler primary and demotiles fallback
+    let styleUrl = 'https://demotiles.maplibre.org/style.json';
+    if (apiKey) {
+      styleUrl = `https://api.maptiler.com/maps/ocean/style.json?key=${apiKey}`;
+    } else {
+      console.warn('ORCA Map Notice: VITE_MAPTILER_API_KEY environment variable is not set. Using MapLibre vector demotiles fallback.');
+    }
 
     const map = new maplibregl.Map({
       container: mapContainerRef.current,
@@ -92,303 +102,332 @@ export const MapView: React.FC<MapViewProps> = ({
 
     mapInstanceRef.current = map;
 
+    // Navigation Controls (Zoom +, Zoom -, Compass)
     map.addControl(new maplibregl.NavigationControl({ showCompass: true }), 'top-right');
 
+    // ResizeObserver for MapLibre container
+    const resizeObserver = new ResizeObserver(() => {
+      if (mapInstanceRef.current) {
+        mapInstanceRef.current.resize();
+      }
+    });
+    if (mapContainerRef.current) {
+      resizeObserver.observe(mapContainerRef.current);
+    }
+
+    // Map Event Logging & Debugging
+    map.on('error', (event) => {
+      console.error('ORCA MapLibre runtime event error:', event.error || event);
+      // Fall back to demotiles if MapTiler returns 403 or invalid style
+      if (styleUrl.includes('maptiler') && mapStatus === 'loading') {
+        console.warn('Switching to demotiles fallback style');
+        map.setStyle('https://demotiles.maplibre.org/style.json');
+      }
+    });
+
     map.on('load', () => {
-      // 1. Landing Centres Source & Layer
-      map.addSource('landing-centres-src', {
-        type: 'geojson',
-        data: getLandingCentresGeoJSON() as any
-      });
+      setMapStatus('loaded');
+      console.log('ORCA MapLibre GIS Map loaded successfully around Chennai [80.2707, 13.0827]');
 
-      map.addLayer({
-        id: 'landing-centres-circle',
-        type: 'circle',
-        source: 'landing-centres-src',
-        paint: {
-          'circle-radius': 7,
-          'circle-color': '#38bdf8',
-          'circle-stroke-width': 2,
-          'circle-stroke-color': '#070f1e'
-        }
-      });
-
-      // 2. INCOIS PFZ Advisories Source & Layers
-      const pfzData = getPFZAdvisoriesGeoJSON();
-
-      map.addSource('pfz-polygons-src', {
-        type: 'geojson',
-        data: pfzData.polygons as any
-      });
-
-      map.addSource('pfz-points-src', {
-        type: 'geojson',
-        data: pfzData.points as any
-      });
-
-      map.addLayer({
-        id: 'pfz-fill',
-        type: 'fill',
-        source: 'pfz-polygons-src',
-        paint: {
-          'fill-color': '#4edea3',
-          'fill-opacity': 0.35
-        }
-      });
-
-      map.addLayer({
-        id: 'pfz-line',
-        type: 'line',
-        source: 'pfz-polygons-src',
-        paint: {
-          'line-color': '#34d399',
-          'line-width': 2.5
-        }
-      });
-
-      map.addLayer({
-        id: 'pfz-points',
-        type: 'circle',
-        source: 'pfz-points-src',
-        paint: {
-          'circle-radius': 5,
-          'circle-color': '#4edea3',
-          'circle-stroke-width': 1.5,
-          'circle-stroke-color': '#060c16'
-        }
-      });
-
-      // 3. MOSDAC Ocean Observations (SST & Chlorophyll)
-      const oceanData = getOceanGridsGeoJSON();
-
-      map.addSource('sst-src', {
-        type: 'geojson',
-        data: oceanData.sst as any
-      });
-
-      map.addLayer({
-        id: 'sst-fill',
-        type: 'fill',
-        source: 'sst-src',
-        paint: {
-          'fill-color': '#f59e0b',
-          'fill-opacity': 0.25
-        }
-      });
-
-      map.addLayer({
-        id: 'sst-line',
-        type: 'line',
-        source: 'sst-src',
-        paint: {
-          'line-color': '#fbbf24',
-          'line-width': 1.5,
-          'line-dasharray': [2, 2]
-        }
-      });
-
-      map.addSource('chl-src', {
-        type: 'geojson',
-        data: oceanData.chl as any
-      });
-
-      map.addLayer({
-        id: 'chl-fill',
-        type: 'fill',
-        source: 'chl-src',
-        paint: {
-          'fill-color': '#10b981',
-          'fill-opacity': 0.25
-        }
-      });
-
-      map.addLayer({
-        id: 'chl-line',
-        type: 'line',
-        source: 'chl-src',
-        paint: {
-          'line-color': '#34d399',
-          'line-width': 1.5,
-          'line-dasharray': [3, 2]
-        }
-      });
-
-      // 4. IMD Marine Weather (Wind & Waves)
-      const weatherData = getMarineWeatherGeoJSON();
-
-      map.addSource('weather-src', {
-        type: 'geojson',
-        data: weatherData as any
-      });
-
-      map.addLayer({
-        id: 'wind-points',
-        type: 'circle',
-        source: 'weather-src',
-        paint: {
-          'circle-radius': 4,
-          'circle-color': '#60a5fa',
-          'circle-stroke-width': 1,
-          'circle-stroke-color': '#1e3a8a'
-        }
-      });
-
-      // 5. IMD Hazard Warnings
-      const hazardData = getHazardWarningsGeoJSON();
-
-      map.addSource('hazard-src', {
-        type: 'geojson',
-        data: hazardData as any
-      });
-
-      map.addLayer({
-        id: 'hazard-fill',
-        type: 'fill',
-        source: 'hazard-src',
-        paint: {
-          'fill-color': '#ef4444',
-          'fill-opacity': isVeto ? 0.45 : 0.25
-        }
-      });
-
-      map.addLayer({
-        id: 'hazard-line',
-        type: 'line',
-        source: 'hazard-src',
-        paint: {
-          'line-color': '#ffb4ab',
-          'line-width': 2.5,
-          'line-dasharray': [4, 4]
-        }
-      });
-
-      // 6. Active Vessels
-      const vesselData = getVesselsGeoJSON();
-
-      map.addSource('vessels-src', {
-        type: 'geojson',
-        data: vesselData as any
-      });
-
-      map.addLayer({
-        id: 'vessels-circle',
-        type: 'circle',
-        source: 'vessels-src',
-        paint: {
-          'circle-radius': 6,
-          'circle-color': '#4cd7f6',
-          'circle-stroke-width': 2,
-          'circle-stroke-color': '#0b1420'
-        }
-      });
-
-      // 7. Navigation Route Line
-      const routeData = getRouteGeoJSON();
-
-      map.addSource('route-src', {
-        type: 'geojson',
-        data: routeData as any
-      });
-
-      map.addLayer({
-        id: 'route-line',
-        type: 'line',
-        source: 'route-src',
-        paint: {
-          'line-color': '#4cd7f6',
-          'line-width': 3.5,
-          'line-dasharray': [2, 2]
-        }
-      });
-
-      // Interactive Popups for Map Layers
-      map.on('click', 'landing-centres-circle', (e) => {
-        if (!e.features || !e.features[0]) return;
-        const props = e.features[0].properties;
-        new maplibregl.Popup({ closeButton: true })
-          .setLngLat((e.features[0].geometry as any).coordinates)
-          .setHTML(`
-            <div style="font-family:sans-serif; padding:4px; color:#0f172a">
-              <strong style="color:#0284c7; font-size:12px">${props.name}</strong>
-              <div style="font-size:11px; margin-top:4px">
-                <div>State: <b>${props.state}</b></div>
-                <div>Facilities: ${props.facilities}</div>
-                <div>Capacity: ${props.capacity} boats</div>
-              </div>
-            </div>
-          `)
-          .addTo(map);
-      });
-
-      map.on('click', 'pfz-fill', (e) => {
-        if (!e.features || !e.features[0]) return;
-        const props = e.features[0].properties;
-        if (onSelectZone) onSelectZone(props);
-        new maplibregl.Popup({ closeButton: true })
-          .setLngLat(e.lngLat)
-          .setHTML(`
-            <div style="font-family:sans-serif; padding:4px; color:#0f172a">
-              <strong style="color:#059669; font-size:12px">PFZ: ${props.sector_name}</strong>
-              <div style="font-size:11px; margin-top:4px">
-                <div>Score: <b style="color:#059669">${props.score}%</b></div>
-                <div>Bearing: <b>${props.bearing_deg}° SE</b></div>
-                <div>Distance: <b>${props.distance_km} km</b></div>
-                <div>Depth: <b>${props.depth_m} m</b></div>
-                <div>Harbour: ${props.nearest_landing_centre}</div>
-              </div>
-            </div>
-          `)
-          .addTo(map);
-      });
-
-      map.on('click', 'vessels-circle', (e) => {
-        if (!e.features || !e.features[0]) return;
-        const props = e.features[0].properties;
-        new maplibregl.Popup({ closeButton: true })
-          .setLngLat((e.features[0].geometry as any).coordinates)
-          .setHTML(`
-            <div style="font-family:sans-serif; padding:4px; color:#0f172a">
-              <strong style="color:#0284c7; font-size:12px">${props.name} (${props.vessel_id})</strong>
-              <div style="font-size:11px; margin-top:4px">
-                <div>Type: ${props.type}</div>
-                <div>Speed: <b>${props.speed_knots} knots</b></div>
-                <div>Heading: <b>${props.heading_deg}°</b></div>
-                <div style="color:${props.status.includes('ALERT') ? '#dc2626' : '#059669'}"><b>${props.status}</b></div>
-              </div>
-            </div>
-          `)
-          .addTo(map);
-      });
-
-      // Pointer Cursor styling
-      ['landing-centres-circle', 'pfz-fill', 'vessels-circle'].forEach((layerId) => {
-        map.on('mouseenter', layerId, () => {
-          map.getCanvas().style.cursor = 'pointer';
+      try {
+        // 1. Landing Centres Source & Layer (Kasimedu Harbour, etc.)
+        map.addSource('orca-landing-centres-src', {
+          type: 'geojson',
+          data: getLandingCentresGeoJSON() as any
         });
-        map.on('mouseleave', layerId, () => {
-          map.getCanvas().style.cursor = '';
+
+        map.addLayer({
+          id: 'orca-landing-centres-circle',
+          type: 'circle',
+          source: 'orca-landing-centres-src',
+          paint: {
+            'circle-radius': 7,
+            'circle-color': '#38bdf8',
+            'circle-stroke-width': 2,
+            'circle-stroke-color': '#070f1e'
+          }
         });
-      });
+
+        // 2. INCOIS PFZ Advisories Source & Layers
+        const pfzData = getPFZAdvisoriesGeoJSON();
+
+        map.addSource('orca-pfz-polygons-src', {
+          type: 'geojson',
+          data: pfzData.polygons as any
+        });
+
+        map.addSource('orca-pfz-points-src', {
+          type: 'geojson',
+          data: pfzData.points as any
+        });
+
+        map.addLayer({
+          id: 'orca-pfz-fill',
+          type: 'fill',
+          source: 'orca-pfz-polygons-src',
+          paint: {
+            'fill-color': '#4edea3',
+            'fill-opacity': 0.35
+          }
+        });
+
+        map.addLayer({
+          id: 'orca-pfz-line',
+          type: 'line',
+          source: 'orca-pfz-polygons-src',
+          paint: {
+            'line-color': '#34d399',
+            'line-width': 2.5
+          }
+        });
+
+        map.addLayer({
+          id: 'orca-pfz-points',
+          type: 'circle',
+          source: 'orca-pfz-points-src',
+          paint: {
+            'circle-radius': 5,
+            'circle-color': '#4edea3',
+            'circle-stroke-width': 1.5,
+            'circle-stroke-color': '#060c16'
+          }
+        });
+
+        // 3. MOSDAC Ocean Observations (SST & Chlorophyll)
+        const oceanData = getOceanGridsGeoJSON();
+
+        map.addSource('orca-sst-src', {
+          type: 'geojson',
+          data: oceanData.sst as any
+        });
+
+        map.addLayer({
+          id: 'orca-sst-fill',
+          type: 'fill',
+          source: 'orca-sst-src',
+          paint: {
+            'fill-color': '#f59e0b',
+            'fill-opacity': 0.25
+          }
+        });
+
+        map.addLayer({
+          id: 'orca-sst-line',
+          type: 'line',
+          source: 'orca-sst-src',
+          paint: {
+            'line-color': '#fbbf24',
+            'line-width': 1.5,
+            'line-dasharray': [2, 2]
+          }
+        });
+
+        map.addSource('orca-chl-src', {
+          type: 'geojson',
+          data: oceanData.chl as any
+        });
+
+        map.addLayer({
+          id: 'orca-chl-fill',
+          type: 'fill',
+          source: 'orca-chl-src',
+          paint: {
+            'fill-color': '#10b981',
+            'fill-opacity': 0.25
+          }
+        });
+
+        map.addLayer({
+          id: 'orca-chl-line',
+          type: 'line',
+          source: 'orca-chl-src',
+          paint: {
+            'line-color': '#34d399',
+            'line-width': 1.5,
+            'line-dasharray': [3, 2]
+          }
+        });
+
+        // 4. IMD Marine Weather (Wind & Waves)
+        const weatherData = getMarineWeatherGeoJSON();
+
+        map.addSource('orca-weather-src', {
+          type: 'geojson',
+          data: weatherData as any
+        });
+
+        map.addLayer({
+          id: 'orca-wind-points',
+          type: 'circle',
+          source: 'orca-weather-src',
+          paint: {
+            'circle-radius': 4,
+            'circle-color': '#60a5fa',
+            'circle-stroke-width': 1,
+            'circle-stroke-color': '#1e3a8a'
+          }
+        });
+
+        // 5. IMD Hazard Warnings
+        const hazardData = getHazardWarningsGeoJSON();
+
+        map.addSource('orca-hazard-src', {
+          type: 'geojson',
+          data: hazardData as any
+        });
+
+        map.addLayer({
+          id: 'orca-hazard-fill',
+          type: 'fill',
+          source: 'orca-hazard-src',
+          paint: {
+            'fill-color': '#ef4444',
+            'fill-opacity': isVeto ? 0.45 : 0.25
+          }
+        });
+
+        map.addLayer({
+          id: 'orca-hazard-line',
+          type: 'line',
+          source: 'orca-hazard-src',
+          paint: {
+            'line-color': '#ffb4ab',
+            'line-width': 2.5,
+            'line-dasharray': [4, 4]
+          }
+        });
+
+        // 6. Active Vessels
+        const vesselData = getVesselsGeoJSON();
+
+        map.addSource('orca-vessels-src', {
+          type: 'geojson',
+          data: vesselData as any
+        });
+
+        map.addLayer({
+          id: 'orca-vessels-circle',
+          type: 'circle',
+          source: 'orca-vessels-src',
+          paint: {
+            'circle-radius': 6,
+            'circle-color': '#4cd7f6',
+            'circle-stroke-width': 2,
+            'circle-stroke-color': '#0b1420'
+          }
+        });
+
+        // 7. Navigation Route Line (Kasimedu -> PFZ)
+        const routeData = getRouteGeoJSON();
+
+        map.addSource('orca-route-src', {
+          type: 'geojson',
+          data: routeData as any
+        });
+
+        map.addLayer({
+          id: 'orca-route-line',
+          type: 'line',
+          source: 'orca-route-src',
+          paint: {
+            'line-color': '#4cd7f6',
+            'line-width': 3.5,
+            'line-dasharray': [2, 2]
+          }
+        });
+
+        // Layer Popups
+        map.on('click', 'orca-landing-centres-circle', (e) => {
+          if (!e.features || !e.features[0]) return;
+          const props = e.features[0].properties;
+          new maplibregl.Popup({ closeButton: true })
+            .setLngLat((e.features[0].geometry as any).coordinates)
+            .setHTML(`
+              <div style="font-family:sans-serif; padding:4px; color:#0f172a">
+                <strong style="color:#0284c7; font-size:12px">${props.name}</strong>
+                <div style="font-size:11px; margin-top:4px">
+                  <div>State: <b>${props.state}</b></div>
+                  <div>Facilities: ${props.facilities}</div>
+                  <div>Max Capacity: ${props.capacity} boats</div>
+                </div>
+              </div>
+            `)
+            .addTo(map);
+        });
+
+        map.on('click', 'orca-pfz-fill', (e) => {
+          if (!e.features || !e.features[0]) return;
+          const props = e.features[0].properties;
+          if (onSelectZone) onSelectZone(props);
+          new maplibregl.Popup({ closeButton: true })
+            .setLngLat(e.lngLat)
+            .setHTML(`
+              <div style="font-family:sans-serif; padding:4px; color:#0f172a">
+                <strong style="color:#059669; font-size:12px">INCOIS PFZ: ${props.sector_name}</strong>
+                <div style="font-size:11px; margin-top:4px">
+                  <div>Score: <b style="color:#059669">${props.score}%</b></div>
+                  <div>Bearing: <b>${props.bearing_deg}° SE</b></div>
+                  <div>Distance: <b>${props.distance_km} km</b></div>
+                  <div>Depth: <b>${props.depth_m} m</b></div>
+                  <div>Harbour: ${props.nearest_landing_centre}</div>
+                </div>
+              </div>
+            `)
+            .addTo(map);
+        });
+
+        map.on('click', 'orca-vessels-circle', (e) => {
+          if (!e.features || !e.features[0]) return;
+          const props = e.features[0].properties;
+          new maplibregl.Popup({ closeButton: true })
+            .setLngLat((e.features[0].geometry as any).coordinates)
+            .setHTML(`
+              <div style="font-family:sans-serif; padding:4px; color:#0f172a">
+                <strong style="color:#0284c7; font-size:12px">${props.name} (${props.vessel_id})</strong>
+                <div style="font-size:11px; margin-top:4px">
+                  <div>Type: ${props.type}</div>
+                  <div>Speed: <b>${props.speed_knots} knots</b></div>
+                  <div>Heading: <b>${props.heading_deg}°</b></div>
+                  <div style="color:${props.status.includes('ALERT') ? '#dc2626' : '#059669'}"><b>${props.status}</b></div>
+                </div>
+              </div>
+            `)
+            .addTo(map);
+        });
+
+        // Pointer Cursor styling
+        ['orca-landing-centres-circle', 'orca-pfz-fill', 'orca-vessels-circle'].forEach((id) => {
+          map.on('mouseenter', id, () => {
+            map.getCanvas().style.cursor = 'pointer';
+          });
+          map.on('mouseleave', id, () => {
+            map.getCanvas().style.cursor = '';
+          });
+        });
+      } catch (err) {
+        console.error('ORCA MapLibre layer addition notice:', err);
+      }
     });
 
     return () => {
+      resizeObserver.disconnect();
       map.remove();
     };
   }, [isVeto, center, zoom]);
 
   return (
-    <div className="bg-[#0b172a] border border-[#1b2b45] rounded-xl overflow-hidden shadow-2xl flex flex-col h-full min-h-[460px] w-full">
+    <div className="bg-[#0b172a] border border-[#1b2b45] rounded-xl overflow-hidden shadow-2xl flex flex-col h-full min-h-[460px] w-full relative">
       
-      {/* Top Map Layer Control Toolbar */}
+      {/* Top Map Layer Toolbar */}
       <div className="bg-[#070f1e] px-3 py-2 border-b border-[#1b2b45] flex flex-wrap items-center justify-between gap-2 z-10">
         <div className="flex items-center gap-1.5">
           <span className="text-xs font-bold text-slate-200 flex items-center gap-1 font-mono">
             <Navigation className="w-3.5 h-3.5 text-cyan-400" />
-            Bay of Bengal GIS Engine — MapLibre GL + MapTiler
+            Bay of Bengal GIS Engine — MapLibre GL
           </span>
         </div>
 
-        {/* Layer Toggle Chips */}
+        {/* Layer Visibility Toggle Chips */}
         <div className="flex flex-wrap items-center gap-1 text-[11px]">
           <button
             onClick={() => toggleLayer('pfz')}
@@ -450,12 +489,12 @@ export const MapView: React.FC<MapViewProps> = ({
       </div>
 
       {/* Main MapLibre GL Rendering Viewport */}
-      <div className="relative flex-1 bg-[#040a16] overflow-hidden min-h-[380px] flex flex-col justify-between p-4">
+      <div className="relative flex-1 bg-[#040a16] overflow-hidden min-h-[380px] w-full h-full">
         
         {/* Real MapLibre GL DOM Container */}
-        <div ref={mapContainerRef} className="absolute inset-0 w-full h-full" />
+        <div ref={mapContainerRef} className="absolute inset-0 w-full h-full" style={{ width: '100%', height: '100%', minHeight: '380px' }} />
 
-        {/* Active Hazard Veto Overlay Banner */}
+        {/* Active Hazard Veto Banner */}
         {isVeto && layerVisibility.hazards && (
           <div className="absolute top-4 left-1/2 -translate-x-1/2 z-20 bg-red-950/90 border-2 border-red-500 p-3.5 rounded-xl max-w-sm text-center backdrop-blur-md shadow-2xl">
             <AlertTriangle className="w-7 h-7 text-red-500 mx-auto mb-1 animate-bounce" />
